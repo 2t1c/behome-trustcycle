@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>3.1 First-visit check</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#0052B4}a:hover{color:#003D87}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F2F2F2; color: #0B1620; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; overflow: hidden">
+  <sc-if value="{{showLabels}}" hint-placeholder-val="{{true}}">
+    <div style="flex-shrink: 0; height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px 0 16px; background: #0F766E; color: #FFFFFF; font-size: 12px; font-weight: 600">
+      <span style="font-weight: 700">Stage 3 · Delivery</span><span>·</span><span style="flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">3.1 First-visit check</span>
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 999px; background: #FFFFFF; color: #0B1620">UPDATED · S9</span>
+    </div>
+  </sc-if>
+  <div style="flex-shrink: 0; background: #FFD83C; color: #0B1620; padding: 14px 16px 18px 16px; display: flex; flex-direction: column; gap: 10px">
+    <div style="display: flex; align-items: center; gap: 8px">
+      <div style="flex: 1; font-size: 13px; font-weight: 600; color: #3A4046">beHome Partner · Tasker app</div>
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; background: #0B1620; color: #FFD83C">CONCEPT</span>
+    </div>
+    <div style="font-size: 22px; font-weight: 700">First-visit check</div>
+    <div style="font-size: 14px; font-weight: 500; color: #3A4046">About 2 minutes · Chị Lan's home · first booking</div>
+  </div>
+  <div style="flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+    <div style="flex-shrink: 0; display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E6E6E6; font-size: 13px; line-height: 1.45; color: #3A4046">
+      <svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="#156CEA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 8h.01M11 12h1v4h1"></path></svg>
+      <span>Chị Lan's Quality Agreement is already on your phone, so <strong style="color: #0B1620">don't walk her through the job again</strong>. Check each room matches the description. Send her a change only if something is different.</span>
+    </div>
+
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <span style="font-size: 17px; font-weight: 700">1 · Rooms match the agreement</span>
+        <span style="font-size: 13px; font-weight: 600; color: #555A5E">{{roomCount}} of 4</span>
+      </div>
+      <div style="background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E6E6; display: flex; flex-direction: column">
+        <sc-for list="{{rooms}}" as="item" hint-placeholder-count="4">
+          <button type="button" role="checkbox" aria-checked="{{item.checked}}" sc-camel-on-click="{{item.toggle}}" style="display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border: 0; border-top: {{item.divider}}; background: transparent; text-align: left; font-family: inherit; color: #0B1620">
+            <span style="width: 24px; height: 24px; border-radius: 7px; border: 2px solid {{item.boxBorder}}; background: {{item.box}}; box-sizing: border-box; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+              <svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="{{item.tick}}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg>
+            </span>
+            <span style="flex: 1; display: flex; flex-direction: column; gap: 3px">
+              <span style="font-size: 15px; font-weight: 600">{{item.title}}</span>
+              <span style="font-size: 13px; color: #555A5E; line-height: 1.4">{{item.sub}}</span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px">
+      <div style="font-size: 17px; font-weight: 700">2 · Anything different from the description?</div>
+      <div style="font-size: 13px; color: #555A5E">Chị Lan described the home as lived-in. Tap all that apply.</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+        <sc-for list="{{diffs}}" as="item" hint-placeholder-count="4">
+          <button type="button" aria-pressed="{{item.pressed}}" sc-camel-on-click="{{item.pick}}" style="height: 44px; padding: 0 14px; border-radius: 22px; border: {{item.border}}; background: {{item.bg}}; color: #0B1620; font-family: inherit; font-size: 14px; font-weight: {{item.weight}}">{{item.label}}</button>
+        </sc-for>
+      </div>
+      <div style="display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border-radius: 12px; background: {{noteBg}}; border: 1px solid {{noteBorder}}; color: {{noteFg}}; font-size: 14px; line-height: 1.45; font-weight: 600">
+        <span>{{note}}</span>
+      </div>
+      <sc-if value="{{hasDiff}}" hint-placeholder-val="{{false}}">
+        <div style="display: flex; gap: 12px; align-items: center; padding: 10px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E6E6E6">
+          <div style="width: 56px; height: 56px; border-radius: 12px; background: #EDEDED; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; flex-shrink: 0" role="img" aria-label="Photo placeholder">
+            <svg width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#868E92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+            <span style="font-size: 10px; font-weight: 700; color: #555A5E">08:04</span>
+          </div>
+          <span style="flex: 1; font-size: 13px; line-height: 1.4; color: #3A4046">Photo of the difference added. Chị Lan sees it with the change.</span>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+  <div style="flex-shrink: 0; padding: 12px 16px 24px 16px; background: #FFFFFF; box-shadow: 0 -1px 0 #ECECEC">
+    <sc-if value="{{notReady}}" hint-placeholder-val="{{false}}">
+      <button type="button" disabled="" style="width: 100%; height: 54px; border-radius: 16px; border: 0; background: #E6E6E6; color: #555A5E; font-family: inherit; font-size: 17px; font-weight: 700">Check every room first</button>
+    </sc-if>
+    <sc-if value="{{readySend}}" hint-placeholder-val="{{false}}">
+      <a href="V2-3-2-ApproveChange.dc.html" style="display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 16px; background: #FFD20A; color: #0B1620; font-size: 17px; font-weight: 700; text-decoration: none">Send change to chị Lan</a>
+    </sc-if>
+    <sc-if value="{{readyStart}}" hint-placeholder-val="{{true}}">
+      <a href="V2-3-3-PhotoChecklist.dc.html" style="display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 16px; background: #FFD20A; color: #0B1620; font-size: 17px; font-weight: 700; text-decoration: none">Matches · start cleaning</a>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;showLabels&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true},&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844}}">
+class Component extends DCLogic {
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      rooms: [
+        { title: 'Kitchen · must-dos 1–2', sub: 'Stove, counters, sink, tap, floor', on: true },
+        { title: 'Bathrooms 1 and 2 · must-dos 3–4', sub: 'Blue mop for bathrooms only', on: true },
+        { title: 'Living room and bedrooms · must-dos 5–7', sub: 'Altar: dust around, don’t move items · wooden floor: damp mop', on: false },
+        { title: 'Balcony · if time', sub: 'Sweep and wipe the railing', on: false }
+      ],
+      diff: { grease: false, stains: false, clutter: false }
+    };
+  }
+  renderVals() {
+    const s = this.state;
+    const rooms = s.rooms.map((c, i) => ({
+      ...c,
+      checked: String(c.on),
+      box: c.on ? '#FFD20A' : '#FFFFFF',
+      boxBorder: c.on ? '#FFD20A' : '#868E92',
+      tick: c.on ? '#0B1620' : 'transparent',
+      divider: i === 0 ? '0' : '1px solid #EFEFEF',
+      toggle: () => this.setState({ rooms: s.rooms.map((x, j) => (j === i ? { ...x, on: !x.on } : x)) })
+    }));
+    const roomCount = s.rooms.filter((r) => r.on).length;
+    const defs = [
+      { key: 'grease', label: 'Heavier grease than described', min: 25 },
+      { key: 'stains', label: 'Stains or mould', min: 15 },
+      { key: 'clutter', label: 'More clutter than described', min: 20 }
+    ];
+    const anyDiff = defs.some((d) => s.diff[d.key]);
+    const chip = (on) => ({
+      pressed: String(on),
+      bg: on ? '#FFFDEE' : '#FFFFFF',
+      border: on ? '1.5px solid #FFD000' : '1px solid #E6E6E6',
+      weight: on ? '600' : '500'
+    });
+    const diffs = defs.map((d) => ({
+      label: d.label,
+      ...chip(s.diff[d.key]),
+      pick: () => this.setState({ diff: { ...s.diff, [d.key]: !s.diff[d.key] } })
+    }));
+    diffs.push({ label: 'None, matches', ...chip(!anyDiff), pick: () => this.setState({ diff: { grease: false, stains: false, clutter: false } }) });
+    const extra = defs.reduce((t, d) => t + (s.diff[d.key] ? d.min : 0), 0);
+    const planned = 195 + extra;
+    const h = Math.floor(planned / 60);
+    const m = planned % 60;
+    const t = h + 'h ' + (m < 10 ? '0' : '') + m + 'm';
+    const fits = planned <= 240;
+    let note;
+    if (!anyDiff) note = 'Matches the agreement · plan stays at about 3h 15m of 4h. No need to contact chị Lan.';
+    else if (fits) note = '+' + extra + ' min · plan now about ' + t + ' of 4h. Still inside the agreement, no extra cost. Chị Lan approves the change in her app.';
+    else note = '+' + extra + ' min · plan now about ' + t + ', over 4 hours. Chị Lan chooses what moves to her next visit.';
+    const allRooms = roomCount === 4;
+    return {
+      showLabels: this.props.showLabels ?? true,
+      rooms,
+      roomCount,
+      diffs,
+      note,
+      hasDiff: anyDiff,
+      noteBg: !anyDiff ? '#E9F8EE' : (fits ? '#EEF3FE' : '#FFF7D6'),
+      noteBorder: !anyDiff ? '#BFE8CC' : (fits ? '#C9D8FB' : '#FFD000'),
+      noteFg: !anyDiff ? '#04862F' : (fits ? '#0A45D0' : '#8A6500'),
+      notReady: !allRooms,
+      readySend: allRooms && anyDiff,
+      readyStart: allRooms && !anyDiff
+    };
+  }
+}
+</script>
+
+
+</body></html>

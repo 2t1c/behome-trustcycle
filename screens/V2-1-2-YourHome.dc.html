@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>1.2 Your home</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#0052B4}a:hover{color:#003D87}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F2F2F2; color: #0B1620; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; overflow: hidden">
+  <sc-if value="{{showLabels}}" hint-placeholder-val="{{true}}">
+    <div style="flex-shrink: 0; height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px 0 16px; background: #0F766E; color: #FFFFFF; font-size: 12px; font-weight: 600">
+      <span style="font-weight: 700">Stage 1 · Pre-booking</span><span>·</span><span style="flex: 1">1.2 Your home</span>
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 999px; background: #FFFFFF; color: #0B1620">UPDATED · S1</span>
+    </div>
+  </sc-if>
+  <div style="height: 56px; flex-shrink: 0; display: flex; align-items: center; gap: 6px; padding: 0 14px 0 6px; background: #FFFFFF">
+    <a href="V2-1-1-CleaningLevel.dc.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #0B1620">
+      <svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4"></path><path d="M10 18l-6-6 6-6"></path></svg>
+    </a>
+    <div style="flex: 1; font-size: 19px; font-weight: 700">Your Home Plan</div>
+    <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; background: #F2F2F2; color: #555A5E">CONCEPT</span>
+  </div>
+  <div style="flex-shrink: 0; display: flex; gap: 6px; padding: 12px 16px 0 16px">
+    <div style="flex: 1; height: 4px; border-radius: 2px; background: #FFD20A"></div>
+    <div style="flex: 1; height: 4px; border-radius: 2px; background: #FFD20A"></div>
+    <div style="flex: 1; height: 4px; border-radius: 2px; background: #DCDCDC"></div>
+    <div style="flex: 1; height: 4px; border-radius: 2px; background: #DCDCDC"></div>
+    <div style="flex: 1; height: 4px; border-radius: 2px; background: #DCDCDC"></div>
+  </div>
+  <div style="flex: 1; overflow-y: auto; padding: 12px 16px 20px 16px; display: flex; flex-direction: column; gap: 16px">
+    <div style="flex-shrink: 0; display: flex; justify-content: space-between; align-items: center">
+      <div style="font-size: 13px; font-weight: 500; color: #555A5E">Step 2 of 5 · Set up once, used on every booking</div>
+    </div>
+    <div style="flex-shrink: 0; display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E6E6E6">
+      <span style="font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 8px; background: #E6EEFE; color: #0A45D0">Level</span>
+      <span style="flex: 1; font-size: 15px; font-weight: 600">Standard cleaning</span>
+      <a href="V2-1-1-CleaningLevel.dc.html" style="font-size: 14px; font-weight: 600; min-height: 44px; padding-left: 12px; display: flex; align-items: center">Change</a>
+    </div>
+    <div style="flex-shrink: 0; background: linear-gradient(100deg, #F2E8BF 0%, #FBF7EA 100%); border-radius: 16px; padding: 16px; display: flex; gap: 12px; align-items: flex-start">
+      <span style="width: 40px; height: 40px; border-radius: 20px; background: #FFD20A; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+        <svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="#0B1620" aria-hidden="true"><path d="M12 3.2l9 7.4v.9h-2V20a1 1 0 01-1 1h-4v-6h-4v6H6a1 1 0 01-1-1v-8.5H3v-.9z"></path></svg>
+      </span>
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <div style="font-size: 16px; font-weight: 700">Hi chị Lan, tell us about your home</div>
+        <div style="font-size: 14px; line-height: 1.45; color: #3A4046">We use it to estimate the time and price, and to match a Tasker with the right skills. Every Tasker sees it before accepting.</div>
+      </div>
+    </div>
+
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px">
+      <div style="font-size: 17px; font-weight: 700">Home type</div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+        <sc-for list="{{types}}" as="item" hint-placeholder-count="3">
+          <button type="button" aria-pressed="{{item.pressed}}" sc-camel-on-click="{{item.pick}}" style="height: 46px; border-radius: 14px; border: {{item.border}}; background: {{item.bg}}; color: #0B1620; font-family: inherit; font-size: 15px; font-weight: {{item.weight}}">{{item.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px">
+      <div style="font-size: 17px; font-weight: 700" id="areaLabel">Floor area</div>
+      <div style="display: flex; align-items: center; gap: 12px; padding: 6px 8px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E6E6E6">
+        <button type="button" aria-label="Smaller floor area" sc-camel-on-click="{{areaMinus}}" style="width: 44px; height: 44px; border-radius: 22px; border: 0; background: #F2F2F2; font-family: inherit; font-size: 20px; color: #0B1620">−</button>
+        <output aria-labelledby="areaLabel" style="flex: 1; text-align: center; font-size: 24px; font-weight: 700">{{area}} m²</output>
+        <button type="button" aria-label="Larger floor area" sc-camel-on-click="{{areaPlus}}" style="width: 44px; height: 44px; border-radius: 22px; border: 0; background: #FFD20A; font-family: inherit; font-size: 20px; color: #0B1620">+</button>
+      </div>
+      <div style="font-size: 13px; color: #555A5E">Steps of 5 m². The exact area sets your estimate.</div>
+    </div>
+
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px">
+      <div style="font-size: 17px; font-weight: 700">Rooms to clean</div>
+      <div style="background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E6E6; display: flex; flex-direction: column">
+        <sc-for list="{{rooms}}" as="item" hint-placeholder-count="5">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 6px 8px 6px 16px; border-top: {{item.divider}}">
+            <div style="flex: 1; font-size: 15px">{{item.label}}</div>
+            <button type="button" aria-label="{{item.minusLabel}}" sc-camel-on-click="{{item.minus}}" style="width: 44px; height: 44px; border-radius: 22px; border: 0; background: #F2F2F2; font-family: inherit; font-size: 20px; color: #0B1620">−</button>
+            <div style="width: 20px; text-align: center; font-size: 16px; font-weight: 700">{{item.val}}</div>
+            <button type="button" aria-label="{{item.plusLabel}}" sc-camel-on-click="{{item.plus}}" style="width: 44px; height: 44px; border-radius: 22px; border: 0; background: #FFD20A; font-family: inherit; font-size: 20px; color: #0B1620">+</button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px">
+      <div style="font-size: 17px; font-weight: 700">Home condition</div>
+      <div style="display: flex; flex-direction: column; gap: 8px" role="radiogroup" aria-label="Home condition">
+        <sc-for list="{{conditions}}" as="item" hint-placeholder-count="3">
+          <button type="button" role="radio" aria-checked="{{item.checked}}" sc-camel-on-click="{{item.pick}}" style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 14px; border: {{item.border}}; background: {{item.bg}}; text-align: left; font-family: inherit; color: #0B1620">
+            <span style="width: 20px; height: 20px; border-radius: 10px; border: 2px solid {{item.ring}}; box-sizing: border-box; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><span style="width: 10px; height: 10px; border-radius: 5px; background: {{item.dot}}"></span></span>
+            <span style="flex: 1; display: flex; flex-direction: column; gap: 2px">
+              <span style="font-size: 15px; font-weight: 600">{{item.label}}</span>
+              <span style="font-size: 13px; color: #555A5E">{{item.sub}}</span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="font-size: 13px; line-height: 1.4; color: #555A5E">Condition adjusts the time estimate. Your Tasker checks it on the first visit.</div>
+    </div>
+
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px">
+      <div style="font-size: 17px; font-weight: 700">Who's at home</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+        <sc-for list="{{people}}" as="item" hint-placeholder-count="4">
+          <button type="button" aria-pressed="{{item.pressed}}" sc-camel-on-click="{{item.pick}}" style="height: 44px; padding: 0 14px; border-radius: 22px; border: {{item.border}}; background: {{item.bg}}; color: #0B1620; font-family: inherit; font-size: 14px; font-weight: {{item.weight}}">{{item.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px">
+      <div style="font-size: 17px; font-weight: 700">Handle with care</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+        <sc-for list="{{care}}" as="item" hint-placeholder-count="4">
+          <button type="button" aria-pressed="{{item.pressed}}" sc-camel-on-click="{{item.pick}}" style="height: 44px; padding: 0 14px; border-radius: 22px; border: {{item.border}}; background: {{item.bg}}; color: #0B1620; font-family: inherit; font-size: 14px; font-weight: {{item.weight}}">{{item.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px">
+      <label for="homeNote" style="font-size: 17px; font-weight: 700">Anything else a Tasker should know?</label>
+      <textarea id="homeNote" rows="3" style="box-sizing: border-box; width: 100%; border-radius: 14px; border: 0; padding: 12px 14px; font-family: inherit; font-size: 15px; color: #0B1620; background: #FFFFFF; resize: none">Blue mop is for bathrooms only. Key is with the building guard.</textarea>
+    </div>
+  </div>
+  <div style="flex-shrink: 0; padding: 12px 16px 24px 16px; background: #FFFFFF; box-shadow: 0 -1px 0 #ECECEC">
+    <a href="V2-1-3-Priorities.dc.html" style="display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 16px; background: #FFD20A; color: #0B1620; font-size: 17px; font-weight: 700; text-decoration: none">Save and choose priorities</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;showLabels&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true},&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844}}">
+class Component extends DCLogic {
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      type: 'Apartment',
+      area: 70,
+      rooms: { 'Bedrooms': 2, 'Bathrooms': 2, 'Kitchen': 1, 'Living room': 1, 'Balcony': 1 },
+      condition: 'lived',
+      people: { 'Kids': true, 'Elderly': false, 'Cat': true, 'Dog': false },
+      care: { 'Ancestor altar: don’t move items': true, 'Wooden floor': true, 'Glass table': true, 'Leather sofa': false }
+    };
+  }
+  chip(on) {
+    return on
+      ? { bg: '#FFFDEE', border: '1.5px solid #FFD000', weight: '600', pressed: 'true' }
+      : { bg: '#FFFFFF', border: '1px solid #E6E6E6', weight: '500', pressed: 'false' };
+  }
+  renderVals() {
+    const s = this.state;
+    const types = ['Apartment', 'Townhouse', 'House'].map((t) => ({
+      label: t, ...this.chip(t === s.type), pick: () => this.setState({ type: t })
+    }));
+    const rooms = Object.keys(s.rooms).map((k, i) => ({
+      label: k,
+      val: s.rooms[k],
+      divider: i === 0 ? '0' : '1px solid #EFEFEF',
+      minusLabel: 'Fewer ' + k.toLowerCase(),
+      plusLabel: 'More ' + k.toLowerCase(),
+      minus: () => this.setState({ rooms: { ...s.rooms, [k]: Math.max(k === 'Kitchen' ? 1 : 0, s.rooms[k] - 1) } }),
+      plus: () => this.setState({ rooms: { ...s.rooms, [k]: Math.min(6, s.rooms[k] + 1) } })
+    }));
+    const conditions = [
+      { id: 'tidy', label: 'Tidy', sub: 'Cleaned in the last week' },
+      { id: 'lived', label: 'Lived-in', sub: 'Some build-up in the kitchen and bathrooms' },
+      { id: 'extra', label: 'Needs extra attention', sub: 'Not cleaned for a month or more' }
+    ].map((c) => {
+      const on = s.condition === c.id;
+      return {
+        ...c,
+        checked: String(on),
+        border: on ? '1.5px solid #FFD000' : '1px solid #E6E6E6',
+        bg: on ? '#FFFDEE' : '#FFFFFF',
+        ring: on ? '#0B1620' : '#868E92',
+        dot: on ? '#0B1620' : 'transparent',
+        pick: () => this.setState({ condition: c.id })
+      };
+    });
+    const toggles = (key) => Object.keys(s[key]).map((k) => ({
+      label: k, ...this.chip(s[key][k]),
+      pick: () => this.setState({ [key]: { ...s[key], [k]: !s[key][k] } })
+    }));
+    return {
+      showLabels: this.props.showLabels ?? true,
+      types, rooms, conditions,
+      area: s.area,
+      areaMinus: () => this.setState({ area: Math.max(20, s.area - 5) }),
+      areaPlus: () => this.setState({ area: Math.min(300, s.area + 5) }),
+      people: toggles('people'), care: toggles('care')
+    };
+  }
+}
+</script>
+
+
+</body></html>

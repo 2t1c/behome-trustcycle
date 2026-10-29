@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>1.3 Priority areas and estimate</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#0052B4}a:hover{color:#003D87}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F2F2F2; color: #0B1620; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; overflow: hidden">
+  <sc-if value="{{showLabels}}" hint-placeholder-val="{{true}}">
+    <div style="flex-shrink: 0; height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px 0 16px; background: #0F766E; color: #FFFFFF; font-size: 12px; font-weight: 600">
+      <span style="font-weight: 700">Stage 1 · Pre-booking</span><span>·</span><span style="flex: 1">1.3 Priority areas</span>
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 999px; background: #FFFFFF; color: #0B1620">UPDATED · S2</span>
+    </div>
+  </sc-if>
+  <div style="height: 56px; flex-shrink: 0; display: flex; align-items: center; gap: 6px; padding: 0 14px 0 6px; background: #FFFFFF">
+    <a href="V2-1-2-YourHome.dc.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #0B1620">
+      <svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4"></path><path d="M10 18l-6-6 6-6"></path></svg>
+    </a>
+    <div style="flex: 1; font-size: 19px; font-weight: 700">What matters this visit?</div>
+    <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; background: #F2F2F2; color: #555A5E">CONCEPT</span>
+  </div>
+  <div style="flex-shrink: 0; display: flex; gap: 6px; padding: 12px 16px 0 16px">
+    <div style="flex: 1; height: 4px; border-radius: 2px; background: #FFD20A"></div>
+    <div style="flex: 1; height: 4px; border-radius: 2px; background: #FFD20A"></div>
+    <div style="flex: 1; height: 4px; border-radius: 2px; background: #FFD20A"></div>
+    <div style="flex: 1; height: 4px; border-radius: 2px; background: #DCDCDC"></div>
+    <div style="flex: 1; height: 4px; border-radius: 2px; background: #DCDCDC"></div>
+  </div>
+  <div style="flex: 1; overflow-y: auto; padding: 12px 16px 16px 16px; display: flex; flex-direction: column; gap: 12px">
+    <div style="flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; gap: 8px">
+      <div style="font-size: 13px; font-weight: 500; color: #555A5E">Step 3 of 5 · Tap a label to change it</div>
+      <div style="font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 8px; background: #E6EEFE; color: #0A45D0; white-space: nowrap">Standard · 70 m² · lived-in</div>
+    </div>
+    <div style="flex-shrink: 0; display: flex; gap: 12px; flex-wrap: wrap; font-size: 13px; color: #3A4046">
+      <span style="display: flex; align-items: center; gap: 6px"><span style="width: 12px; height: 12px; border-radius: 4px; background: #FFD20A"></span>Must-do</span>
+      <span style="display: flex; align-items: center; gap: 6px"><span style="width: 12px; height: 12px; border-radius: 4px; background: #FFFFFF; border: 1.5px dashed #0B1620; box-sizing: border-box"></span>If time</span>
+      <span style="display: flex; align-items: center; gap: 6px"><span style="width: 12px; height: 12px; border-radius: 4px; background: #E6E6E6"></span>Skip</span>
+    </div>
+    <div style="flex-shrink: 0; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E6E6; display: flex; flex-direction: column">
+      <sc-for list="{{tasks}}" as="item" hint-placeholder-count="9">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 16px; border-top: {{item.divider}}">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+            <div style="font-size: 15px; font-weight: 600; color: {{item.titleColor}}">{{item.room}}</div>
+            <div style="font-size: 13px; color: #555A5E">{{item.detail}}</div>
+          </div>
+          <div style="font-size: 13px; color: #555A5E; white-space: nowrap">~{{item.mins}} min</div>
+          <button type="button" sc-camel-on-click="{{item.cycle}}" aria-label="{{item.aria}}" style="min-width: 78px; height: 44px; padding: 0 10px; border-radius: 12px; border: 1.5px {{item.borderStyle}} {{item.borderColor}}; background: {{item.bg}}; color: {{item.fg}}; font-family: inherit; font-size: 13px; font-weight: 700">{{item.label}}</button>
+        </div>
+      </sc-for>
+    </div>
+    <div style="flex-shrink: 0; display: flex; gap: 8px; align-items: flex-start; padding: 12px 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E6E6E6; font-size: 13px; line-height: 1.45; color: #3A4046">
+      <svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="#156CEA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 8h.01M11 12h1v4h1"></path></svg>
+      <span><strong style="color: #0B1620">Reference estimate.</strong> Based on completed Standard visits in similar homes (70 m², 2 bathrooms, lived-in). Your Tasker checks the real condition on the first visit.</span>
+    </div>
+  </div>
+  <div style="flex-shrink: 0; padding: 14px 16px 24px 16px; background: #FFFFFF; box-shadow: 0 -1px 0 #ECECEC; display: flex; flex-direction: column; gap: 8px">
+    <div style="display: flex; justify-content: space-between; align-items: baseline">
+      <div style="font-size: 15px; font-weight: 700">Must-dos need about {{mustText}}</div>
+      <div style="font-size: 13px; color: #555A5E">longest visit 4h 00m</div>
+    </div>
+    <div style="position: relative; height: 12px; border-radius: 6px; background: #EDEDED; overflow: hidden">
+      <div style="position: absolute; left: 0; top: 0; bottom: 0; width: {{mustPct}}%; background: #FFD20A"></div>
+      <div style="position: absolute; top: 0; bottom: 0; left: {{mustPct}}%; width: {{ifPct}}%; background: repeating-linear-gradient(135deg, #FFD20A 0, #FFD20A 2px, #FFFFFF 2px, #FFFFFF 6px)"></div>
+      <div style="position: absolute; top: -2px; bottom: -2px; left: 66.7%; width: 2px; background: #868E92"></div>
+      <div style="position: absolute; top: -2px; bottom: -2px; left: 88.9%; width: 3px; background: #0B1620"></div>
+    </div>
+    <div style="position: relative; height: 14px; font-size: 11px; font-weight: 600; color: #555A5E">
+      <span style="position: absolute; left: 66.7%; transform: translateX(-50%)">3h</span>
+      <span style="position: absolute; left: 88.9%; transform: translateX(-50%); color: #0B1620">4h</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px; background: {{statusBg}}; border: 1px solid {{statusBorder}}; color: {{statusFg}}; font-size: 14px; font-weight: 600">
+      <sc-if value="{{over}}" hint-placeholder-val="{{false}}">
+        <svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="currentColor" aria-hidden="true" style="flex-shrink: 0"><path d="M10.3 3.9L2.4 18a2 2 0 001.7 3h15.8a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path><path d="M12 9v4M12 17h.01" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"></path></svg>
+      </sc-if>
+      <sc-if value="{{fits}}" hint-placeholder-val="{{true}}">
+        <svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="currentColor" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="10"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </sc-if>
+      <span style="color: #0B1620">{{statusText}}</span>
+    </div>
+    <a href="V2-1-4-RecommendedPlan.dc.html" style="display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 16px; background: #FFD20A; color: #0B1620; font-size: 17px; font-weight: 700; text-decoration: none">See the recommended plan</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;showLabels&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true},&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844}}">
+class Component extends DCLogic {
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      tasks: [
+        { room: 'Kitchen', detail: 'Degrease stove, wipe counters', mins: 30, p: 'must' },
+        { room: 'Kitchen', detail: 'Sink, tap and floor', mins: 25, p: 'must' },
+        { room: 'Bathroom 1', detail: 'Toilet, sink, shower, floor', mins: 25, p: 'must' },
+        { room: 'Bathroom 2', detail: 'Toilet, sink, shower, floor', mins: 25, p: 'must' },
+        { room: 'Living room', detail: 'Dust shelves, mop floor', mins: 25, p: 'must' },
+        { room: 'Bedroom 1', detail: 'Dust, mop, change sheets', mins: 25, p: 'must' },
+        { room: 'Bedroom 2 (kids)', detail: 'Dust, mop, wipe toy shelves', mins: 30, p: 'must' },
+        { room: 'Balcony', detail: 'Sweep and wipe railing', mins: 10, p: 'if' },
+        { room: 'Fridge (add-on)', detail: 'Inside clean · +50,000đ', mins: 30, p: 'skip' }
+      ]
+    };
+  }
+  fmt(m) {
+    const h = Math.floor(m / 60);
+    const mm = m % 60;
+    return h + 'h ' + (mm < 10 ? '0' : '') + mm + 'm';
+  }
+  renderVals() {
+    const order = { must: 'if', if: 'skip', skip: 'must' };
+    const looks = {
+      must: { label: 'Must-do', bg: '#FFD20A', fg: '#0B1620', borderStyle: 'solid', borderColor: '#FFD20A', titleColor: '#0B1620' },
+      if: { label: 'If time', bg: '#FFFFFF', fg: '#0B1620', borderStyle: 'dashed', borderColor: '#0B1620', titleColor: '#0B1620' },
+      skip: { label: 'Skip', bg: '#F2F2F2', fg: '#555A5E', borderStyle: 'solid', borderColor: '#F2F2F2', titleColor: '#868E92' }
+    };
+    const tasks = this.state.tasks.map((t, i) => ({
+      ...t,
+      ...looks[t.p],
+      divider: i === 0 ? '0' : '1px solid #EFEFEF',
+      aria: t.room + ', ' + t.detail + ': ' + looks[t.p].label + '. Tap to change',
+      cycle: () => this.setState({
+        tasks: this.state.tasks.map((x, j) => (j === i ? { ...x, p: order[x.p] } : x))
+      })
+    }));
+    const must = this.state.tasks.filter((t) => t.p === 'must').reduce((a, t) => a + t.mins, 0);
+    const ift = this.state.tasks.filter((t) => t.p === 'if').reduce((a, t) => a + t.mins, 0);
+    const scale = 270;
+    const mustPct = Math.min(100, (must / scale) * 100);
+    const ifPct = Math.max(0, Math.min(100 - mustPct, (ift / scale) * 100));
+    const over = must > 240;
+    let statusText;
+    if (over) statusText = 'About ' + (must - 240) + ' min over the 4-hour limit. Move some to “If time”, or choose Deep Cleaning';
+    else if (must > 180) statusText = 'Fits in one 4-hour Standard visit. We recommend the time next';
+    else statusText = 'Fits in 3 hours. We recommend the time next';
+    return {
+      showLabels: this.props.showLabels ?? true,
+      tasks,
+      mustText: this.fmt(must),
+      mustPct: mustPct.toFixed(1),
+      ifPct: ifPct.toFixed(1),
+      over,
+      fits: !over,
+      statusBg: over ? '#FFF7D6' : '#E9F8EE',
+      statusBorder: over ? '#FFD000' : '#BFE8CC',
+      statusFg: over ? '#8A6500' : '#05AC3C',
+      statusText
+    };
+  }
+}
+</script>
+
+
+</body></html>

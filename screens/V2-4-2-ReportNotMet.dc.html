@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>4.2 Report an item not met</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#0052B4}a:hover{color:#003D87}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F2F2F2; color: #0B1620; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; overflow: hidden">
+  <sc-if value="{{showLabels}}" hint-placeholder-val="{{true}}">
+    <div style="flex-shrink: 0; height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px 0 16px; background: #B45309; color: #FFFFFF; font-size: 12px; font-weight: 600">
+      <span style="font-weight: 700">Stage 4 · Post-service</span><span>·</span><span style="flex: 1">4.2 Report not met</span>
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 999px; background: rgba(255,255,255,0.22); color: #FFFFFF; border: 1px solid rgba(255,255,255,0.6)">KEPT · S12</span>
+    </div>
+  </sc-if>
+  <div style="height: 56px; flex-shrink: 0; display: flex; align-items: center; gap: 6px; padding: 0 14px 0 6px; background: #FFFFFF">
+    <a href="V2-4-1-CheckResult.dc.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #0B1620">
+      <svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4"></path><path d="M10 18l-6-6 6-6"></path></svg>
+    </a>
+    <div style="flex: 1; font-size: 19px; font-weight: 700">Report an item not met</div>
+    <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; background: #F2F2F2; color: #555A5E">CONCEPT</span>
+  </div>
+  <div style="flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+    <div style="flex-shrink: 0; display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px; background: #FFF7D6; border: 1px solid #FFD000; font-size: 13px; font-weight: 600; color: #0B1620">
+      <svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="#8A6500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+      <span>You can report until Wed 4 Nov, 11:50</span>
+    </div>
+
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px">
+      <div style="font-size: 17px; font-weight: 700">Which agreement item?</div>
+      <div style="background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E6E6; overflow: hidden; display: flex; flex-direction: column" role="radiogroup" aria-label="Agreement item">
+        <sc-for list="{{areas}}" as="item" hint-placeholder-count="7">
+          <button type="button" role="radio" aria-checked="{{item.checked}}" sc-camel-on-click="{{item.pick}}" style="display: flex; align-items: center; gap: 12px; min-height: 46px; padding: 6px 16px; border: 0; border-top: {{item.divider}}; background: {{item.rowBg}}; text-align: left; font-family: inherit; color: #0B1620">
+            <span style="width: 20px; height: 20px; border-radius: 10px; border: 2px solid {{item.ring}}; box-sizing: border-box; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+              <span style="width: 10px; height: 10px; border-radius: 5px; background: {{item.dot}}"></span>
+            </span>
+            <span style="flex: 1; font-size: 15px">{{item.label}}</span>
+            <span style="font-size: 13px; color: #868E92">photo {{item.at}}</span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="padding: 10px 12px; border-radius: 12px; background: #FFFFFF; border: 1px solid #E6E6E6; font-size: 13px; line-height: 1.45; color: #3A4046"><strong style="color: #0B1620">Your agreement said:</strong> {{agreeText}}</div>
+    </div>
+
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px">
+      <div style="font-size: 17px; font-weight: 700">What happened?</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+        <sc-for list="{{issues}}" as="item" hint-placeholder-count="4">
+          <button type="button" aria-pressed="{{item.pressed}}" sc-camel-on-click="{{item.pick}}" style="height: 44px; padding: 0 14px; border-radius: 22px; border: {{item.border}}; background: {{item.bg}}; color: {{item.fg}}; font-family: inherit; font-size: 14px; font-weight: {{item.weight}}">{{item.label}}</button>
+        </sc-for>
+      </div>
+      <div style="display: flex; gap: 8px; align-items: center">
+        <div style="width: 64px; height: 64px; border-radius: 12px; background: #EDEDED; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; flex-shrink: 0" role="img" aria-label="Your photo placeholder: shower glass">
+          <svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="#868E92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+          <span style="font-size: 9px; font-weight: 700; color: #555A5E">YOUR PHOTO</span>
+        </div>
+        <button type="button" style="height: 64px; flex: 1; border-radius: 12px; border: 1.5px dashed #C9CDD0; background: #FFFFFF; font-family: inherit; font-size: 14px; font-weight: 600; color: #0052B4">Add another photo</button>
+      </div>
+      <label for="issueNote" style="font-size: 14px; font-weight: 600">Tell us more (optional)</label>
+      <textarea id="issueNote" rows="2" style="box-sizing: border-box; width: 100%; border-radius: 14px; border: 0; padding: 12px 14px; font-family: inherit; font-size: 15px; color: #0B1620; background: #FFFFFF; resize: none">Shower glass still has water marks.</textarea>
+    </div>
+
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px">
+      <div style="font-size: 17px; font-weight: 700">What would help?</div>
+      <div style="display: flex; flex-direction: column; gap: 8px" role="radiogroup" aria-label="Preferred outcome">
+        <sc-for list="{{fixes}}" as="item" hint-placeholder-count="3">
+          <button type="button" role="radio" aria-checked="{{item.checked}}" sc-camel-on-click="{{item.pick}}" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; border: {{item.border}}; background: {{item.bg}}; text-align: left; font-family: inherit; color: #0B1620">
+            <span style="width: 20px; height: 20px; border-radius: 10px; border: 2px solid {{item.ring}}; box-sizing: border-box; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+              <span style="width: 10px; height: 10px; border-radius: 5px; background: {{item.dot}}"></span>
+            </span>
+            <span style="flex: 1; font-size: 15px; font-weight: 600">{{item.title}}</span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="font-size: 13px; line-height: 1.45; color: #555A5E">The final outcome depends on review against your Quality Agreement. <a href="V2-1-6-RecoveryPolicy.dc.html">See what's covered</a>.</div>
+    </div>
+
+    <div style="flex-shrink: 0; display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 14px; background: #EEF3FE; font-size: 13px; line-height: 1.45; color: #3A4046">
+      <svg width="18" height="18" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex-shrink: 0; margin-top: 1px"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" fill="#156CEA"></path><path d="M9 12l2 2 4-4" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <span>First reply within 2 hours. Nga can add her side, and her record only changes after review.</span>
+    </div>
+  </div>
+  <div style="flex-shrink: 0; padding: 12px 16px 24px 16px; background: #FFFFFF; box-shadow: 0 -1px 0 #ECECEC">
+    <a href="V2-4-3-CaseFeedback.dc.html" style="display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 16px; background: #FFD20A; color: #0B1620; font-size: 17px; font-weight: 700; text-decoration: none">Send report</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;showLabels&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true},&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844}}">
+class Component extends DCLogic {
+  constructor(...args) {
+    super(...args);
+    this.state = { area: 3, issue: 'Not done well', fix: 'reclean' };
+  }
+  renderVals() {
+    const s = this.state;
+    const list = [
+      ['1 · Kitchen · stove, counters', 'kitchen stove and counters', '09:01', 'degrease stove and counters (+25 min you approved)'],
+      ['2 · Kitchen · sink, tap, floor', 'kitchen sink and floor', '09:26', 'sink, tap and floor'],
+      ['3 · Bathroom 1', 'Bathroom 1', '09:51', 'toilet, sink, shower, floor · blue mop'],
+      ['4 · Bathroom 2', 'Bathroom 2', '10:16', 'toilet, sink, shower, floor · blue mop'],
+      ['5 · Living room', 'the living room', '10:41', 'dust shelves, mop · altar: dust around, don’t move items'],
+      ['6 · Bedroom 1', 'Bedroom 1', '11:06', 'dust, mop, change sheets'],
+      ['7 · Bedroom 2 (kids)', 'Bedroom 2', '11:36', 'toy shelves, dust, mop']
+    ];
+    const areas = list.map(([label, name, at], i) => {
+      const on = s.area === i;
+      return {
+        label, at,
+        checked: String(on),
+        dot: on ? '#0B1620' : 'transparent',
+        ring: on ? '#0B1620' : '#868E92',
+        rowBg: on ? '#FFFDEE' : 'transparent',
+        divider: i === 0 ? '0' : '1px solid #EFEFEF',
+        pick: () => this.setState({ area: i })
+      };
+    });
+    const issues = ['Not done', 'Not done well', 'Something damaged', 'Other'].map((k) => {
+      const on = s.issue === k;
+      return {
+        label: k, pressed: String(on),
+        bg: on ? '#FFFDEE' : '#FFFFFF', fg: '#0B1620', border: on ? '1.5px solid #FFD000' : '1px solid #E6E6E6',
+        weight: on ? '600' : '500',
+        pick: () => this.setState({ issue: k })
+      };
+    });
+    const name = list[s.area][1];
+    const fixes = [
+      { id: 'reclean', title: 'Re-clean of ' + name },
+      { id: 'refund', title: 'Partial refund for this item' },
+      { id: 'feedback', title: 'Just let beHome know' }
+    ].map((f) => ({
+      ...f,
+      checked: String(s.fix === f.id),
+      border: s.fix === f.id ? '1.5px solid #FFD000' : '1px solid #E6E6E6',
+      bg: s.fix === f.id ? '#FFFDEE' : '#FFFFFF',
+      ring: s.fix === f.id ? '#0B1620' : '#868E92',
+      dot: s.fix === f.id ? '#0B1620' : 'transparent',
+      pick: () => this.setState({ fix: f.id })
+    }));
+    return {
+      showLabels: this.props.showLabels ?? true,
+      areas, issues, fixes,
+      agreeText: 'item ' + (s.area + 1) + ', ' + list[s.area][3] + '.'
+    };
+  }
+}
+</script>
+
+
+</body></html>

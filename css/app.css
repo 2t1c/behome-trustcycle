@@ -1,0 +1,47 @@
+/* App shell only. Each screen brings its own inline styles from screens/*.dc.html. */
+:root { --ink: #0B1620; --muted: #555A5E; --yellow: #FFD20A; --ground: #EDEDE8; --phone-scale: 1; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--ground); color: var(--ink); font-family: Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+#wrap { display: flex; height: 100%; }
+
+/* Demo panel (laptops) */
+#panel { width: 280px; flex: none; height: 100%; overflow-y: auto; padding: 24px 16px; background: #fff; border-right: 1px solid #E2E2DC; display: flex; flex-direction: column; gap: 14px; }
+.brand { display: flex; gap: 10px; align-items: center; }
+.brand b { display: block; font-size: 15px; }
+.brand small { display: block; font-size: 11px; color: var(--muted); line-height: 1.35; }
+.logo { width: 36px; height: 36px; border-radius: 10px; background: var(--yellow); color: var(--ink); display: grid; place-items: center; flex: none; }
+.app-tag { margin: 0; align-self: flex-start; font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 999px; background: #F2F2F2; }
+.app-tag.tasker { background: var(--ink); color: var(--yellow); }
+#screen-list { display: flex; flex-direction: column; gap: 10px; }
+.group h4 { margin: 4px 0; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.group button { display: flex; align-items: center; gap: 6px; width: 100%; text-align: left; padding: 7px 10px; border: 0; border-radius: 8px; background: none; font-size: 13px; }
+.group button:hover { background: #F5F5F0; }
+.group button.on { background: #FFF6CC; font-weight: 600; }
+.tag { margin-left: auto; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 999px; background: var(--ink); color: var(--yellow); }
+.toggle { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+.reset { padding: 9px 12px; border-radius: 10px; border: 1px solid #D6D6D0; background: #fff; font-size: 13px; text-align: left; }
+:focus-visible { outline: 3px solid #156CEA; outline-offset: 2px; }
+
+/* Phone frame */
+#stage { flex: 1; min-width: 0; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+#phone { width: 390px; height: 844px; flex: none; border-radius: 44px; overflow: hidden; background: #fff; box-shadow: 0 0 0 10px #12161C, 0 30px 70px rgba(0,0,0,.28); transform: scale(var(--phone-scale)); }
+#screen { width: 100%; height: 100%; }
+
+/* Guide and DVF boards */
+#board-wrap { display: none; width: 100%; height: 100%; overflow: auto; padding: 24px; }
+#board { transform-origin: top left; }
+body.board-mode #phone { display: none; }
+body.board-mode #board-wrap { display: block; }
+body.board-mode #stage { align-items: flex-start; }
+
+@media (max-width: 1000px) { #panel { display: none; } }
+
+/* Phones: the screen is the whole page */
+@media (max-width: 600px) {
+  html, body { background: #fff; }
+  #phone { width: 100vw; height: 100dvh; border-radius: 0; box-shadow: none; transform: none; }
+  #screen { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+  #board-wrap { padding: 8px; }
+}

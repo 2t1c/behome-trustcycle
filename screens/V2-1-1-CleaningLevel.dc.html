@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>1.1 Choose a cleaning level</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#0052B4}a:hover{color:#003D87}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F2F2F2; color: #0B1620; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; overflow: hidden">
+  <sc-if value="{{showLabels}}" hint-placeholder-val="{{true}}">
+    <div style="flex-shrink: 0; height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px 0 16px; background: #0F766E; color: #FFFFFF; font-size: 12px; font-weight: 600">
+      <span style="font-weight: 700">Stage 1 · Pre-booking</span><span>·</span><span style="flex: 1">1.1 Cleaning level</span>
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 999px; background: #FFD20A; color: #0B1620">NEW</span>
+    </div>
+  </sc-if>
+  <div style="height: 56px; flex-shrink: 0; display: flex; align-items: center; gap: 6px; padding: 0 14px 0 6px; background: #FFFFFF">
+    <a href="V2-0-Guide.dc.html" aria-label="Back to guide" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #0B1620">
+      <svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4"></path><path d="M10 18l-6-6 6-6"></path></svg>
+    </a>
+    <div style="flex: 1; font-size: 19px; font-weight: 700">Choose a cleaning level</div>
+    <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; background: #F2F2F2; color: #555A5E">CONCEPT</span>
+  </div>
+  <div style="flex-shrink: 0; display: flex; gap: 6px; padding: 12px 16px 0 16px">
+    <div style="flex: 1; height: 4px; border-radius: 2px; background: #FFD20A"></div>
+    <div style="flex: 1; height: 4px; border-radius: 2px; background: #DCDCDC"></div>
+    <div style="flex: 1; height: 4px; border-radius: 2px; background: #DCDCDC"></div>
+    <div style="flex: 1; height: 4px; border-radius: 2px; background: #DCDCDC"></div>
+    <div style="flex: 1; height: 4px; border-radius: 2px; background: #DCDCDC"></div>
+  </div>
+  <div style="flex: 1; overflow-y: auto; padding: 12px 16px 20px 16px; display: flex; flex-direction: column; gap: 14px">
+    <div style="flex-shrink: 0; font-size: 13px; font-weight: 500; color: #555A5E">Step 1 of 5 · Personalise your clean</div>
+    <div style="flex-shrink: 0; background: linear-gradient(100deg, #F2E8BF 0%, #FBF7EA 100%); border-radius: 16px; padding: 16px; display: flex; gap: 12px; align-items: flex-start">
+      <span style="width: 40px; height: 40px; border-radius: 20px; background: #FFD20A; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+        <svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="#0B1620" aria-hidden="true"><path d="M12 3.2l9 7.4v.9h-2V20a1 1 0 01-1 1h-4v-6h-4v6H6a1 1 0 01-1-1v-8.5H3v-.9z"></path></svg>
+      </span>
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <div style="font-size: 16px; font-weight: 700">Hi chị Lan, what kind of clean do you need?</div>
+        <div style="font-size: 14px; line-height: 1.45; color: #3A4046">Pick a level. We estimate the time and price from your home, then write everything into a Quality Agreement before you book.</div>
+      </div>
+    </div>
+
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 10px" role="radiogroup" aria-label="Cleaning level">
+      <button type="button" role="radio" aria-checked="{{stdChecked}}" sc-camel-on-click="{{pickStd}}" style="display: flex; flex-direction: column; gap: 10px; padding: 14px; border-radius: 16px; border: {{stdBorder}}; background: {{stdBg}}; text-align: left; font-family: inherit; color: #0B1620">
+        <span style="display: flex; align-items: center; gap: 12px; width: 100%">
+          <span style="width: 20px; height: 20px; border-radius: 10px; border: 2px solid {{stdRing}}; box-sizing: border-box; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><span style="width: 10px; height: 10px; border-radius: 5px; background: {{stdDot}}"></span></span>
+          <span style="flex: 1; display: flex; flex-direction: column; gap: 2px">
+            <span style="font-size: 17px; font-weight: 700">Standard cleaning</span>
+            <span style="font-size: 13px; color: #555A5E">Regular upkeep for a lived-in home</span>
+          </span>
+        </span>
+        <span style="display: flex; flex-direction: column; gap: 6px; padding-left: 32px; font-size: 13px; line-height: 1.35; color: #3A4046">
+          <span style="display: flex; gap: 8px; align-items: flex-start"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="10" fill="#05AC3C"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Floors swept and mopped, reachable surfaces dusted</span>
+          <span style="display: flex; gap: 8px; align-items: flex-start"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="10" fill="#05AC3C"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Kitchen: stove top, counters, sink</span>
+          <span style="display: flex; gap: 8px; align-items: flex-start"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="10" fill="#05AC3C"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Bathrooms: toilet, sink, shower, floor</span>
+          <span style="display: flex; gap: 8px; align-items: flex-start"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="10" fill="#05AC3C"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Beds made, sheets changed on request</span>
+        </span>
+        <span style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding-top: 10px; border-top: 1px solid #EFEFEF">
+          <span style="font-size: 13px; color: #555A5E">1 Tasker · 3–4 hours</span>
+          <span style="font-size: 15px; font-weight: 700">from 240,000đ</span>
+        </span>
+      </button>
+
+      <button type="button" role="radio" aria-checked="{{deepChecked}}" sc-camel-on-click="{{pickDeep}}" style="display: flex; flex-direction: column; gap: 10px; padding: 14px; border-radius: 16px; border: {{deepBorder}}; background: {{deepBg}}; text-align: left; font-family: inherit; color: #0B1620">
+        <span style="display: flex; align-items: center; gap: 12px; width: 100%">
+          <span style="width: 20px; height: 20px; border-radius: 10px; border: 2px solid {{deepRing}}; box-sizing: border-box; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><span style="width: 10px; height: 10px; border-radius: 5px; background: {{deepDot}}"></span></span>
+          <span style="flex: 1; display: flex; flex-direction: column; gap: 2px">
+            <span style="font-size: 17px; font-weight: 700">Deep Cleaning</span>
+            <span style="font-size: 13px; color: #555A5E">A top-to-bottom reset: a first clean, or before Tết</span>
+          </span>
+        </span>
+        <span style="display: flex; flex-direction: column; gap: 6px; padding-left: 32px; font-size: 13px; line-height: 1.35; color: #3A4046">
+          <span style="font-weight: 600; color: #0B1620">Everything in Standard, plus:</span>
+          <span style="display: flex; gap: 8px; align-items: flex-start"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="10" fill="#05AC3C"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Limescale and grout scrubbed</span>
+          <span style="display: flex; gap: 8px; align-items: flex-start"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="10" fill="#05AC3C"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Inside windows and window tracks</span>
+          <span style="display: flex; gap: 8px; align-items: flex-start"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="10" fill="#05AC3C"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Cabinet fronts and appliance outsides</span>
+          <span style="display: flex; gap: 8px; align-items: flex-start"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="10" fill="#05AC3C"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Under and behind movable furniture</span>
+        </span>
+        <span style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding-top: 10px; border-top: 1px solid #EFEFEF">
+          <span style="font-size: 13px; color: #555A5E">2 Taskers · 4 hours</span>
+          <span style="font-size: 15px; font-weight: 700">estimate 610,000đ</span>
+        </span>
+      </button>
+    </div>
+
+    <sc-if value="{{isDeep}}" hint-placeholder-val="{{false}}">
+      <div style="flex-shrink: 0; display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 14px; background: #EEF3FE; font-size: 13px; line-height: 1.45; color: #3A4046">
+        <svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="#156CEA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 8h.01M11 12h1v4h1"></path></svg>
+        <span><strong style="color: #0B1620">Deep Cleaning needs 2 Taskers verified for deep cleaning.</strong> Only Taskers with that verified skill are matched in step 2.1.</span>
+      </div>
+    </sc-if>
+
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E6E6E6; font-size: 13px; line-height: 1.45; color: #555A5E">
+      <span><strong style="color: #0B1620">Not included in either level:</strong> post-renovation dust, moving heavy furniture, outside of high windows.</span>
+      <span>Deep Cleaning price is an estimate: 2 Taskers × beHome's published 4-hour rate (305,000đ).</span>
+    </div>
+  </div>
+  <div style="flex-shrink: 0; padding: 12px 16px 24px 16px; background: #FFFFFF; box-shadow: 0 -1px 0 #ECECEC">
+    <a href="V2-1-2-YourHome.dc.html" style="display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 16px; background: #FFD20A; color: #0B1620; font-size: 17px; font-weight: 700; text-decoration: none">{{cta}}</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;showLabels&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true},&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844}}">
+class Component extends DCLogic {
+  constructor(...args) {
+    super(...args);
+    this.state = { level: 'standard' };
+  }
+  renderVals() {
+    const l = this.state.level;
+    const look = (on) => ({
+      border: on ? '1.5px solid #FFD000' : '1px solid #E6E6E6',
+      bg: on ? '#FFFDEE' : '#FFFFFF',
+      ring: on ? '#0B1620' : '#868E92',
+      dot: on ? '#0B1620' : 'transparent',
+      checked: String(on)
+    });
+    const s = look(l === 'standard'), d = look(l === 'deep');
+    return {
+      showLabels: this.props.showLabels ?? true,
+      stdBorder: s.border, stdBg: s.bg, stdRing: s.ring, stdDot: s.dot, stdChecked: s.checked,
+      deepBorder: d.border, deepBg: d.bg, deepRing: d.ring, deepDot: d.dot, deepChecked: d.checked,
+      pickStd: () => this.setState({ level: 'standard' }),
+      pickDeep: () => this.setState({ level: 'deep' }),
+      isDeep: l === 'deep',
+      cta: l === 'deep' ? 'Continue with Deep Cleaning' : 'Continue with Standard cleaning'
+    };
+  }
+}
+</script>
+
+
+</body></html>

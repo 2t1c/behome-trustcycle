@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>DVF check: TrustCycle v2 by stage</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#0052B4}a:hover{color:#003D87}
+</style>
+</helmet>
+<div style="width: 1600px; height: 1700px; box-sizing: border-box; padding: 40px 64px; background: #F2F2F2; color: #0B1620; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; display: flex; flex-direction: column; gap: 18px; overflow: hidden">
+
+  <div style="flex-shrink: 0; display: flex; gap: 24px; align-items: stretch">
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px; padding-top: 4px">
+      <div style="display: flex; align-items: center; gap: 10px">
+        <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.08em; color: #555A5E">DVF CHECK · REVISED FOR v2</span>
+        <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; background: #0B1620; color: #FFD20A">CONCEPT</span>
+      </div>
+      <div style="font-size: 40px; line-height: 46px; font-weight: 700; letter-spacing: -0.01em">Does each stage of the v2 journey hold up?</div>
+      <div style="font-size: 16px; line-height: 24px; color: #3A4046">Desirability: do customers want it? Feasibility: can beHome run it? Viability: does it pay back? Plus how new it is, and what the pilot has to measure. Organised by journey stage, so each column matches a stage on the guide.</div>
+      <div style="display: flex; gap: 10px; margin-top: 4px">
+        <a href="V2-0-Guide.dc.html" style="height: 44px; padding: 0 18px; display: flex; align-items: center; border-radius: 14px; background: #FFD20A; color: #0B1620; font-size: 15px; font-weight: 700; text-decoration: none">← Back to the v2 guide</a>
+        <a href="TC01-DVF.dc.html" style="height: 44px; padding: 0 18px; display: flex; align-items: center; border-radius: 14px; background: #FFFFFF; border: 1px solid #E6E6E6; color: #0B1620; font-size: 15px; font-weight: 600; text-decoration: none">v1 DVF by pillar</a>
+      </div>
+    </div>
+    <div style="width: 600px; flex-shrink: 0; box-sizing: border-box; background: #FFFFFF; border: 1px solid #E6E6E6; border-radius: 20px; padding: 18px 22px; display: flex; flex-direction: column; gap: 8px">
+      <div style="font-size: 16px; font-weight: 700">What changed from the v1 DVF</div>
+      <div style="display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 19px; color: #3A4046"><span style="width: 8px; height: 8px; border-radius: 4px; background: #FFD20A; flex-shrink: 0; margin-top: 6px"></span><span>Columns are the five journey stages, not the four pillars. The pillars still show in each screen's colour bar.</span></div>
+      <div style="display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 19px; color: #3A4046"><span style="width: 8px; height: 8px; border-radius: 4px; background: #FFD20A; flex-shrink: 0; margin-top: 6px"></span><span>New items checked: cleaning level, Quality Agreement, capability matching with Tasker confirmation, change approval, verified feedback.</span></div>
+      <div style="display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 19px; color: #3A4046"><span style="width: 8px; height: 8px; border-radius: 4px; background: #FFD20A; flex-shrink: 0; margin-top: 6px"></span><span>Biggest new risks: Tasker response time before booking, skill records thin for new Taskers, and agreement wording that beHome must approve.</span></div>
+    </div>
+  </div>
+
+  <div style="flex-shrink: 0; background: #FFFFFF; border: 1px solid #E6E6E6; border-radius: 20px; padding: 8px 22px 12px 22px">
+    <div style="display: grid; grid-template-columns: 168px repeat(5, minmax(0, 1fr))">
+      <div style="padding: 14px 12px 12px 0; border-bottom: 2px solid #0B1620"></div>
+      <sc-for list="{{stages}}" as="s" hint-placeholder-count="5">
+        <a href="{{s.href}}" style="display: flex; flex-direction: column; gap: 4px; padding: 14px 12px 12px 12px; border-bottom: 2px solid #0B1620; text-decoration: none; color: #0B1620">
+          <span style="height: 5px; border-radius: 3px; background: #FFD20A"></span>
+          <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: #868E92">{{s.eyebrow}}</span>
+          <span style="font-size: 15px; line-height: 20px; font-weight: 700">{{s.name}}</span>
+          <span style="font-size: 12px; color: #0052B4; font-weight: 600">Screens {{s.screens}}</span>
+        </a>
+      </sc-for>
+
+      <div style="padding: 12px 12px 12px 0; border-bottom: 1px solid #E6E6E6; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 700">Our verdict</span><span style="font-size: 12px; color: #868E92">group assessment</span></div>
+      <sc-for list="{{verdicts}}" as="v" hint-placeholder-count="5">
+        <div style="padding: 12px; border-bottom: 1px solid #E6E6E6; display: flex; flex-wrap: wrap; gap: 6px; align-content: flex-start">
+          <span style="font-size: 12px; font-weight: 700; padding: 4px 8px; border-radius: 8px; background: {{v.dBg}}; color: {{v.dFg}}">D {{v.d}}</span>
+          <span style="font-size: 12px; font-weight: 700; padding: 4px 8px; border-radius: 8px; background: {{v.fBg}}; color: {{v.fFg}}">F {{v.f}}</span>
+          <span style="font-size: 12px; font-weight: 700; padding: 4px 8px; border-radius: 8px; background: {{v.vBg}}; color: {{v.vFg}}">V {{v.v}}</span>
+          <span style="width: 100%; font-size: 12px; line-height: 17px; color: #555A5E">{{v.note}}</span>
+        </div>
+      </sc-for>
+
+      <sc-for list="{{rows}}" as="r" hint-placeholder-count="5">
+        <div style="padding: 12px 12px 12px 0; border-bottom: {{r.line}}; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 700">{{r.label}}</span><span style="font-size: 12px; line-height: 17px; color: #868E92">{{r.sub}}</span></div>
+        <sc-for list="{{r.cells}}" as="c" hint-placeholder-count="5">
+          <div style="padding: 12px; border-bottom: {{r.line}}; font-size: 13px; line-height: 19px; color: #3A4046"><strong style="color: #0B1620">{{c.lead}}</strong>{{c.text}}</div>
+        </sc-for>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 10px">
+    <span style="font-size: 18px; font-weight: 700">New risks in v2, and how the pilot handles them</span>
+    <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px">
+      <sc-for list="{{risks}}" as="k" hint-placeholder-count="5">
+        <div style="background: #FFFFFF; border: 1px solid #E6E6E6; border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
+          <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: #8A6500">RISK · {{k.where}}</span>
+          <span style="font-size: 14px; line-height: 19px; font-weight: 700">{{k.risk}}</span>
+          <span style="font-size: 13px; line-height: 19px; color: #3A4046">{{k.fix}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="flex-shrink: 0; font-size: 12px; line-height: 18px; color: #555A5E; padding: 0 4px">Evidence: desk research (CR = beHome customer posts, C = social-listening screenshots, D = competitor exhibits), Be's published violation bulletins (March 2026), beHome app screenshots (27 Oct 2026) and the competitor benchmark. Prices are beHome's published HCMC weekday rates; the Deep Cleaning price is an estimate. Survey results are not cited pending the data-quality check; add interview findings before submission. Verdicts are the group's assessment, not measured results.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1600,&quot;height&quot;:1700}}">
+class Component extends DCLogic {
+  renderVals() {
+    const stages = [
+      { eyebrow: 'STAGE 1 · PRE-BOOKING', name: 'Personalise cleaning expectations', screens: '1.1–1.6', href: 'V2-1-1-CleaningLevel.dc.html' },
+      { eyebrow: 'STAGE 2 · BOOKING', name: 'Capability-based Tasker matching', screens: '2.1–2.5', href: 'V2-2-1-MatchedTaskers.dc.html' },
+      { eyebrow: 'STAGE 3 · DELIVERY', name: 'First-clean quality assurance', screens: '3.1–3.3', href: 'V2-3-1-FirstCleanCheck.dc.html' },
+      { eyebrow: 'STAGE 4 · POST-SERVICE', name: 'Quality verification and recovery', screens: '4.1–4.3', href: 'V2-4-1-CheckResult.dc.html' },
+      { eyebrow: 'STAGE 5 · REBOOKING', name: 'Continuous quality improvement', screens: '5.1', href: 'V2-5-1-RebookPlan.dc.html' }
+    ];
+    const lvl = { High: ['#E9F8EE', '#04862F'], Medium: ['#FFF7D6', '#8A6500'] };
+    const V = (d, f, v, note) => ({
+      d, f, v, note,
+      dBg: lvl[d][0], dFg: lvl[d][1], fBg: lvl[f][0], fFg: lvl[f][1], vBg: lvl[v][0], vFg: lvl[v][1]
+    });
+    const verdicts = [
+      V('High', 'Medium', 'High', 'Core of v2. Low build cost; the task-time library and agreement wording are the work.'),
+      V('High', 'Medium', 'Medium', 'Depends on skill records and enough capable Taskers per district.'),
+      V('High', 'Medium', 'High', 'Cheapest point to settle a surprise; needs a no-reply rule.'),
+      V('High', 'Medium', 'Medium', 'Policy and support staffing must be confirmed with beHome.'),
+      V('Medium', 'High', 'High', 'Builds on favourites beHome already offers.')
+    ];
+    const C = (lead, text) => ({ lead: lead ? lead + ' ' : '', text });
+    const rowsSrc = [
+      { label: 'Desirability', sub: 'Customer pain and evidence', cells: [
+        C('Hours that miss the job.', 'Booked hours didn’t cover the tasks even when the area guide was followed (CR13, CR13b, CR01). The app sells hours, not a level of clean, and shows only price, time and add-ons (desk research 2.4). Afterwards customers can’t tell what was done (CR03).'),
+        C('Choosing is luck.', 'Customers call picking a cleaner “luck” on every app (CR14a, CR16), judge workers by seniority and jobs done, not stars (D19), and worry about strangers and damage (CR04, CR13d, CR14b).'),
+        C('Supervising and surprises.', 'Customers feel they must supervise (CR14b) and re-explain the home; unfinished work and time disputes surface at the end (CR13, CR01). In v2 they are contacted only if something differs.'),
+        C('Recovery is the second theme.', '7 of 18 beHome items: dismissive support (CR12), damage left for both sides to settle (CR04), an unreachable call centre (CR01). Customers couldn’t check what was done (CR03).'),
+        C('Keeping a good cleaner.', 'A good cleaner is hard to book again (CR02, CR13d); some customers move to Zalo and book off-app (C6). The Time-saving Family persona wants the same standard every visit.')
+      ] },
+      { label: 'Feasibility', sub: 'What beHome needs', cells: [
+        C('', 'Two levels only. Standard uses published prices (3 h 240,000đ, 4 h 305,000đ, pets 15,000đ). Needs a task-time library calibrated from verified visits and agreement wording reviewed against beHome’s service rules. The Deep price stays an estimate until beHome sets it.'),
+        C('', 'Skill records per Tasker: beAcademy modules plus photo-verified visits. Where supply is thin, fall back to “fastest capable”. Tasker confirmation adds response time, so it needs an expiry (about 30 min) and an automatic re-match.'),
+        C('', 'About 2 minutes, first booking only. Photo upload in the Tasker app; change requests need a push notification and a default if there’s no reply in 10 minutes. Risks: mobile data and the privacy of photos taken inside homes.'),
+        C('', 'A written policy, claim review that compares both photos with the agreement item, a response standard (first reply 2 h, decision 24 h) and a re-clean budget. beHome’s current policy must be verified first.'),
+        C('', 'beHome already offers favourite Taskers (app screenshots, 27 Oct). Needs preference rules in dispatch, an estimate model updated from verified visits, and a backup who inherits the Cleaning Plan.')
+      ] },
+      { label: 'Viability', sub: 'Business mechanism', cells: [
+        C('', 'Turns under-booking into an honest 4-hour recommendation (+65,000đ over 3 h) instead of an unfinished visit. One shared reference makes disputes cheaper to settle. Deep Cleaning opens a higher-value job type.'),
+        C('', 'Fewer mismatched first visits and cancellations; payment is taken only on a matched booking. A verified record gives good Taskers a reason to keep their work on the platform (C6).'),
+        C('', 'Targets the largest violation category: rushed or careless cleaning, 55.9% of 102 reported cases (Be bulletins, Mar 2026). Extra cost happens only with approval, so fewer price disputes.'),
+        C('', 'Claims tied to one agreement item are cheaper than blanket refunds. Verified feedback improves matching and estimates, and case data shows which Taskers need coaching.'),
+        C('', 'High-frequency families are where repeat revenue sits. Keeping the relationship in the app keeps the commission that off-app arrangements lose.')
+      ] },
+      { label: 'Novelty', sub: 'Versus current practice', cells: [
+        C('Meaningful adaptation.', 'Scope-of-work agreements are normal in contract cleaning; on-demand apps here sell hours plus add-ons (desk research 2.4). New: a per-visit consumer agreement built from the home in minutes, with “won’t be done” stated up front.'),
+        C('Adaptation.', 'bTaskee shows reviews when a Tasker accepts; JupViec shows photo, age and rating (D exhibits). New: matching filtered by verified capability against the agreement, and the Tasker commits to it before the customer pays.'),
+        C('Meaningful adaptation.', 'Photo checklists exist in Airbnb turnover cleaning (Turno). New: a first-visit condition check against the customer’s own agreement, with in-app approval for changes.'),
+        C('Established practice, new link.', 'Service guarantees are common. New: eligibility is judged against the agreed item and both photos, and the process is shown before payment.'),
+        C('Basic on its own.', 'Favourites exist in beHome and bTaskee. New: the plan learns from each visit, so time estimates and check items get more accurate.')
+      ] },
+      { label: 'Pilot test', sub: 'What to measure', cells: [
+        C('', '% of bookings that accept the recommended duration · scope complaints per 100 visits · % of visits with every must-do done in the booked time · time to finish 1.1–1.5.'),
+        C('', 'Tasker acceptance rate and time to accept · % of requests needing a re-match · first-visit complaints with vs without capability matching.'),
+        C('', '% of first visits with a change request · approval response time · % of must-dos with a photo · minutes Taskers spend on the check and photos.'),
+        C('', '% of visits confirmed within 24 h · time to first reply · % of cases decided in 24 h · claim cost per 100 visits · rebooking after a resolved case.'),
+        C('', 'Rebook rate after a confirmed visit · % of visits by a saved Tasker · estimate error, planned vs actual minutes, over 4 visits · reported off-app bookings.')
+      ] }
+    ];
+    const rows = rowsSrc.map((r, i) => ({ ...r, line: i === rowsSrc.length - 1 ? '0' : '1px solid #E6E6E6' }));
+    const risks = [
+      { where: '2.3–2.4', risk: 'The Tasker doesn’t answer in time', fix: 'Requests expire after about 30 minutes and go to the next capable Tasker. Nothing is charged until the customer confirms.' },
+      { where: '2.1', risk: 'Too few capable Taskers', fix: 'New Taskers appear once beAcademy verifies their skills, marked “limited history”. Deep Cleaning opens only in phase 2.' },
+      { where: '3.2', risk: 'The customer doesn’t reply to a change', fix: 'After 10 minutes the Tasker follows the plan as agreed. A change that adds cost never goes ahead without a yes.' },
+      { where: '1.5', risk: 'The agreement over-promises', fix: 'beHome approves the wording, “won’t be done” is listed up front, and durations are labelled as estimates.' },
+      { where: '3.3, 4.3', risk: 'Photos taken inside homes', fix: 'Photos cover agreement items only, are seen by the customer, Tasker and support, and are deleted after the claim window (proposed).' }
+    ];
+    return { stages, verdicts, rows, risks };
+  }
+}
+</script>
+
+
+</body></html>
