@@ -27,7 +27,7 @@ const FILES = fs.readdirSync(path.join(__dirname, '..', 'screens')).map((f) => f
         await page.evaluate(() => document.fonts.ready);
         const empty = await page.evaluate(() => !(document.querySelector('#screen').children.length || document.querySelector('#board').children.length));
         if (empty) errors.push(`${mode}: ${file} rendered nothing`);
-        const target = file.startsWith('V2-0') ? page : page.locator(mode === 'phone' ? 'body' : '#phone');
+        const target = ['V2-0-Guide', 'V2-0-DVF'].includes(file) ? page : page.locator(mode === 'phone' ? 'body' : '#phone');
         await target.screenshot({ path: path.join(OUT, `${mode}-${file}.png`) });
       }
       await page.close();

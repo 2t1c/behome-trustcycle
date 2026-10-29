@@ -5,7 +5,7 @@
   "description": "beHome TrustCycle: clickable class concept for quality-assured home cleaning",
   "scripts": {
     "start": "node server.js",
-    "test": "node tests/smoke.js"
+    "test": "node tests/smoke.js && node tests/flow.js"
   },
   "engines": { "node": ">=18" }
 }

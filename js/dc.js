@@ -12,7 +12,7 @@ export class DCLogic {
   setState(patch) {
     const next = typeof patch === 'function' ? patch(this.state, this.props) : patch;
     this.state = { ...this.state, ...next };
-    this._onChange?.();
+    this._onChange?.(this.state);
   }
   forceUpdate() { this._onChange?.(); }
   renderVals() { return {}; }
