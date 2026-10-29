@@ -1,0 +1,120 @@
+/* Screen kit (v2 design, after the beHome app). Shared by every phone screen in screens/*.dc.html;
+   a screen's own <helmet> styles add to it. Scoped to #screen so the laptop panel and the menu keep their look.
+   Ink #1C1D21 · body #3F4248 · muted #6B6F76 · ground #F2F3F5 · Be yellow #FFC905 · soft yellow #FFF5D1
+   · Be blue #416AD4 (icons) / #2F57C0 (links, tags) · done #12A150. */
+#screen a { color: #2F57C0; }
+#screen a:hover { color: #23449A; }
+#screen .app { width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F2F3F5; color: #1C1D21; overflow: hidden; -webkit-font-smoothing: antialiased; }
+#screen .app *, #screen .app *::before, #screen .app *::after { box-sizing: border-box; }
+#screen .app button { font-family: inherit; }
+
+/* Header: back arrow, 17/600 title, a right-hand icon button (the screen menu, see js/app.js) */
+#screen .hd { flex: none; background: #fff; display: flex; align-items: center; gap: 4px; padding: 8px 8px 8px 4px; border-bottom: 1px solid #ECEDEF; }
+#screen .hd.flat { padding-bottom: 4px; border-bottom: 0; }
+#screen .hd.tk { background: #FFC905; border-bottom: 0; }            /* Tasker app */
+#screen .ib { width: 44px; height: 44px; border: 0; border-radius: 12px; background: none; display: flex; align-items: center; justify-content: center; color: #1C1D21; padding: 0; cursor: pointer; flex: none; text-decoration: none; }
+#screen a.ib { color: #1C1D21; }
+#screen .ttl { flex: 1; min-width: 0; margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+#screen .online { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border-radius: 999px; background: #fff; font-size: 12px; font-weight: 600; color: #1C1D21; white-space: nowrap; flex: none; }
+#screen .online i { width: 8px; height: 8px; border-radius: 50%; background: #12A150; }
+#screen .steps { flex: none; background: #fff; padding: 4px 16px 12px; display: flex; gap: 4px; border-bottom: 1px solid #ECEDEF; }
+#screen .steps i { flex: 1; height: 3px; border-radius: 2px; background: #ECEDEF; }
+#screen .steps i.on { background: #FFC905; }
+/* Presenter's stage label (off unless "Show stage labels" is on in the menu) */
+#screen .lbl { flex: none; min-height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px 0 16px; background: #1C1D21; color: #fff; font-size: 12px; font-weight: 600; }
+#screen .lbl > * { white-space: nowrap; flex: none; }
+#screen .lbl > span:last-of-type { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+#screen .lbl b { font-weight: 700; }
+#screen .lbl em { margin-left: auto; font-style: normal; font-size: 10px; font-weight: 700; letter-spacing: .06em; padding: 3px 7px; border-radius: 999px; background: #FFC905; color: #1C1D21; }
+
+/* Body: full-width white sections on a grey ground, 8px apart */
+#screen .body { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+#screen .body > * { flex-shrink: 0; }
+#screen .sec { background: #fff; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+#screen a.sec { color: #1C1D21; text-decoration: none; }
+#screen .st { margin: 0; font-size: 15px; font-weight: 600; }
+#screen .h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -.02em; line-height: 1.25; }
+#screen .sub { margin: 0; font-size: 12px; line-height: 1.5; color: #6B6F76; }
+#screen .p { margin: 0; font-size: 13px; line-height: 1.5; color: #3F4248; }
+#screen .p b, #screen .p strong, #screen .li b, #screen .li strong { color: #1C1D21; font-weight: 600; }
+#screen .foot { margin: 0; padding: 4px 16px 16px; font-size: 11px; line-height: 1.5; color: #5C6067; }
+#screen .row { display: flex; align-items: center; gap: 12px; }
+#screen .grow { flex: 1; min-width: 0; }
+#screen .t1 { font-size: 14px; font-weight: 500; }
+#screen .t2 { font-size: 12px; color: #6B6F76; line-height: 1.45; margin-top: 2px; }
+#screen .k { font-size: 11px; font-weight: 600; letter-spacing: .05em; color: #6B6F76; }
+#screen .num { font-variant-numeric: tabular-nums; }
+#screen .line { height: 1px; background: #ECEDEF; flex-shrink: 0; }
+#screen .li { display: flex; gap: 10px; font-size: 13px; line-height: 1.45; color: #3F4248; align-items: flex-start; }
+#screen .li > svg { flex: none; margin-top: 1px; }
+#screen .li > i { width: 5px; height: 5px; border-radius: 50%; background: #C9CCD1; margin-top: 8px; flex: none; }
+#screen .n { width: 24px; height: 24px; border-radius: 50%; background: #FFF5D1; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; color: #1C1D21; }
+#screen .n.y { background: #FFC905; }
+#screen .ico { width: 40px; height: 40px; border-radius: 12px; background: #FFF5D1; display: flex; align-items: center; justify-content: center; flex: none; color: #1C1D21; }
+#screen .chev { flex: none; }
+#screen .lnk { display: flex; align-items: center; justify-content: center; min-height: 44px; font-size: 14px; font-weight: 600; text-decoration: none; }
+#screen .tlink { font-size: 13px; font-weight: 600; text-decoration: none; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: flex-end; flex: none; }
+
+/* Tags, highlight cards, notes */
+#screen .tag { display: inline-flex; align-items: center; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; background: #EAF0FD; color: #2F57C0; white-space: nowrap; flex: none; }
+#screen .tag.y { background: #FFF5D1; color: #7A5B00; }
+#screen .tag.g { background: #E6F6EC; color: #0B7A3E; }
+#screen .tag.r { background: #FDECEA; color: #B42318; }
+#screen .tag.k { background: #F2F3F5; color: #3F4248; }
+#screen .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+#screen .hl { background: #FFF5D1; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+#screen .hl .k { color: #7A5B00; }
+#screen .note { background: #FFF8E6; border-radius: 12px; padding: 12px; font-size: 12px; line-height: 1.5; color: #3F4248; }
+#screen .stat { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+#screen .stat > div { background: #F7F7F8; border-radius: 10px; padding: 10px; }
+#screen .stat b { display: block; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+#screen .stat span { font-size: 11px; color: #6B6F76; line-height: 1.35; display: block; margin-top: 2px; }
+
+/* Controls: selection is pale yellow with a yellow outline; radios, checkboxes, toggles are yellow */
+#screen .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+#screen .chip { font-size: 13px; font-weight: 500; color: #1C1D21; background: #fff; border: 1px solid #E3E5E8; border-radius: 10px; padding: 9px 12px; min-height: 44px; cursor: pointer; }
+#screen .chip.on, #screen .chip[aria-checked="true"], #screen .chip[aria-pressed="true"] { background: #FFF8DB; border-color: #FFC905; box-shadow: inset 0 0 0 1px #FFC905; font-weight: 600; }
+#screen .opt { width: 100%; text-align: left; border: 1px solid #E3E5E8; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; background: #fff; color: #1C1D21; cursor: pointer; font-size: 14px; }
+#screen .opt.on, #screen .opt[aria-checked="true"] { background: #FFFCF0; border-color: #FFC905; box-shadow: inset 0 0 0 1px #FFC905; }
+#screen .rd { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #C9CCD1; background: #fff; flex: none; }
+#screen .rd.on { border: 6px solid #FFC905; }
+#screen .ck { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #A9ADB3; background: #fff; display: flex; align-items: center; justify-content: center; flex: none; }
+#screen .ck svg { opacity: 0; }
+#screen .ck.on { background: #FFC905; border-color: #FFC905; }
+#screen .ck.on svg { opacity: 1; }
+#screen .sw { width: 44px; height: 26px; border-radius: 13px; background: #D9DBDF; position: relative; flex: none; border: 0; padding: 0; cursor: pointer; }
+#screen .sw i { position: absolute; left: 3px; top: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+#screen .sw.on { background: #FFC905; }
+#screen .sw.on i { left: auto; right: 3px; }
+#screen .seg { display: flex; background: #F2F3F5; border-radius: 10px; padding: 3px; gap: 2px; flex: none; }
+#screen .seg button { border: 0; background: none; font-size: 12px; font-weight: 500; min-height: 38px; padding: 0 10px; border-radius: 8px; color: #5C6067; cursor: pointer; }
+#screen .seg button.on, #screen .seg button[aria-checked="true"], #screen .seg button[aria-pressed="true"] { background: #FFC905; color: #1C1D21; font-weight: 600; }
+#screen .stp { display: flex; align-items: center; gap: 4px; flex: none; }
+#screen .stp button { width: 44px; height: 44px; border-radius: 10px; border: 1px solid #E3E5E8; background: #fff; font-size: 18px; color: #1C1D21; cursor: pointer; }
+#screen .stp button:disabled { color: #A9ADB3; cursor: default; }
+#screen .stp b { min-width: 40px; text-align: center; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+#screen .tick-row { width: 100%; display: flex; align-items: flex-start; gap: 10px; border: 0; background: none; padding: 0; text-align: left; color: #1C1D21; cursor: pointer; font-size: 13px; line-height: 1.4; min-height: 44px; }
+
+/* Bottom bar: total amount, then one yellow action */
+#screen .bb { flex: none; background: #fff; border-top: 1px solid #ECEDEF; padding: 10px 16px 22px; display: flex; flex-direction: column; gap: 10px; }
+#screen .tot { display: flex; align-items: baseline; justify-content: space-between; font-size: 13px; color: #6B6F76; }
+#screen .tot b { font-size: 17px; font-weight: 700; color: #1C1D21; font-variant-numeric: tabular-nums; }
+#screen .cta { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 48px; padding: 0 16px; border-radius: 12px; background: #FFC905; color: #1C1D21; font-size: 16px; font-weight: 600; text-decoration: none; border: 0; cursor: pointer; text-align: center; }
+#screen a.cta, #screen a.cta:hover { color: #1C1D21; }
+#screen .cta:disabled, #screen .cta[aria-disabled="true"] { background: #ECEDEF; color: #5F636A; cursor: default; }
+#screen .cta2 { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 48px; padding: 0 16px; border-radius: 12px; background: #fff; color: #1C1D21; font-size: 15px; font-weight: 600; border: 1px solid #D9DBDF; text-decoration: none; cursor: pointer; text-align: center; }
+#screen a.cta2, #screen a.cta2:hover { color: #1C1D21; }
+#screen .sm { display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; border-radius: 10px; min-height: 44px; padding: 0 14px; cursor: pointer; border: 1px solid #D9DBDF; background: #fff; color: #1C1D21; text-decoration: none; }
+#screen .sm.y { background: #FFC905; border-color: #FFC905; }
+#screen .tabs { flex: none; background: #fff; border-top: 1px solid #ECEDEF; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px 0 20px; }
+#screen .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; font-weight: 500; color: #5C6067; padding: 4px 0; }
+#screen .tab.on { color: #1C1D21; font-weight: 600; }
+/* A row shown only for the selected option: data-on carries that option's "true"/"false". */
+#screen [data-on="false"] { display: none !important; }
+/* Tasker app (beHome Partner): yellow header with ink text and a white "Online"/time badge */
+#screen .tkhd { flex: none; background: #FFC905; color: #1C1D21; padding: 8px 8px 16px 4px; display: flex; flex-direction: column; gap: 6px; }
+/* A tickable row: a real checkbox button with a yellow box */
+#screen .cl { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 52px; padding: 10px 12px; border-radius: 12px; text-align: left; color: #1C1D21; font-size: 13px; line-height: 1.45; font-weight: 500; cursor: pointer; }
+#screen .cl .ck, #screen .agree .ck { border-width: 2px; border-style: solid; }
+#screen .cl .ck svg, #screen .agree .ck svg { opacity: 1; }
+#screen .tkhd .grow { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

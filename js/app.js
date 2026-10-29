@@ -67,26 +67,35 @@ function paint() {
   if (root && !meta.board && isPhone()) { root.style.width = '100%'; root.style.height = '100%'; }
   const after = [...host.querySelectorAll('*')].filter((el) => el.scrollHeight > el.clientHeight);
   after.forEach((el, i) => { if (saved[i]) el.scrollTop = saved[i]; });
-  wireMenuPill(meta);
+  wireMenuButton(meta);
 }
 
-// When the panel is hidden, the menu opens from the screen's own CONCEPT pill (top right), so no
-// floating button sits over a screen's content. Screens without one (the boards) keep the round button.
-const menuMode = () => window.matchMedia('(max-width: 1000px)').matches;
-function wireMenuPill(meta) {
-  const pill = menuMode() && !meta.board
-    ? [...$('#screen').querySelectorAll('span')].find((el) => !el.children.length && el.textContent.trim() === 'CONCEPT')
-    : null;
-  document.body.classList.toggle('pill-menu', !!pill);
-  if (!pill) return;
-  pill.classList.add('menu-pill');
-  pill.setAttribute('role', 'button');
-  pill.setAttribute('tabindex', '0');
-  pill.setAttribute('aria-label', 'Concept · open the screen menu');
-  pill.setAttribute('aria-haspopup', 'dialog');
-  pill.setAttribute('aria-controls', 'sheet');
-  pill.addEventListener('click', openSheet);
-  pill.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openSheet(); } });
+// The screen menu opens from the icon button at the right of each phone screen's header (marked
+// `data-menu` in the screen file), so no floating button sits over a screen's content. On a laptop it
+// opens the same sheet over the stage. The wide boards have no header button and keep the round one.
+function wireMenuButton(meta) {
+  const btn = meta.board ? null : $('#screen [data-menu]');
+  document.body.classList.toggle('screen-menu', !!btn);
+  if (!btn) return;
+  btn.setAttribute('aria-haspopup', 'dialog');
+  btn.setAttribute('aria-controls', 'sheet');
+  btn.setAttribute('aria-expanded', String(!$('#sheet').hidden));
+  btn.addEventListener('click', () => setSheet($('#sheet').hidden));
+}
+
+// A screen's own styles apply to that screen only: each rule is scoped to the phone screen or the
+// board, so a class in a screen file can't restyle the panel or the menu.
+function scopeStyles(styleEl) {
+  const scope = (rules) => {
+    for (const rule of rules) {
+      if (rule.selectorText) {
+        rule.selectorText = rule.selectorText.split(',').map((sel) => (
+          /^\s*(html|body|:root)\b/.test(sel) ? sel : `:is(#screen, #board) ${sel.trim()}`
+        )).join(', ');
+      } else if (rule.cssRules) scope(rule.cssRules);
+    }
+  };
+  try { scope(styleEl.sheet.cssRules); } catch { /* leave as written */ }
 }
 
 // A short message at the top of the screen, e.g. when a screen can't be loaded.
@@ -113,6 +122,7 @@ async function go(file, { push = true } = {}) {
   current = meta.file;
   store.visit(meta.file);
   $('#screen-style').textContent = screen.styles;
+  scopeStyles($('#screen-style'));
   document.title = `${screen.title} · beHome TrustCycle`;
   document.body.classList.toggle('board-mode', !!meta.board);
   document.body.classList.toggle('tasker-mode', !!meta.tasker);
@@ -192,10 +202,14 @@ function markLists() {
   });
 }
 
+let sheetOpener = null;
 function setSheet(open) {
+  const wasOpen = !$('#sheet').hidden;
   $('#sheet').hidden = !open;
-  document.querySelectorAll('#menu-btn, .menu-pill').forEach((b) => b.setAttribute('aria-expanded', String(open)));
-  if (open) $('#sheet-close').focus();
+  document.querySelectorAll('#menu-btn, #screen [data-menu]').forEach((b) => b.setAttribute('aria-expanded', String(open)));
+  if (open && !wasOpen) { sheetOpener = document.activeElement; $('#sheet-close').focus(); }
+  // Closing returns focus to the button that opened the menu, if it is still on screen.
+  if (!open && wasOpen && sheetOpener?.isConnected) sheetOpener.focus();
 }
 function openSheet() { setSheet(true); }
 function closeSheet() { setSheet(false); }
