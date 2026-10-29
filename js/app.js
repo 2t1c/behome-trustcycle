@@ -7,7 +7,8 @@ import { store } from './store.js';
 const $ = (sel) => document.querySelector(sel);
 const compiled = new Map();   // file -> compiled screen
 const instances = new Map();  // file -> component instance (each screen keeps its own state)
-const settings = { showLabels: readSetting('showLabels', true) };
+// Stage labels carry the prototype's revision badges (UPDATED · S8): off unless the presenter turns them on.
+const settings = { showLabels: readSetting('showLabels', false) };
 let current = null;
 
 function readSetting(key, fallback) {
@@ -66,12 +67,49 @@ function paint() {
   if (root && !meta.board && isPhone()) { root.style.width = '100%'; root.style.height = '100%'; }
   const after = [...host.querySelectorAll('*')].filter((el) => el.scrollHeight > el.clientHeight);
   after.forEach((el, i) => { if (saved[i]) el.scrollTop = saved[i]; });
+  wireMenuPill(meta);
+}
+
+// When the panel is hidden, the menu opens from the screen's own CONCEPT pill (top right), so no
+// floating button sits over a screen's content. Screens without one (the boards) keep the round button.
+const menuMode = () => window.matchMedia('(max-width: 1000px)').matches;
+function wireMenuPill(meta) {
+  const pill = menuMode() && !meta.board
+    ? [...$('#screen').querySelectorAll('span')].find((el) => !el.children.length && el.textContent.trim() === 'CONCEPT')
+    : null;
+  document.body.classList.toggle('pill-menu', !!pill);
+  if (!pill) return;
+  pill.classList.add('menu-pill');
+  pill.setAttribute('role', 'button');
+  pill.setAttribute('tabindex', '0');
+  pill.setAttribute('aria-label', 'Concept · open the screen menu');
+  pill.setAttribute('aria-haspopup', 'dialog');
+  pill.setAttribute('aria-controls', 'sheet');
+  pill.addEventListener('click', openSheet);
+  pill.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openSheet(); } });
+}
+
+// A short message at the top of the screen, e.g. when a screen can't be loaded.
+let toastTimer;
+function toast(text) {
+  const el = $('#toast');
+  el.textContent = text;
+  el.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.hidden = true; }, 5000);
 }
 
 async function go(file, { push = true } = {}) {
-  const meta = byFile(file);
-  if (!meta) return;
-  const screen = await load(meta.file);
+  // An unknown or mistyped address opens the welcome screen instead of a blank page.
+  const meta = byFile(file) || byFile('V2-0-Welcome');
+  let screen;
+  try {
+    screen = await load(meta.file);
+  } catch (err) {
+    toast(`Couldn't open ${meta.label}. Check the connection and try again.`);
+    if (!current) $('#screen').textContent = `Could not load this screen (${err.message}).`;
+    return;
+  }
   current = meta.file;
   store.visit(meta.file);
   $('#screen-style').textContent = screen.styles;
@@ -118,6 +156,7 @@ function fitPhone() {
 }
 
 function resetAll() {
+  if (!window.confirm('Start over? This clears every choice made in the demo on this device.')) return;
   store.reset();
   instances.clear();
   go('V2-0-Welcome');
@@ -153,7 +192,13 @@ function markLists() {
   });
 }
 
-function closeSheet() { $('#sheet').hidden = true; $('#menu-btn').setAttribute('aria-expanded', 'false'); }
+function setSheet(open) {
+  $('#sheet').hidden = !open;
+  document.querySelectorAll('#menu-btn, .menu-pill').forEach((b) => b.setAttribute('aria-expanded', String(open)));
+  if (open) $('#sheet-close').focus();
+}
+function openSheet() { setSheet(true); }
+function closeSheet() { setSheet(false); }
 
 function buildControls() {
   buildList($('#screen-list'));
@@ -168,11 +213,7 @@ function buildControls() {
     });
   });
   document.querySelectorAll('.reset').forEach((b) => b.addEventListener('click', resetAll));
-  $('#menu-btn').addEventListener('click', () => {
-    const open = $('#sheet').hidden;
-    $('#sheet').hidden = !open;
-    $('#menu-btn').setAttribute('aria-expanded', String(open));
-  });
+  $('#menu-btn').addEventListener('click', () => setSheet($('#sheet').hidden));
   $('#sheet-close').addEventListener('click', closeSheet);
   $('#sheet').addEventListener('click', (e) => { if (e.target === $('#sheet')) closeSheet(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
@@ -183,8 +224,6 @@ window.addEventListener('resize', () => { fitBoard(); fitPhone(); if (current) p
 
 buildControls();
 fitPhone();
-go(location.hash.slice(1) || 'V2-0-Welcome', { push: false }).catch((err) => {
-  $('#screen').textContent = `Could not load this screen (${err.message}).`;
-});
+go(location.hash.slice(1) || 'V2-0-Welcome', { push: false });
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});

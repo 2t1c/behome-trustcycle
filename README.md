@@ -3,9 +3,10 @@
 A clickable web app of the beHome TrustCycle concept: one Quality Agreement, set before booking and checked on
 every visit. Made for a Service Marketing class. **Not an official Be Group product.**
 
-It opens full screen on phones (and installs to the iPhone Home Screen from Safari's Share menu). On a laptop it
-shows the phone in a frame, with a panel to jump to any screen; on a phone the same list opens from the round
-menu button. Choices made on a screen are kept on that device until **Start over**.
+It opens full screen on phones (and installs to the iPhone Home Screen from Safari's Share menu, and then works
+offline). On a laptop it shows the phone in a frame, with a panel to jump to any screen; on a phone the same list
+opens from the **CONCEPT** pill at the top right of each screen. Choices made on a screen are kept on that device
+until **Start over**.
 
 ## The screens
 
@@ -41,10 +42,15 @@ npm test
 
 `tests/smoke.js` opens every screen on a laptop and a phone size, fails on any error, and saves screenshots to
 `tests/screenshots/`. `tests/flow.js` taps through the main path from Welcome to 5.1 the way a presenter would,
-checks that choices survive a reload and that Start over clears them, and that every link points at a real screen.
+books at 5.1 and follows the journey map's next steps, checks that choices survive a reload, that Start over asks
+before clearing them, that an unknown address opens Welcome, that the Welcome picture and the menu work on a
+390×844 and a 375×667 iPhone, and that every link points at a real screen.
 
 ## Deploy
 
-Railway (or any Node host) runs `npm start`, which listens on `$PORT`. In Railway: New project → Deploy from
-GitHub repo → this repo. No variables are needed. Railway gives the app an `https://…up.railway.app` address;
-open it in Safari on an iPhone and use Share → Add to Home Screen.
+The app is deployed on Railway from this GitHub repo: Railway runs `npm start`, which listens on `$PORT`, and
+redeploys on every push to `main`. No variables are needed.
+
+Live demo: (Railway URL)
+
+Open it in Safari on an iPhone and use Share → Add to Home Screen. Any other Node host works the same way.

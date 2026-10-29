@@ -29,6 +29,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .toggle { display: flex; gap: 8px; align-items: center; font-size: 13px; }
 .reset { padding: 10px 12px; border-radius: 10px; border: 1px solid #D6D6D0; background: #fff; font-size: 13px; text-align: left; }
 
+/* The phone menu is used with a thumb: rows and controls at least 44px tall. */
+#sheet .group button { min-height: 44px; padding: 10px 12px; font-size: 15px; }
+#sheet .tick { width: 10px; height: 10px; }
+#sheet .toggle { min-height: 44px; gap: 12px; font-size: 15px; }
+#sheet .toggle input { width: 24px; height: 24px; margin: 0; flex: none; accent-color: var(--ink); }
+#sheet .reset { min-height: 44px; font-size: 15px; }
+
 /* Phone frame */
 #stage { flex: 1; min-width: 0; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
 #phone { width: 390px; height: 844px; flex: none; border-radius: 44px; overflow: hidden; background: #fff; box-shadow: 0 0 0 10px #12161C, 0 30px 70px rgba(0,0,0,.28); transform: scale(var(--phone-scale)); }
@@ -44,6 +51,14 @@ body.board-mode #stage { align-items: flex-start; }
 /* Phone menu: a small button and a bottom sheet, only when the panel is hidden */
 #menu-btn { display: none; position: absolute; right: 14px; bottom: calc(96px + env(safe-area-inset-bottom)); width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(11,22,32,.82); color: #fff; place-items: center; box-shadow: 0 3px 10px rgba(0,0,0,.22); z-index: 20; }
 body.board-mode #menu-btn { bottom: auto; top: calc(12px + env(safe-area-inset-top)); }
+/* On a screen with a CONCEPT pill the pill opens the menu (see wireMenuPill), so the round button goes. */
+body.pill-menu #menu-btn { display: none !important; }
+.menu-pill { position: relative; display: inline-flex; align-items: center; gap: 5px; cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
+.menu-pill::after { content: ''; width: 10px; height: 8px; flex: none;
+  background: linear-gradient(currentColor, currentColor) 0 0 / 100% 1.6px no-repeat, linear-gradient(currentColor, currentColor) 0 50% / 100% 1.6px no-repeat, linear-gradient(currentColor, currentColor) 0 100% / 70% 1.6px no-repeat; }
+.menu-pill::before { content: ''; position: absolute; inset: -12px -8px; }   /* a 44px tap area around the small pill */
+#toast { position: absolute; z-index: 40; top: calc(16px + env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100% - 32px); padding: 10px 14px; border-radius: 12px; background: #0B1620; color: #fff; font-size: 14px; line-height: 1.35; box-shadow: 0 6px 18px rgba(0,0,0,.25); }
+#toast[hidden] { display: none; }
 #sheet { position: absolute; inset: 0; background: rgba(11,22,32,.45); z-index: 30; display: flex; align-items: flex-end; }
 #sheet[hidden] { display: none; }
 .sheet-card { width: 100%; max-height: 82%; overflow-y: auto; background: #fff; border-radius: 22px 22px 0 0; padding: 14px 16px calc(24px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 14px; }
@@ -54,7 +69,8 @@ body.board-mode #menu-btn { bottom: auto; top: calc(12px + env(safe-area-inset-t
 /* Phones: the screen is the whole page */
 @media (max-width: 600px) {
   html, body { background: #fff; }
-  #phone { width: 100vw; height: 100dvh; border-radius: 0; box-shadow: none; transform: none; }
-  #screen { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+  #phone { width: 100vw; height: 100vh; height: 100dvh; border-radius: 0; box-shadow: none; transform: none; }
+  /* Home Screen app on an iPhone: keep clear of the notch, the home indicator and landscape edges. */
+  #screen { padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
   #board-wrap { padding: 8px; }
 }

@@ -1,18 +1,17 @@
 // Opens every screen in a browser, fails on any page error, and saves a screenshot of each.
 // Run: npm install --no-save playwright && npx playwright install chromium && npm test
-const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
+const serve = require('./serve');
 
-const PORT = 4321;
 const OUT = path.join(__dirname, 'screenshots');
 const FILES = fs.readdirSync(path.join(__dirname, '..', 'screens')).map((f) => f.replace('.dc.html', '')).sort();
 
 (async () => {
   fs.mkdirSync(OUT, { recursive: true });
-  const server = spawn(process.execPath, [path.join(__dirname, '..', 'server.js')], { env: { ...process.env, PORT }, stdio: 'ignore' });
-  await new Promise((r) => setTimeout(r, 500));
+  const server = await serve();
+  const PORT = server.port;
   const browser = await chromium.launch();
   const errors = [];
   try {
@@ -34,7 +33,7 @@ const FILES = fs.readdirSync(path.join(__dirname, '..', 'screens')).map((f) => f
     }
   } finally {
     await browser.close();
-    server.kill();
+    server.stop();
   }
   if (errors.length) { console.error(errors.join('\n')); process.exit(1); }
   console.log(`OK: ${FILES.length} screens rendered on laptop and phone, screenshots in tests/screenshots`);
