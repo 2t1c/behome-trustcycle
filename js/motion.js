@@ -36,7 +36,10 @@ export function transition(dir, swap, { sync = false } = {}) {
     return;
   }
   activeVT = vt;
-  vt.finished.finally(() => { if (activeVT === vt) root.classList.remove(cls); });
+  // A transition cut short by a newer one rejects its promises; that is expected, not an error.
+  vt.ready.catch(() => {});
+  vt.updateCallbackDone.catch(() => {});
+  vt.finished.catch(() => {}).finally(() => { if (activeVT === vt) root.classList.remove(cls); });
 }
 let activeVT = null;
 

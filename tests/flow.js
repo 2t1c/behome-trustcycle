@@ -106,6 +106,60 @@ const PATH = [
       await p.close();
     }
 
+    // Presenter mode on the projector laptop: P hides the panel and fills the window's height with the phone,
+    // → / ← walk the main path (with the slide transitions), keys typed into a text field are left alone, the
+    // mode survives a reload, and Esc leaves it. On a phone there is no Present button and P does nothing.
+    {
+      const p = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      p.on('pageerror', (e) => errors.push(`presenter page error: ${e.message}`));
+      const at = () => p.evaluate(() => location.hash.slice(1));
+      const presenting = () => p.evaluate(() => document.body.classList.contains('presenter'));
+      await p.goto(`${URL}#V2-0-Welcome`);
+      await p.waitForSelector('#screen .app');
+      if (!(await p.locator('#present-btn').isVisible())) errors.push('presenter: no Present button in the laptop panel');
+      await p.keyboard.press('p');
+      if (!(await presenting())) errors.push('presenter: P did not turn presenter mode on');
+      await p.waitForTimeout(400);   // the phone eases to its new size
+      if (await p.locator('#panel').isVisible()) errors.push('presenter: the side panel is still showing');
+      const ph = await p.locator('#phone').boundingBox();
+      if (!ph || Math.abs(ph.x + ph.width / 2 - 720) > 2 || ph.height < 900 * 0.9 || ph.y < 0 || ph.y + ph.height > 900) errors.push(`presenter: phone not centred and filling the height (${JSON.stringify(ph)})`);
+      if (!(await p.locator('#present-hint').isVisible())) errors.push('presenter: no hint on how to leave');
+      // → walks the whole main path, the order tests/flow.js taps through above, one slide at a time.
+      const MAIN = ['V2-0-Welcome', ...PATH.map((s) => s.tap)];
+      for (let i = 1; i < MAIN.length; i++) {
+        await p.keyboard.press('ArrowRight');
+        await p.waitForFunction((h) => location.hash === `#${h}` && document.querySelector('#screen .app'), MAIN[i], { timeout: 5000 }).catch(() => {});
+        if ((await at()) !== MAIN[i]) { errors.push(`presenter: → from ${MAIN[i - 1]} went to ${await at()}, not ${MAIN[i]}`); break; }
+      }
+      await p.keyboard.press('ArrowLeft');
+      await p.waitForFunction(() => location.hash === '#V2-4-1-CheckResult', null, { timeout: 5000 }).catch(() => errors.push(`presenter: ← from 5.1 went to ${location.hash}`));
+      await p.keyboard.press('PageUp');
+      await p.waitForFunction(() => location.hash === '#V2-3-3-PhotoChecklist', null, { timeout: 5000 }).catch(() => errors.push('presenter: PageUp did not step back'));
+      // Typing in a text field: P and the arrows stay in the field.
+      await p.goto(`${URL}#V2-1-2-YourHome`);
+      await p.waitForSelector('#screen textarea');
+      await p.locator('#screen textarea').focus();
+      await p.keyboard.press('p');
+      await p.keyboard.press('ArrowRight');
+      await p.waitForTimeout(400);
+      if (!(await presenting()) || (await at()) !== 'V2-1-2-YourHome') errors.push('presenter: keys typed into the note on 1.2 changed the mode or the screen');
+      await p.reload();
+      await p.waitForSelector('#screen .app');
+      if (!(await presenting())) errors.push('presenter: mode lost after a reload');
+      await p.locator('#screen h1').first().click();
+      await p.keyboard.press('Escape');
+      if (await presenting()) errors.push('presenter: Esc did not leave presenter mode');
+      if (!(await p.locator('#panel').isVisible())) errors.push('presenter: the panel did not come back');
+      await p.close();
+      const m = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      await m.goto(`${URL}#V2-0-Welcome`);
+      await m.waitForSelector('#screen .app');
+      if (await m.locator('#present-btn').isVisible()) errors.push('presenter: Present button shows on a phone');
+      await m.keyboard.press('p');
+      if (await m.evaluate(() => document.body.classList.contains('presenter'))) errors.push('presenter: P turned presenter mode on on a phone');
+      await m.close();
+    }
+
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
     page.on('pageerror', (e) => errors.push(`page error: ${e.message}`));
     const hash = () => page.evaluate(() => location.hash.slice(1));
@@ -228,5 +282,5 @@ const PATH = [
     server.stop();
   }
   if (errors.length) { console.error(errors.join('\n')); process.exit(1); }
-  console.log(`OK: main path of ${PATH.length} screens, 5.1 ending and journey next steps, reload keeps choices, Start over asks then clears, unknown address opens Welcome, Welcome picture and menu fine at 390×844 and 375×667, header menu button opens the menu, photos from camera, library or sample, load errors shown, all links resolve`);
+  console.log(`OK: main path of ${PATH.length} screens, 5.1 ending and journey next steps, reload keeps choices, Start over asks then clears, unknown address opens Welcome, Welcome picture and menu fine at 390×844 and 375×667, header menu button opens the menu, presenter mode (P, → ← along the main path, Esc), photos from camera, library or sample, load errors shown, all links resolve`);
 })();

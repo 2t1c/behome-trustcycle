@@ -169,15 +169,19 @@ function direction(to) {
   return SCREENS.indexOf(target) < SCREENS.indexOf(from) ? 'back' : 'fwd';
 }
 
+let heading = null;   // where the latest go() is heading, so quick key presses step on from there
+
 async function go(file, { push = true, dir, instant = false } = {}) {
   // An unknown or mistyped address opens the welcome screen instead of a blank page.
   const meta = byFile(file) || byFile('V2-0-Welcome');
   const ticket = ++navigation;
+  heading = meta.file;
   let screen;
   try {
     screen = await load(meta.file);
   } catch (err) {
     if (ticket !== navigation) return;
+    heading = current;
     toast(`Couldn't open ${meta.label}. Check the connection and try again.`);
     if (!current) $('#screen').textContent = `Could not load this screen (${err.message}).`;
     return;
@@ -238,9 +242,12 @@ function fitBoard() {
   $('#board').style.width = `${w}px`;
 }
 
-// On laptops the phone is drawn at real size, shrunk only when the window is too short.
+// On laptops the phone is drawn at real size, shrunk only when the window is too short. Presenting, it fills
+// the window's height (864 = 844 plus the 10px frame), with a little margin.
 function fitPhone() {
-  const k = Math.min(1, (window.innerHeight - 48) / 864);
+  const k = presenting()
+    ? Math.min((window.innerHeight - 36) / 864, (window.innerWidth - 36) / 410)
+    : Math.min(1, (window.innerHeight - 48) / 864);
   document.documentElement.style.setProperty('--phone-scale', String(k));
 }
 
@@ -309,8 +316,69 @@ function buildControls() {
   $('#menu-btn').addEventListener('click', () => setSheet($('#sheet').hidden));
   $('#sheet-close').addEventListener('click', closeSheet);
   $('#sheet').addEventListener('click', (e) => { if (e.target === $('#sheet')) closeSheet(); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('#sheet').hidden) { closeSheet(); e.preventDefault(); } });
+  $('#present-btn').addEventListener('click', () => setPresenter(!presenting()));
+  $('#present-hint').addEventListener('click', () => setPresenter(false));
 }
+
+// Presenter mode, for the projector: P (or Present in the panel) hides the panel and fills the window's height
+// with the phone; → / ← (PageDown / PageUp, Space / Shift+Space) walk the main path; P or Esc leaves.
+// Kept for the tab's session. Not on phones.
+const PRESENT_KEY = 'behome:presenter';
+const presenting = () => document.body.classList.contains('presenter');
+let hintTimer;
+function setPresenter(on) {
+  const value = !!on && !isPhone();
+  document.body.classList.toggle('presenter', value);
+  $('#present-btn').setAttribute('aria-pressed', String(value));
+  try { sessionStorage.setItem(PRESENT_KEY, value ? '1' : '0'); } catch { /* private mode */ }
+  fitPhone();
+  fitBoard();
+  showHint();
+}
+function showHint() {
+  const hint = $('#present-hint');
+  hint.hidden = !presenting();
+  clearTimeout(hintTimer);
+  hint.classList.remove('faded');
+  if (presenting()) hintTimer = setTimeout(() => hint.classList.add('faded'), 3000);
+}
+let lastMove = 0;
+document.addEventListener('mousemove', () => {
+  if (!presenting() || Date.now() - lastMove < 400) return;
+  lastMove = Date.now();
+  if ($('#present-hint').classList.contains('faded')) showHint();
+});
+
+// One step along the main path. From a side trip or an overview screen, the nearest main screen that way.
+function step(d) {
+  const from = heading || current;
+  const pos = SCREENS.findIndex((s) => s.file === from);
+  const order = MAIN_PATH.map((f) => SCREENS.findIndex((s) => s.file === f));
+  const i = MAIN_PATH.indexOf(from);
+  const target = i >= 0 ? MAIN_PATH[i + d]
+    : d > 0 ? MAIN_PATH.find((f, k) => order[k] > pos) : [...MAIN_PATH].reverse().find((f) => order[MAIN_PATH.indexOf(f)] < pos);
+  if (!target) { toast(d > 0 ? 'That’s the end of the main path. ← goes back.' : 'This is the start. → moves on.'); return; }
+  go(target, { dir: d > 0 ? 'fwd' : 'back' });
+}
+
+const typing = (el) => !!el?.closest?.('input, textarea, select, [contenteditable=""], [contenteditable="true"]');
+document.addEventListener('keydown', (e) => {
+  if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey || typing(e.target)) return;
+  if (e.key === 'p' || e.key === 'P') {
+    if (isPhone()) return;
+    e.preventDefault();
+    setPresenter(!presenting());
+    return;
+  }
+  if (!presenting() || !$('#sheet').hidden || document.querySelector('#photo-sheet:not([hidden])')) return;
+  if (e.key === 'Escape') { setPresenter(false); return; }
+  const fwd = e.key === 'ArrowRight' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey);
+  const back = e.key === 'ArrowLeft' || e.key === 'PageUp' || (e.key === ' ' && e.shiftKey);
+  if (!fwd && !back) return;
+  e.preventDefault();   // also keeps Space from pressing the focused button
+  step(fwd ? 1 : -1);
+});
 
 // Browser back and forward: the entry's index says which way. An address typed or opened by a link
 // (no index yet) is a jump, and gets the next index.
@@ -326,6 +394,7 @@ window.addEventListener('resize', () => { fitBoard(); fitPhone(); if (current) p
 
 historyIndex = typeof history.state?.i === 'number' ? history.state.i : 0;
 buildControls();
+try { if (sessionStorage.getItem(PRESENT_KEY) === '1') setPresenter(true); } catch { /* private mode */ }
 fitPhone();
 go(location.hash.slice(1) || 'V2-0-Welcome', { push: false });
 
