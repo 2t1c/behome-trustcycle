@@ -133,9 +133,9 @@ class Component extends DCLogic {
     const ifPct = Math.max(0, Math.min(100 - mustPct, (ift / scale) * 100));
     const over = must > 240;
     let statusText;
-    if (over) statusText = 'About ' + (must - 240) + ' min over the 4-hour limit. Move some to “If time”, or choose Deep Cleaning';
-    else if (must > 180) statusText = 'Fits in one 4-hour Standard visit. We recommend the time next';
-    else statusText = 'Fits in 3 hours. We recommend the time next';
+    if (over) statusText = 'About ' + (must - 240) + ' min over the 4-hour limit. Move some to “If time”, or choose Deep Cleaning.';
+    else if (must > 180) statusText = 'Fits in one 4-hour Standard visit. Next, we recommend the time.';
+    else statusText = 'Fits in 3 hours. Next, we recommend the time.';
     return {
       showLabels: this.props.showLabels ?? true,
       tasks,

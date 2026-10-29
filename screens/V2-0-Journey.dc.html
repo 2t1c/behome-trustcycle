@@ -17,7 +17,10 @@ a{color:#0052B4}a:hover{color:#003D87}
       <svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4"></path><path d="M10 18l-6-6 6-6"></path></svg>
     </a>
     <div style="flex: 1; display: flex; flex-direction: column"><span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: #555A5E">USER FLOW · 18 SCREENS · 5 STAGES</span><span style="font-size: 18px; font-weight: 700">The journey</span></div>
-    <span style="font-size: 12px; font-weight: 600; color: #555A5E">{{progress}}</span>
+    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0">
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; background: #F2F2F2; color: #555A5E">CONCEPT</span>
+      <span style="font-size: 12px; font-weight: 600; color: #555A5E">{{progress}}</span>
+    </div>
   </div>
   <div style="flex: 1; overflow-y: auto; padding: 16px 16px 8px 16px">
     <sc-for list="{{stages}}" as="st" hint-placeholder-count="5">
@@ -80,14 +83,18 @@ class Component extends DCLogic {
       });
       return { ...st, eyebrow: st.label.toUpperCase(), items, line: i === stagesIn.length - 1 ? 'transparent' : '#E6E6E6', hasFoot: !!st.foot, foot: st.foot || '', isLast: i === stagesIn.length - 1 };
     });
+    // Next: the first main-path screen not seen yet; once the main path is done, the first side trip
+    // not seen yet; once everything is seen, back to the start.
     const main = screens.filter((s) => !s.side);
-    const next = main.find((s) => !visited.includes(s.file)) || main[0];
+    const nextMain = main.find((s) => !visited.includes(s.file));
+    const nextSide = screens.find((s) => s.side && !visited.includes(s.file));
+    const next = nextMain || nextSide || main[0];
     const seenCount = screens.filter((s) => visited.includes(s.file)).length;
     return {
       stages,
       progress: seenCount + ' of ' + screens.length + ' seen',
       nextHref: next.file + '.dc.html',
-      nextLabel: seenCount === 0 ? 'Start at 1.1' : seenCount >= screens.length ? 'Start again at 1.1' : 'Continue at ' + next.num
+      nextLabel: seenCount === 0 ? 'Start at 1.1' : nextMain ? 'Continue at ' + nextMain.num : nextSide ? 'Side trip: ' + nextSide.num + ' ' + nextSide.name : 'Start again at 1.1'
     };
   }
 }

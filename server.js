@@ -1,4 +1,4 @@
-// Static file server for Railway (or any Node host). No dependencies.
+// Static file server, used on Railway (or any Node host). No dependencies.
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
