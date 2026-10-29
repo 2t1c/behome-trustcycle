@@ -32,7 +32,7 @@ const ASSETS = [
   'js/app.js', 'js/dc.js', 'js/motion.js', 'js/photo.js', 'js/screens.js', 'js/store.js',
   'img/icon-192.png', 'img/icon-512.png', 'img/apple-touch-icon.png',
   // Pictures in the v2 screens: the home banner, the Taskers and the after-photos.
-  'img/v2/hero.jpg', 'img/v2/nga.jpg', 'img/v2/hoa.jpg', 'img/v2/mai.jpg', 'img/v2/hood.jpg', 'img/v2/stove.jpg', 'img/v2/sink.jpg', 'img/v2/bath1.jpg', 'img/v2/bath2.jpg', 'img/v2/living.jpg', 'img/v2/bed1.jpg', 'img/v2/bed2.jpg',
+  'img/v2/hero.jpg', 'img/v2/nga.jpg', 'img/v2/hoa.jpg', 'img/v2/mai.jpg', 'img/v2/hood.jpg', 'img/v2/stove.jpg', 'img/v2/sink.jpg', 'img/v2/bath1.jpg', 'img/v2/bath2.jpg', 'img/v2/living.jpg', 'img/v2/bed1.jpg', 'img/v2/bed2.jpg', 'img/v2/balcony.jpg',
   'img/v2/icons/standard.png', 'img/v2/icons/deep.png', 'img/v2/icons/kitchen.png', 'img/v2/icons/sink.png', 'img/v2/icons/bath.png', 'img/v2/icons/living.png', 'img/v2/icons/bed.png', 'img/v2/icons/kids.png', 'img/v2/icons/balcony.png', 'img/v2/icons/fridge.png',
   ...SCREENS,
 ];
