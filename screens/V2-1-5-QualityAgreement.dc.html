@@ -8,109 +8,85 @@
 <helmet>
 <style>
 body{margin:0}
-a{color:#0052B4}a:hover{color:#003D87}
+.kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px}
+.kv .k{font-size:11px;font-weight:400;letter-spacing:0;color:#6B6F76}
+.kv .v{font-size:13px;font-weight:500;margin-top:2px}
+.it{display:flex;gap:10px;font-size:13px;line-height:1.4;align-items:baseline;color:#1C1D21}
+.it .no{width:30px;white-space:nowrap;color:#6B6F76;font-variant-numeric:tabular-nums;flex:none}
+.it .m{margin-left:auto;color:#6B6F76;font-variant-numeric:tabular-nums;flex:none}
+.agree{display:flex;align-items:center;gap:10px;width:100%;min-height:48px;padding:8px 12px;border-radius:12px;text-align:left;color:#1C1D21;font-size:13px;line-height:1.4;font-weight:500;cursor:pointer}
+.agree .ck{border-width:2px;border-style:solid}
+.agree .ck svg{opacity:1}
 </style>
 </helmet>
-<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F2F2F2; color: #0B1620; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; overflow: hidden">
+<div class="app">
   <sc-if value="{{showLabels}}" hint-placeholder-val="{{true}}">
-    <div style="flex-shrink: 0; height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px 0 16px; background: #0F766E; color: #FFFFFF; font-size: 12px; font-weight: 600">
-      <span style="font-weight: 700">Stage 1 · Pre-booking</span><span>·</span><span style="flex: 1">1.5 Quality Agreement</span>
-      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 999px; background: #FFD20A; color: #0B1620">NEW</span>
-    </div>
+    <div class="lbl"><b>Stage 1 · Pre-booking</b><span>·</span><span>1.5 Quality Agreement</span><em>NEW</em></div>
   </sc-if>
-  <div style="height: 56px; flex-shrink: 0; display: flex; align-items: center; gap: 6px; padding: 0 14px 0 6px; background: #FFFFFF">
-    <a href="V2-1-4-RecommendedPlan.dc.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #0B1620">
-      <svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4"></path><path d="M10 18l-6-6 6-6"></path></svg>
-    </a>
-    <div style="flex: 1; font-size: 19px; font-weight: 700">Quality Agreement</div>
-    <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; background: #F2F2F2; color: #555A5E">CONCEPT</span>
+  <div class="hd flat">
+    <a class="ib" href="V2-1-4-RecommendedPlan.dc.html" aria-label="Back"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <h1 class="ttl">Quality Agreement</h1>
+    <button type="button" class="ib" data-menu="" aria-label="Menu"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button>
   </div>
-  <div style="flex-shrink: 0; display: flex; gap: 6px; padding: 12px 16px 0 16px">
-    <div style="flex: 1; height: 4px; border-radius: 2px; background: #FFD20A"></div>
-    <div style="flex: 1; height: 4px; border-radius: 2px; background: #FFD20A"></div>
-    <div style="flex: 1; height: 4px; border-radius: 2px; background: #FFD20A"></div>
-    <div style="flex: 1; height: 4px; border-radius: 2px; background: #FFD20A"></div>
-    <div style="flex: 1; height: 4px; border-radius: 2px; background: #FFD20A"></div>
+  <div class="steps" role="img" aria-label="Step 5 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+  <div class="body">
+    <div class="sec">
+      <div class="row"><div class="grow"><div style="font-size:16px;font-weight:600">Digital Quality Agreement</div><div class="t2">What will and won't be done · draft until you agree</div></div><span class="tag y">Draft</span></div>
+      <div class="kv">
+        <div><div class="k">Level</div><div class="v">Standard cleaning</div></div>
+        <div><div class="k">Visit</div><div class="v">Tue 3 Nov · 08:00–12:00</div></div>
+        <div><div class="k">Home</div><div class="v">Apartment · 70 m² · lived-in</div></div>
+        <div><div class="k">Team and price</div><div class="v">1 Tasker · 320,000đ</div></div>
+      </div>
+    </div>
+    <div class="sec" style="gap:10px">
+      <div class="row"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#12A150"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg><h2 class="st grow">Will be done · 7 must-dos</h2><a class="tlink" href="V2-1-3-Priorities.dc.html">Edit</a></div>
+      <div class="it"><span class="no">1</span><span>Kitchen · degrease stove, counters</span><span class="m">30m</span></div>
+      <div class="it"><span class="no">2</span><span>Kitchen · sink, tap, floor</span><span class="m">25m</span></div>
+      <div class="it"><span class="no">3</span><span>Bathroom 1 · toilet, sink, shower, floor</span><span class="m">25m</span></div>
+      <div class="it"><span class="no">4</span><span>Bathroom 2 · toilet, sink, shower, floor</span><span class="m">25m</span></div>
+      <div class="it"><span class="no">5</span><span>Living room · dust shelves, mop</span><span class="m">25m</span></div>
+      <div class="it"><span class="no">6</span><span>Bedroom 1 · dust, mop, sheets</span><span class="m">25m</span></div>
+      <div class="it"><span class="no">7</span><span>Bedroom 2 (kids) · toy shelves</span><span class="m">30m</span></div>
+      <div class="line"></div>
+      <div class="it" style="color:#6B6F76"><span class="no">8</span><span>If time · Balcony · sweep, railing</span><span class="m">10m</span></div>
+    </div>
+    <div class="sec" style="gap:8px">
+      <div class="row" style="gap:8px"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="10" fill="#A9ADB3"></circle><path d="M7.5 12h9" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></path></svg><h2 class="st">Won't be done</h2></div>
+      <p class="p">Fridge inside clean (you chose Skip; add-on +30 min · 50,000đ)</p>
+      <p class="p">Post-renovation dust · moving heavy furniture · outside of high windows</p>
+    </div>
+    <div class="sec">
+      <div class="hl">
+        <h2 class="st">Care rules · 3</h2>
+        <p class="p"><strong>Ancestor altar:</strong> dust around it, don't move items</p>
+        <p class="p"><strong>Wooden floor:</strong> damp mop only, no soaking</p>
+        <p class="p"><strong>Blue mop:</strong> bathrooms only · cat and kids at home</p>
+      </div>
+    </div>
+    <div class="sec" style="gap:10px">
+      <h2 class="st">How it's checked</h2>
+      <div class="li"><span class="n y">1</span><span>Your Tasker confirms she can do every must-do <strong>before</strong> you're booked.</span></div>
+      <div class="li"><span class="n y">2</span><span>On this first visit she checks the real condition (about 2 minutes). You're asked only if something differs.</span></div>
+      <div class="li"><span class="n y">3</span><span>Any change that adds time or cost needs your approval first.</span></div>
+      <div class="li"><span class="n y">4</span><span>Every must-do gets an after-photo. You confirm the result within 24 hours.</span></div>
+    </div>
+    <div class="sec" style="gap:10px">
+      <div class="row" style="gap:10px"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex:none"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" fill="#416AD4"></path><path d="M8.5 12l2.5 2.5 4.5-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><h2 class="st">If a must-do is missed</h2></div>
+      <p class="p">Report it within <strong>24 hours</strong>: first reply within <strong>2 hours</strong>, a decision within 24 hours, such as a re-clean of that item or a partial refund.</p>
+      <a href="V2-1-6-RecoveryPolicy.dc.html" class="row" style="min-height:44px;text-decoration:none;color:#2F57C0;font-size:14px;font-weight:600;gap:8px"><span class="grow">Read the ClearClean Recovery Promise</span><svg class="chev" width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="#2F57C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a>
+    </div>
   </div>
-  <div style="flex: 1; overflow-y: auto; padding: 12px 16px 16px 16px; display: flex; flex-direction: column; gap: 12px">
-    <div style="flex-shrink: 0; font-size: 13px; font-weight: 500; color: #555A5E">Step 5 of 5 · What will and won't be done</div>
-
-    <div style="flex-shrink: 0; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E6E6; padding: 16px; display: flex; flex-direction: column; gap: 10px">
-      <div style="display: flex; justify-content: space-between; align-items: center">
-        <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: #555A5E">DIGITAL QUALITY AGREEMENT</span>
-        <span style="font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 8px; background: #FFF7D6; color: #8A6500">Draft</span>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; font-size: 13px">
-        <div style="display: flex; flex-direction: column; gap: 2px"><span style="color: #868E92">Level</span><span style="font-weight: 600">Standard cleaning</span></div>
-        <div style="display: flex; flex-direction: column; gap: 2px"><span style="color: #868E92">Visit</span><span style="font-weight: 600">Tue 3 Nov · 08:00–12:00</span></div>
-        <div style="display: flex; flex-direction: column; gap: 2px"><span style="color: #868E92">Home</span><span style="font-weight: 600">Apartment · 70 m² · lived-in</span></div>
-        <div style="display: flex; flex-direction: column; gap: 2px"><span style="color: #868E92">Team and price</span><span style="font-weight: 600">1 Tasker · 320,000đ</span></div>
-      </div>
-    </div>
-
-    <div style="flex-shrink: 0; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E6E6; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px">
-      <div style="display: flex; align-items: center; gap: 8px">
-        <svg width="18" height="18" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="10" fill="#05AC3C"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        <span style="flex: 1; font-size: 17px; font-weight: 700">Will be done · 7 must-dos</span>
-        <a href="V2-1-3-Priorities.dc.html" style="font-size: 14px; font-weight: 600; min-height: 44px; min-width: 44px; display: flex; align-items: center; justify-content: flex-end">Edit</a>
-      </div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #3A4046"><span>1 · Kitchen · degrease stove, counters</span><span style="color: #868E92">30m</span></div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #3A4046"><span>2 · Kitchen · sink, tap, floor</span><span style="color: #868E92">25m</span></div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #3A4046"><span>3 · Bathroom 1 · toilet, sink, shower, floor</span><span style="color: #868E92">25m</span></div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #3A4046"><span>4 · Bathroom 2 · toilet, sink, shower, floor</span><span style="color: #868E92">25m</span></div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #3A4046"><span>5 · Living room · dust shelves, mop</span><span style="color: #868E92">25m</span></div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #3A4046"><span>6 · Bedroom 1 · dust, mop, sheets</span><span style="color: #868E92">25m</span></div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #3A4046"><span>7 · Bedroom 2 (kids) · toy shelves</span><span style="color: #868E92">30m</span></div>
-      <div style="height: 1px; background: #EFEFEF; margin: 2px 0"></div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #868E92"><span>If time · 8 · Balcony · sweep, railing</span><span>10m</span></div>
-    </div>
-
-    <div style="flex-shrink: 0; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E6E6; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px">
-      <div style="display: flex; align-items: center; gap: 8px">
-        <svg width="18" height="18" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="10" fill="#B6BABE"></circle><path d="M7.5 12h9" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></path></svg>
-        <span style="font-size: 17px; font-weight: 700">Won't be done</span>
-      </div>
-      <div style="font-size: 14px; line-height: 1.45; color: #555A5E">Fridge inside clean (you chose Skip; add-on +30 min · 50,000đ)</div>
-      <div style="font-size: 14px; line-height: 1.45; color: #555A5E">Post-renovation dust · moving heavy furniture · outside of high windows</div>
-    </div>
-
-    <div style="flex-shrink: 0; background: #FFF7D6; border: 1px solid #FFD000; border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px">
-      <div style="font-size: 17px; font-weight: 700">Care rules · 3</div>
-      <div style="font-size: 14px; line-height: 1.45; color: #3A4046"><strong style="color: #0B1620">Ancestor altar:</strong> dust around it, don't move items</div>
-      <div style="font-size: 14px; line-height: 1.45; color: #3A4046"><strong style="color: #0B1620">Wooden floor:</strong> damp mop only, no soaking</div>
-      <div style="font-size: 14px; line-height: 1.45; color: #3A4046"><strong style="color: #0B1620">Blue mop:</strong> bathrooms only · cat and kids at home</div>
-    </div>
-
-    <div style="flex-shrink: 0; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E6E6; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px">
-      <div style="font-size: 17px; font-weight: 700">How it's checked</div>
-      <div style="display: flex; gap: 12px; align-items: flex-start"><span style="width: 26px; height: 26px; border-radius: 13px; background: #FFD20A; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0">1</span><span style="font-size: 14px; line-height: 1.45; color: #3A4046">Your Tasker confirms she can do every must-do <strong style="color: #0B1620">before</strong> you're booked.</span></div>
-      <div style="display: flex; gap: 12px; align-items: flex-start"><span style="width: 26px; height: 26px; border-radius: 13px; background: #FFD20A; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0">2</span><span style="font-size: 14px; line-height: 1.45; color: #3A4046">On this first visit she checks the real condition (about 2 minutes). You're asked only if something differs.</span></div>
-      <div style="display: flex; gap: 12px; align-items: flex-start"><span style="width: 26px; height: 26px; border-radius: 13px; background: #FFD20A; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0">3</span><span style="font-size: 14px; line-height: 1.45; color: #3A4046">Any change that adds time or cost needs your approval first.</span></div>
-      <div style="display: flex; gap: 12px; align-items: flex-start"><span style="width: 26px; height: 26px; border-radius: 13px; background: #FFD20A; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0">4</span><span style="font-size: 14px; line-height: 1.45; color: #3A4046">Every must-do gets an after-photo. You confirm the result within 24 hours.</span></div>
-    </div>
-
-    <div style="flex-shrink: 0; background: #EEF3FE; border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px">
-      <div style="display: flex; align-items: center; gap: 8px">
-        <svg width="22" height="22" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" fill="#156CEA"></path><path d="M9 12l2 2 4-4" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        <div style="font-size: 17px; font-weight: 700">If a must-do is missed</div>
-      </div>
-      <div style="font-size: 14px; line-height: 1.5; color: #3A4046">Report it within <strong style="color: #0B1620">24 hours</strong>: first reply within <strong style="color: #0B1620">2 hours</strong>, a decision within 24 hours, such as a re-clean of that item or a partial refund.</div>
-      <a href="V2-1-6-RecoveryPolicy.dc.html" style="display: flex; align-items: center; justify-content: space-between; height: 44px; padding: 0 14px; border-radius: 12px; background: #FFFFFF; font-size: 14px; font-weight: 600; color: #0052B4; text-decoration: none">Read the ClearClean Recovery Promise<span aria-hidden="true">›</span></a>
-    </div>
-
-    <button type="button" role="checkbox" aria-checked="{{agreedStr}}" sc-camel-on-click="{{toggleAgree}}" style="flex-shrink: 0; display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; border: {{agreeBorder}}; background: {{agreeBg}}; text-align: left; font-family: inherit; color: #0B1620">
-      <span style="width: 24px; height: 24px; border-radius: 7px; border: 2px solid {{boxBorder}}; background: {{box}}; box-sizing: border-box; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
-        <svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="{{tick}}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg>
-      </span>
-      <span style="flex: 1; font-size: 14px; line-height: 1.4; font-weight: 600">I've read what will and won't be done, and how it's checked</span>
+  <div class="bb" style="gap:10px">
+    <button type="button" class="agree" role="checkbox" aria-checked="{{agreedStr}}" sc-camel-on-click="{{toggleAgree}}" style="border:{{agreeBorder}};background:{{agreeBg}}">
+      <span class="ck" style="border-color:{{boxBorder}};background:{{box}}"><svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="{{tick}}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>
+      <span class="grow">I've read what will and won't be done, and how it's checked</span>
     </button>
-  </div>
-  <div style="flex-shrink: 0; padding: 12px 16px 24px 16px; background: #FFFFFF; box-shadow: 0 -1px 0 #ECECEC">
     <sc-if value="{{agreed}}" hint-placeholder-val="{{false}}">
-      <a href="V2-2-1-MatchedTaskers.dc.html" style="display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 16px; background: #FFD20A; color: #0B1620; font-size: 17px; font-weight: 700; text-decoration: none">Agree and find a Tasker</a>
+      <a class="cta" href="V2-2-1-MatchedTaskers.dc.html">Agree and find a Tasker</a>
     </sc-if>
     <sc-if value="{{notAgreed}}" hint-placeholder-val="{{true}}">
-      <button type="button" disabled="" style="width: 100%; height: 54px; border-radius: 16px; border: 0; background: #E6E6E6; color: #555A5E; font-family: inherit; font-size: 17px; font-weight: 700">Tick the box to agree</button>
+      <button type="button" class="cta" disabled="">Tick the box to agree</button>
     </sc-if>
   </div>
 </div>
@@ -129,11 +105,11 @@ class Component extends DCLogic {
       notAgreed: !a,
       agreedStr: String(a),
       toggleAgree: () => this.setState({ agreed: !a }),
-      agreeBorder: a ? '1.5px solid #FFD000' : '1px solid #E6E6E6',
-      agreeBg: a ? '#FFFDEE' : '#FFFFFF',
-      box: a ? '#FFD20A' : '#FFFFFF',
-      boxBorder: a ? '#FFD20A' : '#868E92',
-      tick: a ? '#0B1620' : 'transparent'
+      agreeBorder: a ? '1px solid #FFC905' : '1px solid #E3E5E8',
+      agreeBg: a ? '#FFF8DB' : '#FFFFFF',
+      box: a ? '#FFC905' : '#FFFFFF',
+      boxBorder: a ? '#FFC905' : '#A9ADB3',
+      tick: a ? '#1C1D21' : 'transparent'
     };
   }
 }
