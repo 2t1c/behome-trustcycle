@@ -1,6 +1,7 @@
 // App shell: loads a screen file, renders it into the phone frame (or full screen on a phone),
 // follows links between screens, remembers choices, and drives the screen menu.
 import { compile, render } from './dc.js';
+import { pickPhoto } from './photo.js';
 import { SCREENS, STAGES, byFile } from './screens.js';
 import { store } from './store.js';
 
@@ -35,6 +36,7 @@ const appProps = () => ({
   visited: store.visited(),
   current,
   reset: resetAll,
+  pickPhoto,
 });
 
 function instanceFor(file, screen) {
@@ -65,9 +67,21 @@ function paint() {
   host.replaceChildren(...nodes);
   const root = host.firstElementChild;
   if (root && !meta.board && isPhone()) { root.style.width = '100%'; root.style.height = '100%'; }
+  if (root && !meta.board) floatBar(root);
   const after = [...host.querySelectorAll('*')].filter((el) => el.scrollHeight > el.clientHeight);
   after.forEach((el, i) => { if (saved[i]) el.scrollTop = saved[i]; });
   wireMenuButton(meta);
+}
+
+// Liquid glass: a screen's bottom bar (or the home tab bar) floats over the content as a glass panel, so the
+// content scrolls on beneath it. The scrolling area gets room at the end so its last row clears the bar.
+function floatBar(app) {
+  const bar = app.querySelector(':scope > .bb, :scope > .tabs');
+  const body = app.querySelector(':scope > .body');
+  if (!bar || !body) return;
+  app.classList.add('glass');
+  body.style.paddingBottom = `${bar.offsetHeight + 20}px`;
+  body.style.scrollPaddingBottom = `${bar.offsetHeight + 20}px`;   // scrollIntoView stops above the bar
 }
 
 // The screen menu opens from the icon button at the right of each phone screen's header (marked
@@ -108,17 +122,22 @@ function toast(text) {
   toastTimer = setTimeout(() => { el.hidden = true; }, 5000);
 }
 
+let navigation = 0;   // the latest go(); an earlier one that finishes loading later must not paint over it
+
 async function go(file, { push = true } = {}) {
   // An unknown or mistyped address opens the welcome screen instead of a blank page.
   const meta = byFile(file) || byFile('V2-0-Welcome');
+  const ticket = ++navigation;
   let screen;
   try {
     screen = await load(meta.file);
   } catch (err) {
+    if (ticket !== navigation) return;
     toast(`Couldn't open ${meta.label}. Check the connection and try again.`);
     if (!current) $('#screen').textContent = `Could not load this screen (${err.message}).`;
     return;
   }
+  if (ticket !== navigation) return;
   current = meta.file;
   store.visit(meta.file);
   $('#screen-style').textContent = screen.styles;

@@ -47,9 +47,14 @@ textarea{width:100%;font-family:inherit;font-size:14px;line-height:1.45;border:1
           <button type="button" class="chip" aria-pressed="{{item.pressed}}" sc-camel-on-click="{{item.pick}}" style="border:{{item.border}};background:{{item.bg}};color:{{item.fg}};font-weight:{{item.weight}}">{{item.label}}</button>
         </sc-for>
       </div>
-      <div class="row" style="gap:8px">
+      <div class="row" style="gap:8px;flex-wrap:wrap">
         <div class="yours"><img src="img/v2/bath2.jpg" alt="Your photo of the shower glass"><span>YOURS</span></div>
-        <button type="button" style="flex:1;height:72px;border-radius:10px;border:1.5px dashed #A9ADB3;background:#fff;font-size:13px;font-weight:600;color:#2F57C0;cursor:pointer">Add another photo</button>
+        <sc-for list="{{extras}}" as="ph" hint-placeholder-count="0">
+          <div class="yours"><img src="{{ph.src}}" alt="Your photo {{ph.n}}"><span>YOURS</span></div>
+        </sc-for>
+        <sc-if value="{{canAdd}}" hint-placeholder-val="{{true}}">
+          <button type="button" sc-camel-on-click="{{addPhoto}}" style="flex:1;min-width:120px;height:72px;border-radius:10px;border:1.5px dashed #A9ADB3;background:#fff;font-size:13px;font-weight:600;color:#2F57C0;cursor:pointer">Add another photo</button>
+        </sc-if>
       </div>
       <label for="issueNote" class="t1">Tell us more (optional)</label>
       <textarea id="issueNote" rows="2">Shower glass still has water marks.</textarea>
@@ -79,7 +84,7 @@ textarea{width:100%;font-family:inherit;font-size:14px;line-height:1.45;border:1
 class Component extends DCLogic {
   constructor(...args) {
     super(...args);
-    this.state = { area: 3, issue: 'Not done well', fix: 'reclean' };
+    this.state = { area: 3, issue: 'Not done well', fix: 'reclean', photos: [] };
   }
   renderVals() {
     const s = this.state;
@@ -130,6 +135,13 @@ class Component extends DCLogic {
     return {
       showLabels: this.props.showLabels ?? true,
       areas, issues, fixes,
+      extras: (s.photos || []).map((src, i) => ({ src, n: i + 2 })),
+      canAdd: (s.photos || []).length < 3,
+      // Camera or library only: a report needs the customer's own photo, not a sample.
+      addPhoto: async () => {
+        const src = this.props.pickPhoto ? await this.props.pickPhoto({ sample: false }) : null;
+        if (src) this.setState({ photos: [...(this.state.photos || []), src] });
+      },
       agreeText: 'item ' + (s.area + 1) + ', ' + list[s.area][3] + '.'
     };
   }

@@ -24,7 +24,7 @@ const PATH = [
   { on: 'V2-2-4-TaskerConfirms', tap: 'V2-2-5-BookingConfirmed', prep: async (p) => { for (const b of await p.locator('#screen [role=checkbox]').all()) if ((await b.getAttribute('aria-checked')) !== 'true') await b.click(); } },
   { on: 'V2-2-5-BookingConfirmed', tap: 'V2-3-1-FirstCleanCheck', prep: async (p) => p.locator('#screen button', { hasText: 'Confirm booking' }).click() },
   { on: 'V2-3-1-FirstCleanCheck', tap: 'V2-3-3-PhotoChecklist', prep: async (p) => { for (const b of await p.locator('#screen [role=checkbox]').all()) if ((await b.getAttribute('aria-checked')) !== 'true') await b.click(); } },
-  { on: 'V2-3-3-PhotoChecklist', tap: 'V2-4-1-CheckResult', prep: async (p) => { const btn = p.locator('#screen button', { hasText: 'Add photo' }); while (await btn.count()) await btn.first().click(); } },
+  { on: 'V2-3-3-PhotoChecklist', tap: 'V2-4-1-CheckResult', prep: async (p) => { const btn = p.locator('#screen button', { hasText: 'Add photo' }); while (await btn.count()) { await btn.first().click(); await p.locator('#photo-sheet button', { hasText: 'Use sample photo' }).click(); } } },
   { on: 'V2-4-1-CheckResult', tap: 'V2-5-1-RebookPlan' },
 ];
 
@@ -139,7 +139,8 @@ const PATH = [
     if ((await journeyCta().textContent()).trim() !== 'Side trip: 1.6 Recovery Promise' || (await journeyCta().getAttribute('href')) !== 'V2-1-6-RecoveryPolicy.dc.html') errors.push(`journey after the main path says "${(await journeyCta().textContent()).trim()}"`);
     for (const f of ['V2-1-6-RecoveryPolicy', 'V2-2-2-CapabilityCard', 'V2-3-2-ApproveChange', 'V2-4-2-ReportNotMet', 'V2-4-3-CaseFeedback', 'V2-0-Journey']) {
       await page.goto(`${URL}#${f}`);
-      await page.waitForFunction((h) => location.hash === `#${h}` && document.title.length, f);
+      // Wait until the app has opened the screen (it records the visit), not just until the address changed.
+      await page.waitForFunction((h) => location.hash === `#${h}` && JSON.parse(localStorage.getItem('behome-trustcycle:v1') || '{}').visited?.includes(h), f);
     }
     await page.waitForFunction(() => /18 of 18 seen/.test(document.querySelector('#screen').textContent), null, { timeout: 3000 }).catch(() => {});
     if ((await journeyCta().textContent()).trim() !== 'Start again at 1.1') errors.push(`journey with everything seen says "${(await journeyCta().textContent()).trim()}"`);
@@ -183,10 +184,49 @@ const PATH = [
     await off.locator('#screen a[href="V2-1-2-YourHome.dc.html"]').first().click();
     await off.waitForSelector('#toast:not([hidden])', { timeout: 3000 }).catch(() => errors.push('no message when a screen fails to load'));
     await ctx.close();
+    // Adding a photo asks where it comes from: camera, library or (on 3.3) the demo's sample.
+    const pctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+    const ph = await pctx.newPage();
+    ph.on('pageerror', (e) => errors.push(`page error: ${e.message}`));
+    const png = await ph.screenshot();
+    await ph.goto(`${URL}#V2-3-3-PhotoChecklist`);
+    await ph.waitForSelector('#screen button:has-text("Add photo")');
+    const waiting = await ph.locator('#screen button', { hasText: 'Add photo' }).count();
+    await ph.locator('#screen button', { hasText: 'Add photo' }).first().click();
+    const opts = (await ph.locator('#photo-sheet .ps-list button:visible').allTextContents()).map((t) => t.trim());
+    if (opts.join('|') !== 'Take photo|Choose from library|Use sample photo') errors.push(`3.3 photo options: ${opts.join(', ')}`);
+    await ph.locator('#photo-sheet .ps-cancel').click();
+    if (await ph.locator('#photo-sheet').isVisible()) errors.push('photo sheet stayed open after Cancel');
+    if ((await ph.locator('#screen button', { hasText: 'Add photo' }).count()) !== waiting) errors.push('Cancel still added a photo');
+    await ph.locator('#screen button', { hasText: 'Add photo' }).first().click();
+    const camera = ph.waitForEvent('filechooser');
+    await ph.locator('#photo-sheet button', { hasText: 'Take photo' }).click();
+    const camChooser = await camera;
+    if ((await camChooser.element().getAttribute('capture')) !== 'environment') errors.push('Take photo does not open the camera');
+    await camChooser.setFiles([]);
+    await ph.locator('#screen button', { hasText: 'Add photo' }).first().click();
+    const library = ph.waitForEvent('filechooser');
+    await ph.locator('#photo-sheet button', { hasText: 'Choose from library' }).click();
+    const libChooser = await library;
+    if ((await libChooser.element().getAttribute('capture')) !== null) errors.push('Choose from library opens the camera');
+    await libChooser.setFiles({ name: 'room.png', mimeType: 'image/png', buffer: png });
+    await ph.waitForSelector('#screen img.mine[src^="data:image/jpeg"]', { timeout: 5000 }).catch(() => errors.push('3.3: the chosen photo is not shown'));
+    await ph.reload();
+    await ph.waitForSelector('#screen img.mine[src^="data:image/jpeg"]', { timeout: 5000 }).catch(() => errors.push('3.3: the chosen photo was lost after reload'));
+    await ph.goto(`${URL}#V2-4-2-ReportNotMet`);
+    await ph.waitForSelector('#screen button:has-text("Add another photo")');
+    await ph.locator('#screen button', { hasText: 'Add another photo' }).click();
+    const opts2 = (await ph.locator('#photo-sheet .ps-list button:visible').allTextContents()).map((t) => t.trim());
+    if (opts2.join('|') !== 'Take photo|Choose from library') errors.push(`4.2 photo options: ${opts2.join(', ')}`);
+    const lib2 = ph.waitForEvent('filechooser');
+    await ph.locator('#photo-sheet button', { hasText: 'Choose from library' }).click();
+    await (await lib2).setFiles({ name: 'glass.png', mimeType: 'image/png', buffer: png });
+    await ph.waitForSelector('#screen .yours img[src^="data:image/jpeg"]', { timeout: 5000 }).catch(() => errors.push('4.2: the added photo is not shown'));
+    await pctx.close();
   } finally {
     await browser.close();
     server.stop();
   }
   if (errors.length) { console.error(errors.join('\n')); process.exit(1); }
-  console.log(`OK: main path of ${PATH.length} screens, 5.1 ending and journey next steps, reload keeps choices, Start over asks then clears, unknown address opens Welcome, Welcome picture and menu fine at 390×844 and 375×667, header menu button opens the menu, load errors shown, all links resolve`);
+  console.log(`OK: main path of ${PATH.length} screens, 5.1 ending and journey next steps, reload keeps choices, Start over asks then clears, unknown address opens Welcome, Welcome picture and menu fine at 390×844 and 375×667, header menu button opens the menu, photos from camera, library or sample, load errors shown, all links resolve`);
 })();
