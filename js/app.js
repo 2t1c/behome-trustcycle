@@ -38,7 +38,20 @@ const appProps = () => ({
   current,
   reset: resetAll,
   pickPhoto,
+  stateOf,
+  setStateOf,
 });
+
+// The tab screens show what other screens hold (History reads the bookings, Favourites shares 4.1's saved Tasker).
+function stateOf(file) {
+  return instances.get(file)?.state || store.screenState(file) || {};
+}
+function setStateOf(file, patch) {
+  const next = { ...stateOf(file), ...patch };
+  const inst = instances.get(file);
+  if (inst) inst.state = next;
+  store.saveScreenState(file, next);
+}
 
 function instanceFor(file, screen) {
   if (!instances.has(file)) {

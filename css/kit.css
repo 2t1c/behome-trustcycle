@@ -109,6 +109,9 @@
 #screen .tabs { flex: none; background: #fff; border-top: 1px solid #ECEDEF; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px 0 20px; }
 #screen .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; font-weight: 500; color: #5C6067; padding: 4px 0; }
 #screen .tab.on { color: #1C1D21; font-weight: 600; }
+#screen a.tab { text-decoration: none; min-height: 44px; justify-content: center; }
+#screen a.tab:hover { color: #1C1D21; }
+#screen .tab[aria-current="page"] { color: #1C1D21; font-weight: 600; }
 /* A row shown only for the selected option: data-on carries that option's "true"/"false". */
 #screen [data-on="false"] { display: none !important; }
 /* Tasker app (beHome Partner): yellow header with ink text and a white "Online"/time badge */

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>History</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+.hd .ttl{padding-left:12px;font-size:20px;font-weight:700}
+.bk{display:flex;flex-direction:column;gap:10px;border:1px solid #ECEDEF;border-radius:14px;padding:14px;background:#fff;color:#1C1D21;text-decoration:none}
+a.bk:hover{color:#1C1D21;border-color:#E8C64A}
+.bk .av{width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none;background:#FFF5D1}
+.bk .pr{font-size:14px;font-weight:700;white-space:nowrap}
+.bk .go{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #F2F3F5;padding-top:10px;font-size:13px;font-weight:600;color:#2F57C0}
+.empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:28px 16px 24px}
+.empty .ico{width:64px;height:64px;border-radius:20px}
+</style>
+</helmet>
+<div class="app">
+  <div class="hd">
+    <h1 class="ttl">History</h1>
+    <button type="button" class="ib" data-menu="" aria-label="Menu"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button>
+  </div>
+  <div class="body">
+    <sc-if value="{{none}}" hint-placeholder-val="{{false}}">
+      <div class="sec">
+        <div class="empty">
+          <span class="ico"><svg width="32" height="32" sc-camel-view-box="0 0 24 24" fill="none" stroke="#1C1D21" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16"></path></svg></span>
+          <div><div class="t1" style="font-weight:600">No bookings yet</div><div class="t2">Your cleans show up here, with the agreement, the after-photos and your check for each visit.</div></div>
+          <a class="cta" href="V2-1-1-CleaningLevel.dc.html" data-nav="fade" style="margin-top:4px">Book your first TrustCycle clean</a>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{hasUpcoming}}" hint-placeholder-val="{{true}}">
+      <div class="sec">
+        <h2 class="st">Upcoming</h2>
+        <sc-for list="{{upcoming}}" as="b" hint-placeholder-count="1">
+          <a class="bk" href="{{b.href}}" data-nav="fade">
+            <span class="row"><img class="av" src="{{b.pic}}" alt=""><span class="grow"><span class="t1" style="display:block;font-weight:600">{{b.when}}</span><span class="t2" style="display:block">{{b.what}}</span></span><span class="pr num">{{b.price}}</span></span>
+            <span class="tags"><span class="tag {{b.tone}}">{{b.status}}</span><span class="tag k">{{b.note}}</span></span>
+            <span class="go">{{b.link}}<svg class="chev" width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="#2F57C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></span>
+          </a>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{hasPast}}" hint-placeholder-val="{{true}}">
+      <div class="sec">
+        <h2 class="st">Done</h2>
+        <sc-for list="{{past}}" as="b" hint-placeholder-count="1">
+          <a class="bk" href="{{b.href}}" data-nav="fade">
+            <span class="row"><img class="av" src="{{b.pic}}" alt=""><span class="grow"><span class="t1" style="display:block;font-weight:600">{{b.when}}</span><span class="t2" style="display:block">{{b.what}}</span></span><span class="pr num">{{b.price}}</span></span>
+            <span class="tags"><span class="tag {{b.tone}}">{{b.status}}</span><span class="tag k">{{b.note}}</span></span>
+            <span class="go">{{b.link}}<svg class="chev" width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="#2F57C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></span>
+          </a>
+        </sc-for>
+      </div>
+    </sc-if>
+    <p class="foot">Bookings made in this demo, kept on this device only.</p>
+  </div>
+  <nav class="tabs" aria-label="beHome">
+    <a class="tab" href="V2-0-Welcome.dc.html" data-nav="fade"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M12 3.2l9 7.4V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1v-9.4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path></svg>Home</a>
+    <a class="tab" href="V2-0-Promotions.dc.html" data-nav="fade"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><circle cx="7.5" cy="8.5" r="1.5" fill="none" stroke="currentColor" stroke-width="1.8"></circle></svg>Promotion</a>
+    <a class="tab" href="V2-0-History.dc.html" data-nav="fade" aria-current="page"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFC905"></circle><path d="M12 7v5l3 2" fill="none" stroke="#1C1D21" stroke-width="2" stroke-linecap="round"></path></svg>History</a>
+    <a class="tab" href="V2-0-Favourites.dc.html" data-nav="fade"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path></svg>Favourites</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844}}">
+class Component extends DCLogic {
+  renderVals() {
+    const seen = (f) => (this.props.visited || []).includes('V2-' + f);
+    const of = (f) => (this.props.stateOf ? this.props.stateOf('V2-' + f) : {}) || {};
+    const upcoming = [];
+    const past = [];
+    // The first clean: booked at 2.5, under way at 3.1 / 3.3, done once chị Lan checks the result at 4.1.
+    const first = { when: 'Tue 3 Nov · 08:00', what: 'Nga · Standard · 4 hours', pic: 'img/v2/nga.jpg', price: '320,000đ' };
+    if (seen('4-1-CheckResult')) {
+      const reported = seen('4-3-CaseFeedback');
+      past.push({
+        ...first,
+        status: reported ? '1 item re-cleaned' : 'All 7 must-dos met',
+        tone: reported ? 'y' : 'g',
+        note: 'Photo-checked',
+        href: reported ? 'V2-4-3-CaseFeedback.dc.html' : 'V2-4-1-CheckResult.dc.html',
+        link: reported ? 'See your case' : 'See the after-photos'
+      });
+    } else if (seen('3-1-FirstCleanCheck')) {
+      upcoming.push({ ...first, status: 'Cleaning now', tone: 'y', note: 'First visit', href: 'V2-3-3-PhotoChecklist.dc.html', link: 'Follow the photo checklist' });
+    } else if (of('2-5-BookingConfirmed').booked) {
+      upcoming.push({ ...first, status: 'Confirmed', tone: 'g', note: 'Quality Agreement', href: 'V2-2-5-BookingConfirmed.dc.html', link: 'See your booking' });
+    }
+    // The next clean, booked from the saved plan at 5.1.
+    const next = of('5-1-RebookPlan');
+    if (next.booked) {
+      const who = {
+        nga: { when: 'Wed 11 Nov · 08:00', what: 'Nga · saved plan · 4 hours', pic: 'img/v2/nga.jpg', status: 'Confirmed', tone: 'g' },
+        hoa: { when: 'Tue 10 Nov · 08:00', what: 'Hoa · saved plan · 4 hours', pic: 'img/v2/hoa.jpg', status: 'Confirmed', tone: 'g' },
+        auto: { when: 'Tue 10 Nov · 08:00', what: 'Capable Tasker · saved plan · 4 hours', pic: 'img/icon-192.png', status: 'Finding a Tasker', tone: 'y' }
+      }[next.pick || 'nga'];
+      upcoming.unshift({ ...who, price: '320,000đ', note: 'Agreement carried over', href: 'V2-5-1-RebookPlan.dc.html', link: 'See your plan' });
+    }
+    return {
+      upcoming, past,
+      hasUpcoming: upcoming.length > 0,
+      hasPast: past.length > 0,
+      none: !upcoming.length && !past.length
+    };
+  }
+}
+</script>
+</body></html>

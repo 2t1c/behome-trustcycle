@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>Favourites</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+.hd .ttl{padding-left:12px;font-size:20px;font-weight:700}
+.tkr{display:flex;flex-direction:column;gap:10px;border:1px solid #ECEDEF;border-radius:14px;padding:14px;background:#fff}
+.tkr .av{width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none}
+.heart{width:44px;height:44px;border-radius:50%;border:1px solid #E3E5E8;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;padding:0;color:#1C1D21}
+.heart[aria-pressed="true"]{border-color:#FADBDC;background:#FFF1F1}
+@media (prefers-reduced-motion: no-preference){.heart[aria-pressed="true"] svg{animation:heart-pop .36s cubic-bezier(.2,.8,.2,1)}}
+@keyframes heart-pop{0%{transform:scale(.6)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+.plan{display:flex;flex-direction:column;gap:8px;background:#FFF5D1;border-radius:14px;padding:14px 16px}
+.empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:24px 16px 16px}
+.empty .ico{width:64px;height:64px;border-radius:20px}
+</style>
+</helmet>
+<div class="app">
+  <div class="hd">
+    <h1 class="ttl">Favourites</h1>
+    <button type="button" class="ib" data-menu="" aria-label="Menu"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button>
+  </div>
+  <div class="body">
+    <div class="sec">
+      <h2 class="st">My Taskers</h2>
+      <sc-if value="{{visitDone}}" hint-placeholder-val="{{true}}">
+        <div class="tkr">
+          <div class="row">
+            <img class="av" src="img/v2/nga.jpg" alt="Portrait of Nga">
+            <div class="grow"><div class="row" style="gap:6px"><span class="t1" style="font-size:16px;font-weight:600">Nga</span><sc-if value="{{saved}}" hint-placeholder-val="{{true}}"><span class="tag g">Offered first</span></sc-if></div><div class="t2">Cleaned your home Tue 3 Nov · 4.9 kitchens · 412 jobs</div></div>
+            <button type="button" class="heart" aria-pressed="{{savedStr}}" aria-label="{{heartLabel}}" sc-camel-on-click="{{toggle}}"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="{{heartFill}}" stroke="{{heartStroke}}" stroke-width="1.8" stroke-linejoin="round"></path></svg></button>
+          </div>
+          <p class="sub" style="font-size:13px">{{savedSub}}</p>
+          <sc-if value="{{saved}}" hint-placeholder-val="{{true}}">
+            <a class="cta2" href="V2-5-1-RebookPlan.dc.html" data-nav="fade">Book Nga again</a>
+          </sc-if>
+        </div>
+      </sc-if>
+      <sc-if value="{{noVisit}}" hint-placeholder-val="{{false}}">
+        <div class="empty">
+          <span class="ico"><svg width="32" height="32" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="none" stroke="#1C1D21" stroke-width="1.8" stroke-linejoin="round"></path></svg></span>
+          <div><div class="t1" style="font-weight:600">No saved Taskers yet</div><div class="t2">After a clean you're happy with, tap the heart on your Tasker. She'll be offered first on your next booking.</div></div>
+        </div>
+      </sc-if>
+    </div>
+    <div class="sec">
+      <h2 class="st">Saved Cleaning Plan</h2>
+      <sc-if value="{{hasPlan}}" hint-placeholder-val="{{true}}">
+        <div class="plan">
+          <div class="row"><img src="img/v2/icons/standard.png" alt="" width="44" height="44" style="flex:none"><div class="grow"><div class="t1" style="font-weight:600">Home · District 7</div><div class="t2" style="color:#3F4248">Standard · 70 m² · 7 must-dos · 4 hours</div></div><span class="num" style="font-size:14px;font-weight:700">320,000đ</span></div>
+          <p class="sub" style="color:#3F4248">Your Quality Agreement and care rules (altar, wooden floor, glass table) come with every booking.</p>
+          <a class="cta" href="{{planHref}}" data-nav="fade">{{planCta}}</a>
+        </div>
+      </sc-if>
+      <sc-if value="{{noPlan}}" hint-placeholder-val="{{false}}">
+        <p class="sub" style="font-size:13px">Set up your home once and it's saved here for every booking.</p>
+        <a class="cta" href="V2-1-1-CleaningLevel.dc.html" data-nav="fade">Set up my Cleaning Plan</a>
+      </sc-if>
+    </div>
+  </div>
+  <nav class="tabs" aria-label="beHome">
+    <a class="tab" href="V2-0-Welcome.dc.html" data-nav="fade"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M12 3.2l9 7.4V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1v-9.4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path></svg>Home</a>
+    <a class="tab" href="V2-0-Promotions.dc.html" data-nav="fade"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><circle cx="7.5" cy="8.5" r="1.5" fill="none" stroke="currentColor" stroke-width="1.8"></circle></svg>Promotion</a>
+    <a class="tab" href="V2-0-History.dc.html" data-nav="fade"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"></circle><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>History</a>
+    <a class="tab" href="V2-0-Favourites.dc.html" data-nav="fade" aria-current="page"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="#FFC905" stroke="#FFC905" stroke-width="1.8" stroke-linejoin="round"></path></svg>Favourites</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844}}">
+class Component extends DCLogic {
+  renderVals() {
+    const visited = this.props.visited || [];
+    const visitDone = visited.includes('V2-4-1-CheckResult');
+    // Nga's heart is the same choice as "Save Nga to My Taskers" at 4.1, so the two screens always agree.
+    const saved = !!(this.props.stateOf && this.props.stateOf('V2-4-1-CheckResult').saved);
+    const hasPlan = visited.includes('V2-1-4-RecommendedPlan');
+    return {
+      visitDone, noVisit: !visitDone,
+      saved, savedStr: String(saved),
+      heartFill: saved ? '#E5484D' : 'none',
+      heartStroke: saved ? '#E5484D' : '#1C1D21',
+      heartLabel: saved ? 'Remove Nga from My Taskers' : 'Save Nga to My Taskers',
+      savedSub: saved ? 'Saved. Nga is offered first on your next booking, with your Cleaning Plan.' : 'Tap the heart to offer Nga first on your next booking.',
+      toggle: () => {
+        this.props.setStateOf && this.props.setStateOf('V2-4-1-CheckResult', { saved: !saved });
+        this.forceUpdate();
+      },
+      hasPlan, noPlan: !hasPlan,
+      planHref: visitDone ? 'V2-5-1-RebookPlan.dc.html' : 'V2-1-4-RecommendedPlan.dc.html',
+      planCta: visitDone ? 'Book again with this plan' : 'Open my plan'
+    };
+  }
+}
+</script>
+</body></html>

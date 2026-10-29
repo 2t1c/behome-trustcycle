@@ -277,10 +277,62 @@ const PATH = [
     await (await lib2).setFiles({ name: 'glass.png', mimeType: 'image/png', buffer: png });
     await ph.waitForSelector('#screen .yours img[src^="data:image/jpeg"]', { timeout: 5000 }).catch(() => errors.push('4.2: the added photo is not shown'));
     await pctx.close();
+    // The home screen's tabs: each one opens its screen and marks itself current. History starts empty and fills
+    // in as chị Lan books (2.5) and books again (5.1); Promotion's saved vouchers and Favourites' heart survive a
+    // reload, and the heart is the same choice as "Save Nga" at 4.1.
+    const tctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const tp = await tctx.newPage();
+    tp.on('pageerror', (e) => errors.push(`page error: ${e.message}`));
+    const tab = async (name, file) => {
+      await tp.locator('#screen nav.tabs a', { hasText: name }).click();
+      await tp.waitForFunction((f) => location.hash === `#${f}` && document.querySelector('#screen nav.tabs [aria-current="page"]'), file, { timeout: 4000 })
+        .catch(() => errors.push(`the ${name} tab does not open ${file}`));
+      await tp.waitForTimeout(400);
+      const on = (await tp.locator('#screen nav.tabs [aria-current="page"]').textContent().catch(() => '')).trim();
+      if (on !== name) errors.push(`${file}: the current tab is "${on}", not "${name}"`);
+    };
+    const text = () => tp.locator('#screen').textContent();
+    await tp.goto(`${URL}#V2-0-Welcome`);
+    await tp.waitForSelector('#screen nav.tabs');
+    await tab('History', 'V2-0-History');
+    if (!/No bookings yet/.test(await text())) errors.push('History is not empty before any booking');
+    await tab('Promotion', 'V2-0-Promotions');
+    const save = tp.locator('#screen button.save', { hasText: /^Save$/ }).first();
+    await save.click();
+    await tp.waitForFunction(() => /2 saved/.test(document.querySelector('#screen').textContent), null, { timeout: 3000 }).catch(() => errors.push('Promotion: saving a voucher does not count it'));
+    await tp.reload();
+    await tp.waitForFunction(() => /2 saved/.test(document.querySelector('#screen').textContent), null, { timeout: 4000 }).catch(() => errors.push('Promotion: the saved voucher was lost after reload'));
+    await tab('Favourites', 'V2-0-Favourites');
+    if (!/No saved Taskers yet/.test(await text())) errors.push('Favourites shows a saved Tasker before any visit');
+    await tab('Home', 'V2-0-Welcome');
+    await tp.goto(`${URL}#V2-2-5-BookingConfirmed`);
+    await tp.locator('#screen button', { hasText: 'Confirm booking' }).click();
+    await tp.waitForTimeout(300);
+    await tp.goto(`${URL}#V2-0-History`);
+    await tp.waitForFunction(() => /Tue 3 Nov/.test(document.querySelector('#screen').textContent) && /Confirmed/.test(document.querySelector('#screen').textContent), null, { timeout: 4000 })
+      .catch(() => errors.push('History does not show the booking confirmed at 2.5'));
+    await tp.goto(`${URL}#V2-4-1-CheckResult`);
+    await tp.waitForSelector('#screen .savebtn');
+    await tp.goto(`${URL}#V2-5-1-RebookPlan`);
+    await tp.locator('#screen button.cta').click();
+    await tp.waitForTimeout(300);
+    await tp.goto(`${URL}#V2-0-History`);
+    await tp.waitForFunction(() => /Wed 11 Nov/.test(document.querySelector('#screen').textContent) && /All 7 must-dos met/.test(document.querySelector('#screen').textContent), null, { timeout: 4000 })
+      .catch(() => errors.push('History does not show the 5.1 booking and the finished first clean'));
+    await tp.goto(`${URL}#V2-0-Favourites`);
+    await tp.waitForSelector('#screen .heart');
+    if ((await tp.getAttribute('#screen .heart', 'aria-pressed')) !== 'false') errors.push('Favourites: Nga is saved before anyone tapped the heart');
+    await tp.click('#screen .heart');
+    await tp.waitForSelector('#screen .heart[aria-pressed="true"]', { timeout: 3000 }).catch(() => errors.push('Favourites: the heart does not save Nga'));
+    await tp.reload();
+    await tp.waitForSelector('#screen .heart[aria-pressed="true"]', { timeout: 4000 }).catch(() => errors.push('Favourites: the saved heart was lost after reload'));
+    await tp.goto(`${URL}#V2-4-1-CheckResult`);
+    await tp.waitForSelector('#screen .savebtn[aria-pressed="true"]', { timeout: 4000 }).catch(() => errors.push('4.1 does not show Nga saved after the heart on Favourites'));
+    await tctx.close();
   } finally {
     await browser.close();
     server.stop();
   }
   if (errors.length) { console.error(errors.join('\n')); process.exit(1); }
-  console.log(`OK: main path of ${PATH.length} screens, 5.1 ending and journey next steps, reload keeps choices, Start over asks then clears, unknown address opens Welcome, Welcome picture and menu fine at 390×844 and 375×667, header menu button opens the menu, presenter mode (P, → ← along the main path, Esc), photos from camera, library or sample, load errors shown, all links resolve`);
+  console.log(`OK: main path of ${PATH.length} screens, 5.1 ending and journey next steps, reload keeps choices, Start over asks then clears, unknown address opens Welcome, Welcome picture and menu fine at 390×844 and 375×667, header menu button opens the menu, presenter mode (P, → ← along the main path, Esc), photos from camera, library or sample, home tabs (History fills in, saved vouchers and the Favourites heart persist), load errors shown, all links resolve`);
 })();

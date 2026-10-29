@@ -21,6 +21,10 @@ export const SCREENS = [
   { file: 'V2-0-Journey', label: 'The journey', stage: 0, num: '', sub: 'user flow, all screens' },
   { file: 'V2-0-Guide', label: 'Concept guide', stage: 0, num: '', sub: 'the full design board', board: true },
   { file: 'V2-0-DVF', label: 'DVF check', stage: 0, num: '', sub: 'desirable, viable, feasible', board: true },
+  // The home screen's other tabs.
+  { file: 'V2-0-Promotions', label: 'Promotion', stage: 0, hidden: true },
+  { file: 'V2-0-History', label: 'History', stage: 0, hidden: true },
+  { file: 'V2-0-Favourites', label: 'Favourites', stage: 0, hidden: true },
   { file: 'V2-1-1-CleaningLevel', label: '1.1 Cleaning level', num: '1.1', name: 'Cleaning level', sub: 'Standard or Deep', stage: 1 },
   { file: 'V2-1-2-YourHome', label: '1.2 Your home', num: '1.2', name: 'Your home', sub: 'm², rooms, condition', stage: 1 },
   { file: 'V2-1-3-Priorities', label: '1.3 Priority areas', num: '1.3', name: 'Priority areas', sub: 'must-dos vs 4 hours', stage: 1 },
