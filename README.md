@@ -55,6 +55,6 @@ points at a real screen.
 The app is deployed on Railway from this GitHub repo: Railway runs `npm start`, which listens on `$PORT`, and
 redeploys on every push to `main`. No variables are needed.
 
-Live demo: (Railway URL)
+Live demo: https://behome-trustcycle-production.up.railway.app
 
 Open it in Safari on an iPhone and use Share → Add to Home Screen. Any other Node host works the same way.
