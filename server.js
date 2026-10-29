@@ -14,6 +14,7 @@ const PRIVATE = new Set(['server.js', 'package.json', 'package-lock.json', 'test
 
 http.createServer((req, res) => {
   let rel = decodeURIComponent(new URL(req.url, 'http://x').pathname).replace(/^\/+/, '');
+  if (rel === 'healthz') { res.writeHead(200, { 'Content-Type': 'text/plain' }).end('ok'); return; }
   if (rel === '' || rel.endsWith('/')) rel += 'index.html';
   const file = path.join(ROOT, rel);
   if (!file.startsWith(ROOT + path.sep) || PRIVATE.has(rel.split('/')[0]) || rel.split('/').some((p) => p.startsWith('.'))) {

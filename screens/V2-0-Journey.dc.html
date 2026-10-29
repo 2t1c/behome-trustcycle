@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>The journey</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#0052B4}a:hover{color:#003D87}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFFFFF; color: #0B1620; overflow: hidden">
+  <div style="height: 56px; flex-shrink: 0; display: flex; align-items: center; gap: 6px; padding: 0 14px 0 6px; background: #FFFFFF; box-shadow: 0 1px 0 #ECECEC">
+    <a href="V2-0-Welcome.dc.html" aria-label="Back to welcome" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #0B1620">
+      <svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4"></path><path d="M10 18l-6-6 6-6"></path></svg>
+    </a>
+    <div style="flex: 1; display: flex; flex-direction: column"><span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: #555A5E">USER FLOW · 18 SCREENS · 5 STAGES</span><span style="font-size: 18px; font-weight: 700">The journey</span></div>
+    <span style="font-size: 12px; font-weight: 600; color: #555A5E">{{progress}}</span>
+  </div>
+  <div style="flex: 1; overflow-y: auto; padding: 16px 16px 8px 16px">
+    <sc-for list="{{stages}}" as="st" hint-placeholder-count="5">
+      <div style="position: relative; padding: 0 0 18px 28px">
+        <div style="position: absolute; left: 9px; top: 22px; bottom: 0; width: 2px; background: {{st.line}}"></div>
+        <span style="position: absolute; left: 0; top: 2px; width: 20px; height: 20px; border-radius: 10px; background: {{st.color}}; color: #FFFFFF; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center">{{st.id}}</span>
+        <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: #555A5E">{{st.eyebrow}}</div>
+        <div style="font-size: 16px; font-weight: 700; margin: 2px 0">{{st.title}}</div>
+        <div style="font-size: 12px; line-height: 1.45; color: #555A5E; margin-bottom: 8px">{{st.solves}}</div>
+        <sc-for list="{{st.items}}" as="r" hint-placeholder-count="3">
+          <a href="{{r.href}}" style="display: flex; align-items: center; gap: 10px; background: {{r.bg}}; border: 1px solid {{r.border}}; border-radius: 12px; padding: 9px 12px; margin: 0 0 6px {{r.indent}}; text-decoration: none; color: #0B1620">
+            <span style="width: 8px; height: 8px; border-radius: 4px; background: {{r.dot}}; border: 1.5px solid {{r.dotBorder}}; flex-shrink: 0"></span>
+            <span style="font-size: 12px; font-weight: 700; width: 24px; flex-shrink: 0">{{r.num}}</span>
+            <span style="font-size: 13px; font-weight: 600; flex: 1">{{r.name}}</span>
+            <sc-if value="{{r.tasker}}" hint-placeholder-val="{{false}}"><span style="font-size: 9px; font-weight: 700; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 999px; background: #0B1620; color: #FFD20A">TASKER</span></sc-if>
+            <sc-if value="{{r.showSub}}" hint-placeholder-val="{{true}}"><span style="font-size: 11px; color: #555A5E">{{r.sub}}</span></sc-if>
+          </a>
+        </sc-for>
+        <sc-if value="{{st.hasFoot}}" hint-placeholder-val="{{false}}">
+          <div style="font-size: 12px; line-height: 1.45; color: #3A4046; background: #F2F2F2; border-radius: 10px; padding: 8px 10px">{{st.foot}}</div>
+        </sc-if>
+        <sc-if value="{{st.isLast}}" hint-placeholder-val="{{false}}">
+          <div style="background: #F2EEFC; border-radius: 12px; padding: 10px 12px; font-size: 12px; line-height: 1.5; color: #3A4046; margin-top: 6px">
+            <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: #6D28D9; margin-bottom: 4px">WHAT THE SYSTEM LEARNED</div>
+            Kitchen degrease 30 → 55 min, from the change approved at 3.2<br>Bathroom 2 shower glass is now a check item, from the case at 4.3<br>Nga is offered first; Hoa is a verified backup
+          </div>
+        </sc-if>
+      </div>
+    </sc-for>
+    <div style="margin: 4px 0 12px 0; border: 1.5px dashed #C9B8F0; border-radius: 14px; padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start">
+      <svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="#6D28D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 1px"><path d="M20 12a8 8 0 11-2.3-5.7M20 4v5h-5"></path></svg>
+      <div style="font-size: 12px; line-height: 1.5; color: #3A4046"><strong style="color: #0B1620">The loop that closes the cycle.</strong> Confirmed results (4.1) and resolved cases (4.3) are stored as verified feedback. It sharpens Tasker matching (2.1), calibrates time estimates (1.3, 1.4) and updates the saved Cleaning Plan (5.1), so each booking starts better than the last.</div>
+    </div>
+    <div style="display: flex; gap: 8px; margin-bottom: 8px">
+      <a href="V2-0-Guide.dc.html" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 44px; border-radius: 12px; background: #FFFFFF; border: 1px solid #E6E6E6; color: #0B1620; font-size: 13px; font-weight: 600; text-decoration: none">Concept guide</a>
+      <a href="V2-0-DVF.dc.html" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 44px; border-radius: 12px; background: #FFFFFF; border: 1px solid #E6E6E6; color: #0B1620; font-size: 13px; font-weight: 600; text-decoration: none">DVF check</a>
+    </div>
+  </div>
+  <div style="flex-shrink: 0; padding: 12px 16px 24px 16px; background: #FFFFFF; box-shadow: 0 -1px 0 #ECECEC">
+    <a href="{{nextHref}}" style="display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 16px; background: #FFD20A; color: #0B1620; font-size: 17px; font-weight: 700; text-decoration: none">{{nextLabel}}</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844}}">
+class Component extends DCLogic {
+  renderVals() {
+    const visited = this.props.visited || [];
+    const current = this.props.current;
+    const screens = (this.props.screens || []).filter((s) => s.stage > 0);
+    const stagesIn = (this.props.stages || []).filter((s) => s.id > 0);
+    const stages = stagesIn.map((st, i) => {
+      const items = screens.filter((s) => s.stage === st.id).map((s) => {
+        const seen = visited.includes(s.file);
+        const here = s.file === current;
+        return {
+          href: s.file + '.dc.html', num: s.num, name: s.name, sub: s.sub, tasker: !!s.tasker, showSub: !s.tasker,
+          indent: s.side ? '18px' : '0', bg: here ? '#FFFDEE' : '#FFFFFF', border: here ? '#FFD000' : '#E6E6E6',
+          dot: seen ? '#05AC3C' : '#FFFFFF', dotBorder: seen ? '#05AC3C' : '#C9CDD0'
+        };
+      });
+      return { ...st, eyebrow: st.label.toUpperCase(), items, line: i === stagesIn.length - 1 ? 'transparent' : '#E6E6E6', hasFoot: !!st.foot, foot: st.foot || '', isLast: i === stagesIn.length - 1 };
+    });
+    const main = screens.filter((s) => !s.side);
+    const next = main.find((s) => !visited.includes(s.file)) || main[0];
+    const seenCount = screens.filter((s) => visited.includes(s.file)).length;
+    return {
+      stages,
+      progress: seenCount + ' of ' + screens.length + ' seen',
+      nextHref: next.file + '.dc.html',
+      nextLabel: seenCount === 0 ? 'Start at 1.1' : seenCount >= screens.length ? 'Start again at 1.1' : 'Continue at ' + next.num
+    };
+  }
+}
+</script>
+</body></html>

@@ -1,7 +1,8 @@
 // App shell: loads a screen file, renders it into the phone frame (or full screen on a phone),
-// follows links between screens, and drives the demo panel on larger screens.
+// follows links between screens, remembers choices, and drives the screen menu.
 import { compile, render } from './dc.js';
 import { SCREENS, STAGES, byFile } from './screens.js';
+import { store } from './store.js';
 
 const $ = (sel) => document.querySelector(sel);
 const compiled = new Map();   // file -> compiled screen
@@ -25,14 +26,29 @@ async function load(file) {
   return compiled.get(file);
 }
 
+// What every screen can see of the app: the journey so far, and the screen list for the journey map.
+const appProps = () => ({
+  showLabels: settings.showLabels,
+  stages: STAGES,
+  screens: SCREENS,
+  visited: store.visited(),
+  current,
+  reset: resetAll,
+});
+
 function instanceFor(file, screen) {
   if (!instances.has(file)) {
-    const inst = new screen.Component({ showLabels: settings.showLabels });
-    inst._onChange = () => { if (current === file) paint(); };
+    const inst = new screen.Component(appProps());
+    const saved = store.screenState(file);
+    if (saved) inst.state = { ...inst.state, ...saved };   // choices made earlier, on this device
+    inst._onChange = (state) => {
+      if (state) store.saveScreenState(file, state);
+      if (current === file) paint();
+    };
     instances.set(file, inst);
   }
   const inst = instances.get(file);
-  inst.props = { ...inst.props, showLabels: settings.showLabels };
+  inst.props = { ...inst.props, ...appProps() };
   return inst;
 }
 
@@ -57,17 +73,20 @@ async function go(file, { push = true } = {}) {
   if (!meta) return;
   const screen = await load(meta.file);
   current = meta.file;
+  store.visit(meta.file);
   $('#screen-style').textContent = screen.styles;
   document.title = `${screen.title} · beHome TrustCycle`;
   document.body.classList.toggle('board-mode', !!meta.board);
-  $('#app-tag').textContent = meta.tasker ? 'Tasker app · beHome Partner' : meta.board ? 'Overview' : 'Customer app';
-  $('#app-tag').classList.toggle('tasker', !!meta.tasker);
-  if (push && location.hash.slice(1) !== meta.file) history.pushState(null, '', `#${meta.file}`);
+  document.body.classList.toggle('tasker-mode', !!meta.tasker);
+  const tag = meta.tasker ? 'Tasker app · beHome Partner' : meta.board || meta.stage === 0 ? 'Overview' : 'Customer app';
+  document.querySelectorAll('.app-tag').forEach((el) => { el.textContent = tag; el.classList.toggle('tasker', !!meta.tasker); });
+  if (location.hash.slice(1) !== meta.file) history[push ? 'pushState' : 'replaceState'](null, '', `#${meta.file}`);
   ($('#board').replaceChildren(), $('#screen').replaceChildren());
   paint();
   fitBoard();
   (meta.board ? $('#board-wrap') : $('#screen').firstElementChild)?.scrollTo?.(0, 0);
-  document.querySelectorAll('#panel [data-file]').forEach((b) => b.classList.toggle('on', b.dataset.file === meta.file));
+  closeSheet();
+  markLists();
 }
 
 // Links inside screens point at other screen files, e.g. "V2-1-2-YourHome.dc.html".
@@ -98,44 +117,73 @@ function fitPhone() {
   document.documentElement.style.setProperty('--phone-scale', String(k));
 }
 
-function buildPanel() {
-  const list = $('#screen-list');
-  list.replaceChildren(...STAGES.map((st) => {
+function resetAll() {
+  store.reset();
+  instances.clear();
+  go('V2-0-Welcome');
+}
+
+// The screen list, used by the laptop panel and the phone menu.
+function buildList(container) {
+  container.replaceChildren(...STAGES.map((st) => {
     const group = document.createElement('div');
     group.className = 'group';
     const h = document.createElement('h4');
     h.textContent = st.label;
     group.append(h);
-    for (const s of SCREENS.filter((x) => x.stage === st.id)) {
+    for (const s of SCREENS.filter((x) => x.stage === st.id && !x.hidden)) {
       const b = document.createElement('button');
       b.type = 'button';
       b.dataset.file = s.file;
-      b.textContent = s.label;
+      const tick = document.createElement('i');
+      tick.className = 'tick';
+      b.append(tick, document.createTextNode(s.label));
       if (s.tasker) { const t = document.createElement('span'); t.className = 'tag'; t.textContent = 'Tasker'; b.append(t); }
       b.addEventListener('click', () => go(s.file));
       group.append(b);
     }
     return group;
   }));
-  const labels = $('#toggle-labels');
-  labels.checked = settings.showLabels;
-  labels.addEventListener('change', () => {
-    settings.showLabels = labels.checked;
-    writeSetting('showLabels', settings.showLabels);
-    paint();
-  });
-  $('#reset').addEventListener('click', () => { instances.clear(); paint(); });
 }
 
-window.addEventListener('popstate', () => go(location.hash.slice(1) || startFile(), { push: false }));
+function markLists() {
+  document.querySelectorAll('[data-file]').forEach((b) => {
+    b.classList.toggle('on', b.dataset.file === current);
+    b.classList.toggle('seen', store.hasVisited(b.dataset.file));
+  });
+}
+
+function closeSheet() { $('#sheet').hidden = true; $('#menu-btn').setAttribute('aria-expanded', 'false'); }
+
+function buildControls() {
+  buildList($('#screen-list'));
+  buildList($('#sheet-list'));
+  document.querySelectorAll('.toggle-labels').forEach((cb) => {
+    cb.checked = settings.showLabels;
+    cb.addEventListener('change', () => {
+      settings.showLabels = cb.checked;
+      document.querySelectorAll('.toggle-labels').forEach((o) => { o.checked = cb.checked; });
+      writeSetting('showLabels', settings.showLabels);
+      paint();
+    });
+  });
+  document.querySelectorAll('.reset').forEach((b) => b.addEventListener('click', resetAll));
+  $('#menu-btn').addEventListener('click', () => {
+    const open = $('#sheet').hidden;
+    $('#sheet').hidden = !open;
+    $('#menu-btn').setAttribute('aria-expanded', String(open));
+  });
+  $('#sheet-close').addEventListener('click', closeSheet);
+  $('#sheet').addEventListener('click', (e) => { if (e.target === $('#sheet')) closeSheet(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
+}
+
+window.addEventListener('popstate', () => go(location.hash.slice(1) || 'V2-0-Welcome', { push: false }));
 window.addEventListener('resize', () => { fitBoard(); fitPhone(); if (current) paint(); });
 
-// Phones start at the first screen; laptops start at the guide.
-const startFile = () => (isPhone() ? 'V2-1-1-CleaningLevel' : 'V2-0-Guide');
-
-buildPanel();
+buildControls();
 fitPhone();
-go(location.hash.slice(1) || startFile(), { push: false }).catch((err) => {
+go(location.hash.slice(1) || 'V2-0-Welcome', { push: false }).catch((err) => {
   $('#screen').textContent = `Could not load this screen (${err.message}).`;
 });
 

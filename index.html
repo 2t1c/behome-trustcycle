@@ -13,25 +13,37 @@
 <link rel="icon" href="img/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="css/app.css">
 <style id="screen-style"></style>
 </head>
 <body>
 <div id="wrap">
-  <aside id="panel" aria-label="Demo controls">
+  <aside id="panel" aria-label="Screens">
     <div class="brand"><span class="logo" aria-hidden="true">
       <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 3.2l9 7.4v.9h-2V20a1 1 0 01-1 1h-4v-6h-4v6H6a1 1 0 01-1-1v-8.5H3v-.9z" fill="currentColor"/></svg></span>
       <div><b>beHome TrustCycle</b><small>Class concept · not an official Be Group product</small></div>
     </div>
-    <p id="app-tag" class="app-tag">Overview</p>
+    <p class="app-tag">Overview</p>
     <nav id="screen-list"></nav>
-    <label class="toggle"><input type="checkbox" id="toggle-labels"> Show stage labels on screens</label>
-    <button type="button" id="reset" class="reset">Reset all screens</button>
+    <label class="toggle"><input type="checkbox" class="toggle-labels"> Show stage labels on screens</label>
+    <button type="button" class="reset">Start over</button>
   </aside>
   <main id="stage">
     <div id="phone"><div id="screen"></div></div>
     <div id="board-wrap"><div id="board"></div></div>
+    <button type="button" id="menu-btn" aria-label="Screens" aria-expanded="false" aria-controls="sheet">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+    </button>
+    <div id="sheet" hidden>
+      <div class="sheet-card" role="dialog" aria-label="Screens">
+        <div class="sheet-head"><p class="app-tag">Overview</p><button type="button" id="sheet-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+        <nav id="sheet-list"></nav>
+        <label class="toggle"><input type="checkbox" class="toggle-labels"> Show stage labels on screens</label>
+        <button type="button" class="reset">Start over</button>
+      </div>
+    </div>
   </main>
 </div>
 <script type="module" src="js/app.js"></script>
