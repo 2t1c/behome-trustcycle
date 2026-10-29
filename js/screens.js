@@ -41,6 +41,13 @@ export const SCREENS = [
   { file: 'V2-5-1-RebookPlan', label: '5.1 Book again', num: '5.1', name: 'Book again', sub: 'saved plan, Nga first', stage: 5 },
 ];
 
+// The main path a presenter walks (and tests/flow.js taps through): no side trips.
+export const MAIN_PATH = [
+  'V2-0-Welcome', 'V2-1-1-CleaningLevel', 'V2-1-2-YourHome', 'V2-1-3-Priorities', 'V2-1-4-RecommendedPlan',
+  'V2-1-5-QualityAgreement', 'V2-2-1-MatchedTaskers', 'V2-2-3-SendRequest', 'V2-2-4-TaskerConfirms',
+  'V2-2-5-BookingConfirmed', 'V2-3-1-FirstCleanCheck', 'V2-3-3-PhotoChecklist', 'V2-4-1-CheckResult', 'V2-5-1-RebookPlan',
+];
+
 // Names the v1 prototype used for the same boards.
 export const ALIASES = { 'TC00-Guide': 'V2-0-Guide', 'TC01-DVF': 'V2-0-DVF' };
 

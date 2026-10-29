@@ -43,6 +43,17 @@ const interpolate = (str, scope) => str.replace(HOLE, (_, e) => {
 
 const camel = (s) => s.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
 
+// Handlers live on the element (el.__dc), behind one listener per event type, so patch() can hand an element
+// that stays on screen the handlers of its newest render.
+function dispatch(e) {
+  const fn = this.__dc?.[e.type];
+  return fn ? fn.call(this, e) : undefined;
+}
+function listen(el, type, fn) {
+  (el.__dc ||= {})[type] = fn;
+  el.addEventListener(type, dispatch);
+}
+
 function renderNode(node, scope, out) {
   if (node.nodeType === Node.TEXT_NODE) {
     out.push(document.createTextNode(node.data.includes('{{') ? interpolate(node.data, scope) : node.data));
@@ -72,7 +83,7 @@ function renderNode(node, scope, out) {
     if (name.startsWith('sc-camel-')) {
       const prop = camel(name.slice(9));
       if (/^on[a-z]/i.test(prop)) {
-        if (typeof raw === 'function') el.addEventListener(prop.slice(2).toLowerCase(), raw);
+        if (typeof raw === 'function') listen(el, prop.slice(2).toLowerCase(), raw);
       } else if (raw != null && raw !== false) {
         el.setAttribute(prop, raw === true ? '' : String(raw));
       }
@@ -81,6 +92,7 @@ function renderNode(node, scope, out) {
     if (raw == null || raw === false) continue;
     el.setAttribute(name, raw === true ? '' : String(raw));
   }
+  el.__cls = el.getAttribute('class') || '';   // as rendered; the app may add classes of its own (e.g. glass)
   const children = [];
   renderChildren(tag === 'template' ? node.content : node, scope, children);
   el.append(...children);
@@ -111,4 +123,48 @@ export function render(compiled, instance) {
   const out = [];
   renderChildren(compiled.template, instance.renderVals(), out);
   return out;
+}
+
+// Sibling identity for patch(): the same tag with the same classes is taken to be the same thing.
+const sig = (n) => (n.nodeType === Node.ELEMENT_NODE ? `${n.namespaceURI}|${n.localName}|${n.__cls ?? n.getAttribute('class') ?? ''}` : `#${n.nodeType}`);
+const LOOKAHEAD = 4;
+
+function update(o, n) {
+  if (o.nodeType !== Node.ELEMENT_NODE) {
+    if (o.data !== n.data) o.data = n.data;
+    return;
+  }
+  for (const { name } of [...o.attributes]) if (!n.hasAttribute(name)) o.removeAttribute(name);
+  for (const { name, value } of n.attributes) if (o.getAttribute(name) !== value) o.setAttribute(name, value);
+  o.__dc = n.__dc;
+  o.__cls = n.__cls;
+  if (n.__dc) for (const type of Object.keys(n.__dc)) o.addEventListener(type, dispatch);
+  if (o.localName === 'textarea' || o.localName === 'input') return;   // keep what the person typed
+  patch(o, [...n.childNodes]);
+}
+
+/**
+ * Bring `parent`'s children in line with freshly rendered `nodes`, keeping every element that is still there.
+ * A re-render after a state change then changes only what changed: CSS transitions run (a toggle's knob
+ * slides, a box fills), scroll positions, focus and typed text stay, and entrance animations don't replay.
+ */
+export function patch(parent, nodes) {
+  let old = [...parent.childNodes];
+  let j = 0;
+  for (const n of nodes) {
+    const o = old[j];
+    if (o && sig(o) === sig(n)) { update(o, n); j++; continue; }
+    // Something was taken out before this node: skip ahead to its match.
+    const k = old.slice(j + 1, j + 1 + LOOKAHEAD).findIndex((x) => sig(x) === sig(n));
+    if (k >= 0 && !nodes.slice(nodes.indexOf(n) + 1).some((x) => o && sig(x) === sig(o))) {
+      for (let r = 0; r <= k; r++) old[j + r].remove();
+      j += k + 1;
+      update(old[j], n);
+      j++;
+      continue;
+    }
+    // Something new: put it in before the next old node.
+    if (o) parent.insertBefore(n, o); else parent.append(n);
+  }
+  for (; j < old.length; j++) old[j].remove();
 }

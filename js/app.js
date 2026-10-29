@@ -1,8 +1,9 @@
 // App shell: loads a screen file, renders it into the phone frame (or full screen on a phone),
 // follows links between screens, remembers choices, and drives the screen menu.
-import { compile, render } from './dc.js';
+import { compile, render, patch } from './dc.js';
+import { transition, photoIn, success } from './motion.js';
 import { pickPhoto } from './photo.js';
-import { SCREENS, STAGES, byFile } from './screens.js';
+import { SCREENS, STAGES, MAIN_PATH, byFile } from './screens.js';
 import { store } from './store.js';
 
 const $ = (sel) => document.querySelector(sel);
@@ -57,20 +58,49 @@ function instanceFor(file, screen) {
 
 const isPhone = () => window.matchMedia('(max-width: 600px)').matches;
 
+// Things that appear because of something the person did on the screen (not because the screen opened)
+// get a moment of motion: a photo that was just added, a booking that was just confirmed.
+const PHOTOS = '.ph[data-i], img.mine, .yours img';
+const SUCCESS = '[data-success]';
+
 function paint() {
   const meta = byFile(current);
   const screen = compiled.get(current);
   const host = meta.board ? $('#board') : $('#screen');
+  const fresh = !host.firstElementChild;   // first paint after opening the screen
   // Keep scroll positions of the screen's scrolling areas across re-renders.
   const saved = [...host.querySelectorAll('*')].filter((el) => el.scrollHeight > el.clientHeight).map((el) => el.scrollTop);
+  const before = new Set(host.querySelectorAll(`${PHOTOS}, ${SUCCESS}`));
   const nodes = render(screen, instanceFor(current, screen));
-  host.replaceChildren(...nodes);
+  // A re-render patches the screen in place, so only what changed changes (see patch in js/dc.js).
+  patch(host, nodes);
   const root = host.firstElementChild;
   if (root && !meta.board && isPhone()) { root.style.width = '100%'; root.style.height = '100%'; }
   if (root && !meta.board) floatBar(root);
   const after = [...host.querySelectorAll('*')].filter((el) => el.scrollHeight > el.clientHeight);
   after.forEach((el, i) => { if (saved[i]) el.scrollTop = saved[i]; });
   wireMenuButton(meta);
+  if (!fresh) {
+    const added = (sel) => [...host.querySelectorAll(sel)].filter((el) => !before.has(el));
+    const photos = added(PHOTOS);
+    photos.filter((el) => !photos.some((p) => p !== el && p.contains(el))).forEach(photoIn);
+    added(SUCCESS).forEach(success);
+  }
+  themeColor();
+}
+
+// The browser's bar matches the top of the screen: Be yellow on Welcome and the Tasker app, white elsewhere.
+function themeColor() {
+  const meta = document.querySelector('meta[name="theme-color"]');
+  const host = $('#screen');
+  if (!meta || !host.firstElementChild) return;
+  const r = host.getBoundingClientRect();
+  let el = document.elementFromPoint(r.left + r.width / 2, r.top + Math.max(2, parseFloat(getComputedStyle(host).paddingTop) + 2));
+  while (el && host.contains(el)) {
+    const bg = getComputedStyle(el).backgroundColor;
+    if (bg && !/rgba\(0, 0, 0, 0\)|transparent/.test(bg)) { meta.content = bg; return; }
+    el = el.parentElement;
+  }
 }
 
 // Liquid glass: a screen's bottom bar (or the home tab bar) floats over the content as a glass panel, so the
@@ -94,8 +124,9 @@ function wireMenuButton(meta) {
   btn.setAttribute('aria-haspopup', 'dialog');
   btn.setAttribute('aria-controls', 'sheet');
   btn.setAttribute('aria-expanded', String(!$('#sheet').hidden));
-  btn.addEventListener('click', () => setSheet($('#sheet').hidden));
+  btn.addEventListener('click', toggleSheet);   // the same function each paint, so it is added once
 }
+function toggleSheet() { setSheet($('#sheet').hidden); }
 
 // A screen's own styles apply to that screen only: each rule is scoped to the phone screen or the
 // board, so a class in a screen file can't restyle the panel or the menu.
@@ -123,8 +154,22 @@ function toast(text) {
 }
 
 let navigation = 0;   // the latest go(); an earlier one that finishes loading later must not paint over it
+let historyIndex = 0; // position of this entry in the tab's history, to tell browser back from forward
+const ENTER_MS = 700; // how long a newly opened screen keeps its entrance animations (sections, glass bar)
 
-async function go(file, { push = true } = {}) {
+// Which way a move goes: forward slides in from the right, back from the left, and a jump crossfades.
+// Within the journey, a screen earlier than this one is back; Welcome is always back; overview screens
+// (the journey map, the boards, the tabs) are forward.
+function direction(to) {
+  const from = byFile(current);
+  const target = byFile(to);
+  if (!from || !target) return 'fade';
+  if (target.file === 'V2-0-Welcome') return from.file === 'V2-0-Welcome' ? 'fade' : 'back';
+  if (target.stage === 0 || from.stage === 0) return 'fwd';
+  return SCREENS.indexOf(target) < SCREENS.indexOf(from) ? 'back' : 'fwd';
+}
+
+async function go(file, { push = true, dir, instant = false } = {}) {
   // An unknown or mistyped address opens the welcome screen instead of a blank page.
   const meta = byFile(file) || byFile('V2-0-Welcome');
   const ticket = ++navigation;
@@ -138,22 +183,35 @@ async function go(file, { push = true } = {}) {
     return;
   }
   if (ticket !== navigation) return;
-  current = meta.file;
-  store.visit(meta.file);
-  $('#screen-style').textContent = screen.styles;
-  scopeStyles($('#screen-style'));
-  document.title = `${screen.title} · beHome TrustCycle`;
-  document.body.classList.toggle('board-mode', !!meta.board);
-  document.body.classList.toggle('tasker-mode', !!meta.tasker);
-  const tag = meta.tasker ? 'Tasker app · beHome Partner' : meta.board || meta.stage === 0 ? 'Overview' : 'Customer app';
-  document.querySelectorAll('.app-tag').forEach((el) => { el.textContent = tag; el.classList.toggle('tasker', !!meta.tasker); });
-  if (location.hash.slice(1) !== meta.file) history[push ? 'pushState' : 'replaceState'](null, '', `#${meta.file}`);
-  ($('#board').replaceChildren(), $('#screen').replaceChildren());
-  paint();
-  fitBoard();
-  (meta.board ? $('#board-wrap') : $('#screen').firstElementChild)?.scrollTo?.(0, 0);
-  closeSheet();
-  markLists();
+  const first = !current;
+  const way = first ? 'fade' : dir || direction(meta.file);
+  const fromBoard = !!byFile(current)?.board;
+  // The DOM swap runs inside the transition (after the old screen is captured); a newer go() wins.
+  transition(meta.board || fromBoard ? 'fade' : way, () => {
+    if (ticket !== navigation) return false;
+    current = meta.file;
+    store.visit(meta.file);
+    $('#screen-style').textContent = screen.styles;
+    scopeStyles($('#screen-style'));
+    document.title = `${screen.title} · beHome TrustCycle`;
+    document.body.classList.toggle('board-mode', !!meta.board);
+    document.body.classList.toggle('tasker-mode', !!meta.tasker);
+    const tag = meta.tasker ? 'Tasker app · beHome Partner' : meta.board || meta.stage === 0 ? 'Overview' : 'Customer app';
+    document.querySelectorAll('.app-tag').forEach((el) => { el.textContent = tag; el.classList.toggle('tasker', !!meta.tasker); });
+    if (push && location.hash.slice(1) !== meta.file) history.pushState({ i: ++historyIndex }, '', `#${meta.file}`);
+    else history.replaceState({ i: historyIndex }, '', `#${meta.file}`);
+    ($('#board').replaceChildren(), $('#screen').replaceChildren());
+    // Entrance animations (sections fading up, the glass bar rising) belong to opening the screen: they run
+    // while #screen carries data-enter, and a re-render from a state change doesn't replay them.
+    $('#screen').dataset.enter = String(ticket);
+    setTimeout(() => { if ($('#screen').dataset.enter === String(ticket)) delete $('#screen').dataset.enter; }, ENTER_MS);
+    paint();
+    fitBoard();
+    (meta.board ? $('#board-wrap') : $('#screen').firstElementChild)?.scrollTo?.(0, 0);
+    closeSheet();
+    markLists();
+    return true;
+  }, { sync: first || instant });
 }
 
 // Links inside screens point at other screen files, e.g. "V2-1-2-YourHome.dc.html".
@@ -163,7 +221,9 @@ document.addEventListener('click', (e) => {
   const m = a.getAttribute('href').match(/^([\w-]+)\.dc\.html(#.*)?$/);
   if (!m) return;
   e.preventDefault();
-  go(m[1]);
+  // A back arrow, or a link marked data-nav="back" / "fade", says which way it goes; others go by journey order.
+  const nav = a.dataset.nav || (/^Back\b/.test(a.getAttribute('aria-label') || '') ? 'back' : undefined);
+  go(m[1], { dir: nav });
 });
 
 // The guide and DVF boards are 1600px wide: scale them to the window.
@@ -207,7 +267,7 @@ function buildList(container) {
       tick.className = 'tick';
       b.append(tick, document.createTextNode(s.label));
       if (s.tasker) { const t = document.createElement('span'); t.className = 'tag'; t.textContent = 'Tasker'; b.append(t); }
-      b.addEventListener('click', () => go(s.file));
+      b.addEventListener('click', () => go(s.file, { dir: 'fade' }));   // a jump: crossfade
       group.append(b);
     }
     return group;
@@ -252,9 +312,19 @@ function buildControls() {
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheet(); });
 }
 
-window.addEventListener('popstate', () => go(location.hash.slice(1) || 'V2-0-Welcome', { push: false }));
+// Browser back and forward: the entry's index says which way. An address typed or opened by a link
+// (no index yet) is a jump, and gets the next index.
+window.addEventListener('popstate', (e) => {
+  const i = e.state?.i;
+  const file = location.hash.slice(1) || 'V2-0-Welcome';
+  if (typeof i !== 'number') { historyIndex++; go(file, { push: false, dir: 'fade', instant: true }); return; }
+  const dir = i < historyIndex ? 'back' : i > historyIndex ? 'fwd' : 'fade';
+  historyIndex = i;
+  go(file, { push: false, dir });
+});
 window.addEventListener('resize', () => { fitBoard(); fitPhone(); if (current) paint(); });
 
+historyIndex = typeof history.state?.i === 'number' ? history.state.i : 0;
 buildControls();
 fitPhone();
 go(location.hash.slice(1) || 'V2-0-Welcome', { push: false });

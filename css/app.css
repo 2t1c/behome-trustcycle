@@ -88,3 +88,48 @@ body.screen-menu #menu-btn { display: none !important; }
 /* Glass sheets: the screen menu and the photo source sheet. */
 .sheet-card, #photo-sheet .ps-card { background: rgba(255,255,255,.8); -webkit-backdrop-filter: blur(26px) saturate(180%); backdrop-filter: blur(26px) saturate(180%); box-shadow: 0 -8px 30px rgba(28,29,33,.12), inset 0 1px 0 rgba(255,255,255,.95); }
 #sheet, #photo-sheet { -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+
+/* Screen transitions (js/motion.js). With View Transitions, #screen is captured on its own: forward, the new
+   screen slides in from the right while the old one shifts left and dims; back is the mirror; jumps crossfade.
+   The rest of the page (panel, frame) swaps without animation. The slide is clipped to the phone's glass. */
+#screen { view-transition-name: screen; }
+::view-transition-group(screen) { animation-duration: 280ms; animation-timing-function: cubic-bezier(.2,.8,.2,1); }
+::view-transition-image-pair(screen) { overflow: hidden; border-radius: calc(44px * var(--phone-scale)); }
+@media (max-width: 600px) { ::view-transition-image-pair(screen) { border-radius: 0; } }
+html:is(.vt-fwd, .vt-back)::view-transition-old(root), html:is(.vt-fwd, .vt-back)::view-transition-new(root) { animation: none; }
+html:is(.vt-fwd, .vt-back)::view-transition-old(screen), html:is(.vt-fwd, .vt-back)::view-transition-new(screen) { mix-blend-mode: normal; animation-duration: 280ms; animation-timing-function: cubic-bezier(.2,.8,.2,1); animation-fill-mode: both; }
+html.vt-fwd::view-transition-old(screen) { animation-name: vt-shift-left; }
+html.vt-fwd::view-transition-new(screen) { animation-name: vt-from-right; box-shadow: -10px 0 30px rgba(28,29,33,.12); }
+html.vt-back::view-transition-old(screen) { animation-name: vt-to-right; z-index: 1; box-shadow: -10px 0 30px rgba(28,29,33,.12); }
+html.vt-back::view-transition-new(screen) { animation-name: vt-from-left; }
+html.vt-fade::view-transition-group(*), html.vt-fade::view-transition-old(*), html.vt-fade::view-transition-new(*) { animation-duration: 220ms; }
+html.vt-quick::view-transition-group(*), html.vt-quick::view-transition-old(*), html.vt-quick::view-transition-new(*) { animation-duration: 120ms; }
+@keyframes vt-from-right { from { transform: translateX(100%); } }
+@keyframes vt-shift-left { to { transform: translateX(-28%); filter: brightness(.82); } }
+@keyframes vt-to-right { to { transform: translateX(100%); } }
+@keyframes vt-from-left { from { transform: translateX(-28%); filter: brightness(.82); } }
+/* Without View Transitions: the new screen eases in from the side it comes from. */
+#screen.enter-fwd { animation: enter-from-right 280ms cubic-bezier(.2,.8,.2,1); }
+#screen.enter-back { animation: enter-from-left 280ms cubic-bezier(.2,.8,.2,1); }
+#screen.enter-fade { animation: fade-in 220ms ease-out; }
+#screen.enter-quick { animation: fade-in 120ms ease-out; }
+@keyframes enter-from-right { from { transform: translateX(36%); opacity: .4; } }
+@keyframes enter-from-left { from { transform: translateX(-24%); opacity: .4; } }
+@keyframes fade-in { from { opacity: 0; } }
+
+/* Sheets slide up over a fading backdrop when they open. */
+@keyframes sheet-up { from { transform: translateY(100%); } }
+@keyframes sheet-pop { from { transform: translateY(24px) scale(.97); opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  #sheet:not([hidden]), #photo-sheet:not([hidden]) { animation: fade-in 220ms ease-out; }
+  #sheet:not([hidden]) .sheet-card { animation: sheet-up 300ms cubic-bezier(.2,.8,.2,1); }
+  #photo-sheet:not([hidden]) .ps-card { animation: sheet-up 300ms cubic-bezier(.2,.8,.2,1); }
+  .group button, .reset { transition: background-color .15s, transform .12s cubic-bezier(.2,.8,.2,1); }
+  .group button:active, .reset:active, #photo-sheet .ps-list button:active, #photo-sheet .ps-cancel:active { transform: scale(.98); }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 601px) {
+  #photo-sheet:not([hidden]) .ps-card { animation-name: sheet-pop; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #sheet:not([hidden]), #photo-sheet:not([hidden]) { animation: fade-in 120ms ease-out; }
+}
