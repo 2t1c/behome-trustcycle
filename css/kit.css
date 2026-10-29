@@ -118,3 +118,30 @@
 #screen .cl .ck, #screen .agree .ck { border-width: 2px; border-style: solid; }
 #screen .cl .ck svg, #screen .agree .ck svg { opacity: 1; }
 #screen .tkhd .grow { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Liquid glass (js/app.js floatBar): the bottom bar and the home tab bar float over the scrolling content as
+   frosted, lightly refracting panels; the content passes beneath them. Solid white where blur isn't supported. */
+#screen .app.glass { position: relative; }
+#screen .app.glass > .bb, #screen .app.glass > .tabs {
+  position: absolute; left: 10px; right: 10px; bottom: calc(10px + env(safe-area-inset-bottom)); z-index: 5;
+  border: 1px solid rgba(255,255,255,.75); border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.62));
+  -webkit-backdrop-filter: blur(22px) saturate(180%); backdrop-filter: blur(22px) saturate(180%);
+  box-shadow: 0 10px 30px rgba(28,29,33,.14), 0 1px 3px rgba(28,29,33,.08), inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 1px rgba(255,255,255,.4);
+}
+#screen .app.glass > .bb { padding: 12px 12px 12px; }
+#screen .app.glass > .bb .cta, #screen .app.glass > .bb .cta2 { border-radius: 18px; }
+#screen .app.glass > .bb .cta { box-shadow: inset 0 1px 0 rgba(255,255,255,.55), 0 2px 8px rgba(255,201,5,.35); }
+#screen .app.glass > .tabs { padding: 6px 4px; border-radius: 32px; }
+#screen .app.glass > .bb::before, #screen .app.glass > .tabs::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(120% 60% at 20% 0%, rgba(255,255,255,.55), transparent 60%);
+}
+#screen .app.glass > .bb > *, #screen .app.glass > .tabs > * { position: relative; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  #screen .app.glass > .bb, #screen .app.glass > .tabs { background: #fff; }
+}
+/* Badges on the yellow Tasker header get a small glass chip too. */
+#screen .online { background: rgba(255,255,255,.7); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 1px 2px rgba(28,29,33,.08); }
+/* Below the floating bar the content fades into the ground instead of peeking out under its edge. */
+#screen .app.glass::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 36px; z-index: 4; pointer-events: none; background: linear-gradient(rgba(242,243,245,0), #F2F3F5 80%); }

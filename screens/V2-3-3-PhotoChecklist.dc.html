@@ -9,6 +9,7 @@
 <style>
 body{margin:0}
 .ph{position:relative;width:56px;height:56px;border-radius:10px;background:#F2F3F5 center/cover no-repeat;display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}
+.ph .mine{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover}
 .ph .af{position:absolute;left:0;bottom:0;font-size:9px;font-weight:700;letter-spacing:.04em;color:#fff;background:rgba(28,29,33,.78);padding:2px 5px;border-top-right-radius:6px}
 .ph[data-i="0"]{background-image:url(img/v2/stove.jpg)}
 .ph[data-i="1"]{background-image:url(img/v2/sink.jpg)}
@@ -52,7 +53,7 @@ body{margin:0}
         <sc-for list="{{items}}" as="item" hint-placeholder-count="8">
           <div class="row" style="padding:10px 0">
             <sc-if value="{{item.isDone}}" hint-placeholder-val="{{true}}">
-              <div class="ph" data-i="{{$index}}" role="img" aria-label="After-photo: {{item.title}}"><svg width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#6B6F76" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg><span class="af">AFTER</span></div>
+              <div class="ph" data-i="{{$index}}" role="img" aria-label="After-photo: {{item.title}}"><svg width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#6B6F76" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg><sc-if value="{{item.hasImg}}" hint-placeholder-val="{{false}}"><img class="mine" src="{{item.img}}" alt="After-photo: {{item.title}}"></sc-if><span class="af">AFTER</span></div>
             </sc-if>
             <sc-if value="{{item.isPending}}" hint-placeholder-val="{{false}}">
               <div class="ph wait"><svg width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#6B6F76" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></div>
@@ -98,17 +99,23 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state;
     const times = ['11:06', '11:36', '11:46'];
-    const set = (i, st) => this.setState({
-      items: s.items.map((x, j) => (j === i ? { ...x, st, at: times[Math.min(2, Math.max(0, i - 5))] } : x))
+    const set = (i, st, img) => this.setState({
+      items: s.items.map((x, j) => (j === i ? { ...x, st, img: img || '', at: times[Math.min(2, Math.max(0, i - 5))] } : x))
     });
+    // The photo comes from the camera, the library or the demo's sample; cancelling leaves the item waiting.
+    const addPhoto = async (i) => {
+      const src = this.props.pickPhoto ? await this.props.pickPhoto() : 'sample';
+      if (src) set(i, 'done', src === 'sample' ? '' : src);
+    };
     const items = s.items.map((it, i) => ({
       ...it,
       isDone: it.st === 'done',
+      hasImg: !!it.img,
       isPending: it.st === 'pending',
       isReason: it.st === 'reason',
       status: it.st === 'done' ? 'Photo added · ' + it.at + it.extra : it.st === 'reason' ? 'Not done · reason sent: out of time' : (it.must ? 'Must-do · waiting' : 'If time'),
       statusColor: it.st === 'reason' ? '#7A5B00' : it.st === 'done' ? '#0B7A3E' : '#6B6F76',
-      photo: () => set(i, 'done'),
+      photo: () => addPhoto(i),
       cant: () => set(i, 'reason')
     }));
     const musts = s.items.filter((x) => x.must);

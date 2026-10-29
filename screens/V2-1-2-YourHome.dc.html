@@ -55,6 +55,7 @@ textarea{width:100%;font-family:inherit;font-size:14px;line-height:1.45;border:1
       <div class="rooms">
         <sc-for list="{{rooms}}" as="item" hint-placeholder-count="5">
           <div class="row" style="padding:4px 0;border-top:{{item.divider}}">
+            <img src="{{item.icon}}" alt="" width="40" height="40" style="flex:none">
             <span class="grow t1">{{item.label}}</span>
             <div class="stp">
               <button type="button" aria-label="{{item.minusLabel}}" sc-camel-on-click="{{item.minus}}">−</button>
@@ -124,6 +125,7 @@ class Component extends DCLogic {
     }));
     const rooms = Object.keys(s.rooms).map((k, i) => ({
       label: k,
+      icon: 'img/v2/icons/' + ({ 'Bedrooms': 'bed', 'Bathrooms': 'bath', 'Kitchen': 'kitchen', 'Living room': 'living', 'Balcony': 'balcony' }[k] || 'standard') + '.png',
       val: s.rooms[k],
       divider: i === 0 ? '0' : '1px solid #ECEDEF',
       minusLabel: 'Fewer ' + k.toLowerCase(),
