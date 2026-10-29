@@ -10,7 +10,7 @@ const TYPES = {
   '.json': 'application/json', '.webmanifest': 'application/manifest+json', '.png': 'image/png',
   '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.ico': 'image/x-icon',
 };
-const PRIVATE = new Set(['server.js', 'package.json', 'package-lock.json', 'tests']);
+const PRIVATE = new Set(['server.js', 'package.json', 'package-lock.json', 'tests', 'tools']);
 
 http.createServer((req, res) => {
   let rel = decodeURIComponent(new URL(req.url, 'http://x').pathname).replace(/^\/+/, '');

@@ -106,6 +106,60 @@ const PATH = [
       await p.close();
     }
 
+    // Presenter mode on the projector laptop: P hides the panel and fills the window's height with the phone,
+    // → / ← walk the main path (with the slide transitions), keys typed into a text field are left alone, the
+    // mode survives a reload, and Esc leaves it. On a phone there is no Present button and P does nothing.
+    {
+      const p = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+      p.on('pageerror', (e) => errors.push(`presenter page error: ${e.message}`));
+      const at = () => p.evaluate(() => location.hash.slice(1));
+      const presenting = () => p.evaluate(() => document.body.classList.contains('presenter'));
+      await p.goto(`${URL}#V2-0-Welcome`);
+      await p.waitForSelector('#screen .app');
+      if (!(await p.locator('#present-btn').isVisible())) errors.push('presenter: no Present button in the laptop panel');
+      await p.keyboard.press('p');
+      if (!(await presenting())) errors.push('presenter: P did not turn presenter mode on');
+      await p.waitForTimeout(400);   // the phone eases to its new size
+      if (await p.locator('#panel').isVisible()) errors.push('presenter: the side panel is still showing');
+      const ph = await p.locator('#phone').boundingBox();
+      if (!ph || Math.abs(ph.x + ph.width / 2 - 720) > 2 || ph.height < 900 * 0.9 || ph.y < 0 || ph.y + ph.height > 900) errors.push(`presenter: phone not centred and filling the height (${JSON.stringify(ph)})`);
+      if (!(await p.locator('#present-hint').isVisible())) errors.push('presenter: no hint on how to leave');
+      // → walks the whole main path, the order tests/flow.js taps through above, one slide at a time.
+      const MAIN = ['V2-0-Welcome', ...PATH.map((s) => s.tap)];
+      for (let i = 1; i < MAIN.length; i++) {
+        await p.keyboard.press('ArrowRight');
+        await p.waitForFunction((h) => location.hash === `#${h}` && document.querySelector('#screen .app'), MAIN[i], { timeout: 5000 }).catch(() => {});
+        if ((await at()) !== MAIN[i]) { errors.push(`presenter: → from ${MAIN[i - 1]} went to ${await at()}, not ${MAIN[i]}`); break; }
+      }
+      await p.keyboard.press('ArrowLeft');
+      await p.waitForFunction(() => location.hash === '#V2-4-1-CheckResult', null, { timeout: 5000 }).catch(() => errors.push(`presenter: ← from 5.1 went to ${location.hash}`));
+      await p.keyboard.press('PageUp');
+      await p.waitForFunction(() => location.hash === '#V2-3-3-PhotoChecklist', null, { timeout: 5000 }).catch(() => errors.push('presenter: PageUp did not step back'));
+      // Typing in a text field: P and the arrows stay in the field.
+      await p.goto(`${URL}#V2-1-2-YourHome`);
+      await p.waitForSelector('#screen textarea');
+      await p.locator('#screen textarea').focus();
+      await p.keyboard.press('p');
+      await p.keyboard.press('ArrowRight');
+      await p.waitForTimeout(400);
+      if (!(await presenting()) || (await at()) !== 'V2-1-2-YourHome') errors.push('presenter: keys typed into the note on 1.2 changed the mode or the screen');
+      await p.reload();
+      await p.waitForSelector('#screen .app');
+      if (!(await presenting())) errors.push('presenter: mode lost after a reload');
+      await p.locator('#screen h1').first().click();
+      await p.keyboard.press('Escape');
+      if (await presenting()) errors.push('presenter: Esc did not leave presenter mode');
+      if (!(await p.locator('#panel').isVisible())) errors.push('presenter: the panel did not come back');
+      await p.close();
+      const m = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      await m.goto(`${URL}#V2-0-Welcome`);
+      await m.waitForSelector('#screen .app');
+      if (await m.locator('#present-btn').isVisible()) errors.push('presenter: Present button shows on a phone');
+      await m.keyboard.press('p');
+      if (await m.evaluate(() => document.body.classList.contains('presenter'))) errors.push('presenter: P turned presenter mode on on a phone');
+      await m.close();
+    }
+
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
     page.on('pageerror', (e) => errors.push(`page error: ${e.message}`));
     const hash = () => page.evaluate(() => location.hash.slice(1));
@@ -223,10 +277,62 @@ const PATH = [
     await (await lib2).setFiles({ name: 'glass.png', mimeType: 'image/png', buffer: png });
     await ph.waitForSelector('#screen .yours img[src^="data:image/jpeg"]', { timeout: 5000 }).catch(() => errors.push('4.2: the added photo is not shown'));
     await pctx.close();
+    // The home screen's tabs: each one opens its screen and marks itself current. History starts empty and fills
+    // in as chị Lan books (2.5) and books again (5.1); Promotion's saved vouchers and Favourites' heart survive a
+    // reload, and the heart is the same choice as "Save Nga" at 4.1.
+    const tctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const tp = await tctx.newPage();
+    tp.on('pageerror', (e) => errors.push(`page error: ${e.message}`));
+    const tab = async (name, file) => {
+      await tp.locator('#screen nav.tabs a', { hasText: name }).click();
+      await tp.waitForFunction((f) => location.hash === `#${f}` && document.querySelector('#screen nav.tabs [aria-current="page"]'), file, { timeout: 4000 })
+        .catch(() => errors.push(`the ${name} tab does not open ${file}`));
+      await tp.waitForTimeout(400);
+      const on = (await tp.locator('#screen nav.tabs [aria-current="page"]').textContent().catch(() => '')).trim();
+      if (on !== name) errors.push(`${file}: the current tab is "${on}", not "${name}"`);
+    };
+    const text = () => tp.locator('#screen').textContent();
+    await tp.goto(`${URL}#V2-0-Welcome`);
+    await tp.waitForSelector('#screen nav.tabs');
+    await tab('History', 'V2-0-History');
+    if (!/No bookings yet/.test(await text())) errors.push('History is not empty before any booking');
+    await tab('Promotion', 'V2-0-Promotions');
+    const save = tp.locator('#screen button.save', { hasText: /^Save$/ }).first();
+    await save.click();
+    await tp.waitForFunction(() => /2 saved/.test(document.querySelector('#screen').textContent), null, { timeout: 3000 }).catch(() => errors.push('Promotion: saving a voucher does not count it'));
+    await tp.reload();
+    await tp.waitForFunction(() => /2 saved/.test(document.querySelector('#screen').textContent), null, { timeout: 4000 }).catch(() => errors.push('Promotion: the saved voucher was lost after reload'));
+    await tab('Favourites', 'V2-0-Favourites');
+    if (!/No saved Taskers yet/.test(await text())) errors.push('Favourites shows a saved Tasker before any visit');
+    await tab('Home', 'V2-0-Welcome');
+    await tp.goto(`${URL}#V2-2-5-BookingConfirmed`);
+    await tp.locator('#screen button', { hasText: 'Confirm booking' }).click();
+    await tp.waitForTimeout(300);
+    await tp.goto(`${URL}#V2-0-History`);
+    await tp.waitForFunction(() => /Tue 3 Nov/.test(document.querySelector('#screen').textContent) && /Confirmed/.test(document.querySelector('#screen').textContent), null, { timeout: 4000 })
+      .catch(() => errors.push('History does not show the booking confirmed at 2.5'));
+    await tp.goto(`${URL}#V2-4-1-CheckResult`);
+    await tp.waitForSelector('#screen .savebtn');
+    await tp.goto(`${URL}#V2-5-1-RebookPlan`);
+    await tp.locator('#screen button.cta').click();
+    await tp.waitForTimeout(300);
+    await tp.goto(`${URL}#V2-0-History`);
+    await tp.waitForFunction(() => /Wed 11 Nov/.test(document.querySelector('#screen').textContent) && /All 7 must-dos met/.test(document.querySelector('#screen').textContent), null, { timeout: 4000 })
+      .catch(() => errors.push('History does not show the 5.1 booking and the finished first clean'));
+    await tp.goto(`${URL}#V2-0-Favourites`);
+    await tp.waitForSelector('#screen .heart');
+    if ((await tp.getAttribute('#screen .heart', 'aria-pressed')) !== 'false') errors.push('Favourites: Nga is saved before anyone tapped the heart');
+    await tp.click('#screen .heart');
+    await tp.waitForSelector('#screen .heart[aria-pressed="true"]', { timeout: 3000 }).catch(() => errors.push('Favourites: the heart does not save Nga'));
+    await tp.reload();
+    await tp.waitForSelector('#screen .heart[aria-pressed="true"]', { timeout: 4000 }).catch(() => errors.push('Favourites: the saved heart was lost after reload'));
+    await tp.goto(`${URL}#V2-4-1-CheckResult`);
+    await tp.waitForSelector('#screen .savebtn[aria-pressed="true"]', { timeout: 4000 }).catch(() => errors.push('4.1 does not show Nga saved after the heart on Favourites'));
+    await tctx.close();
   } finally {
     await browser.close();
     server.stop();
   }
   if (errors.length) { console.error(errors.join('\n')); process.exit(1); }
-  console.log(`OK: main path of ${PATH.length} screens, 5.1 ending and journey next steps, reload keeps choices, Start over asks then clears, unknown address opens Welcome, Welcome picture and menu fine at 390×844 and 375×667, header menu button opens the menu, photos from camera, library or sample, load errors shown, all links resolve`);
+  console.log(`OK: main path of ${PATH.length} screens, 5.1 ending and journey next steps, reload keeps choices, Start over asks then clears, unknown address opens Welcome, Welcome picture and menu fine at 390×844 and 375×667, header menu button opens the menu, presenter mode (P, → ← along the main path, Esc), photos from camera, library or sample, home tabs (History fills in, saved vouchers and the Favourites heart persist), load errors shown, all links resolve`);
 })();

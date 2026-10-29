@@ -85,7 +85,7 @@
 #screen .sw { width: 44px; height: 26px; border-radius: 13px; background: #D9DBDF; position: relative; flex: none; border: 0; padding: 0; cursor: pointer; }
 #screen .sw i { position: absolute; left: 3px; top: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
 #screen .sw.on { background: #FFC905; }
-#screen .sw.on i { left: auto; right: 3px; }
+#screen .sw.on i { transform: translateX(18px); }   /* slides across (see Motion below) */
 #screen .seg { display: flex; background: #F2F3F5; border-radius: 10px; padding: 3px; gap: 2px; flex: none; }
 #screen .seg button { border: 0; background: none; font-size: 12px; font-weight: 500; min-height: 38px; padding: 0 10px; border-radius: 8px; color: #5C6067; cursor: pointer; }
 #screen .seg button.on, #screen .seg button[aria-checked="true"], #screen .seg button[aria-pressed="true"] { background: #FFC905; color: #1C1D21; font-weight: 600; }
@@ -109,6 +109,9 @@
 #screen .tabs { flex: none; background: #fff; border-top: 1px solid #ECEDEF; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px 0 20px; }
 #screen .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; font-weight: 500; color: #5C6067; padding: 4px 0; }
 #screen .tab.on { color: #1C1D21; font-weight: 600; }
+#screen a.tab { text-decoration: none; min-height: 44px; justify-content: center; }
+#screen a.tab:hover { color: #1C1D21; }
+#screen .tab[aria-current="page"] { color: #1C1D21; font-weight: 600; }
 /* A row shown only for the selected option: data-on carries that option's "true"/"false". */
 #screen [data-on="false"] { display: none !important; }
 /* Tasker app (beHome Partner): yellow header with ink text and a white "Online"/time badge */
@@ -145,3 +148,48 @@
 #screen .online { background: rgba(255,255,255,.7); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 1px 2px rgba(28,29,33,.08); }
 /* Below the floating bar the content fades into the ground instead of peeking out under its edge. */
 #screen .app.glass::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 36px; z-index: 4; pointer-events: none; background: linear-gradient(rgba(242,243,245,0), #F2F3F5 80%); }
+
+/* Motion inside a screen (js/motion.js has the screen-to-screen slides). Short, eased out, and off when the
+   person asks for reduced motion. A re-render patches the screen in place (js/dc.js patch), so these
+   transitions run on the element that changed instead of on a new copy. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Press: buttons, chips and links dip to .97 and spring back; full-width rows dip a little less. */
+  #screen :is(.cta, .cta2, .sm, .chip, .ib, .tab, .lnk, .tlink, .flag, .star, .pb, .seg button, .stp button, .again, .more) {
+    transition: transform .18s cubic-bezier(.2,.8,.2,1), filter .15s, background-color .18s, border-color .18s, box-shadow .18s, color .18s;
+  }
+  #screen :is(.opt, .op, .cl, .agree, .room, .swrow, .savebtn, .pick, .cond, .plan, .ch, .ri, .fx, .slot, .save, .tick-row, .r, a.sec, a.card) {
+    transition: transform .2s cubic-bezier(.2,.8,.2,1), background-color .18s, border-color .18s, box-shadow .18s;
+  }
+  #screen :is(.cta, .cta2, .sm, .chip, .tab, .lnk, .tlink, .pb, .seg button, .stp button, .again, .more):active:not(:disabled):not([aria-disabled="true"]) { transform: scale(.97); transition-duration: .08s; }
+  #screen :is(.ib, .flag, .star):active { transform: scale(.9); transition-duration: .08s; }
+  #screen :is(.opt, .op, .cl, .agree, .room, .swrow, .savebtn, .pick, .cond, .plan, .ch, .ri, .fx, .slot, .save, .tick-row, .r, a.sec, a.card):active { transform: scale(.985); transition-duration: .08s; }
+  #screen .cta:active:not(:disabled):not([aria-disabled="true"]) { filter: brightness(.93); }   /* the yellow darkens a touch */
+  #screen .ib:active { background: rgba(28,29,33,.06); }
+
+  /* Controls: radios ring in, boxes fill and the tick draws itself, toggle knobs slide. */
+  #screen .rd { transition: border-color .18s, border-width .18s, box-shadow .2s cubic-bezier(.2,.8,.2,1); }
+  #screen .ck { transition: background-color .16s, border-color .16s; }
+  #screen .ck svg { transition: opacity .16s; }
+  #screen [role="checkbox"] .ck path, #screen .ck.on path { stroke-dasharray: 20; stroke-dashoffset: 0; transition: stroke-dashoffset .24s cubic-bezier(.4,0,.2,1) .04s; }
+  #screen [role="checkbox"][aria-checked="false"] .ck path { stroke-dashoffset: 20; transition-delay: 0s; transition-duration: .12s; }
+  #screen .sw { transition: background-color .2s, border-color .2s; }
+  #screen .sw i { transition: transform .22s cubic-bezier(.2,.8,.2,1); }
+  #screen .sw i svg path { transition: stroke .2s; }
+  #screen .star svg { transition: fill .16s, stroke .16s; }
+  /* Meters fill to their new value. */
+  #screen :is(.prog i, .bar .fill, .bar .ift, .tr i) { transition: width .3s cubic-bezier(.2,.8,.2,1), left .3s cubic-bezier(.2,.8,.2,1); }
+
+  /* A newly opened screen: its first sections fade up one after another, and the glass bar rises in.
+     Only while #screen carries data-enter (set by go() in js/app.js), so a state change doesn't replay it. */
+  /* (A block that holds the header, like Welcome's yellow top, stays put.) */
+  #screen[data-enter] .app > .body > :nth-child(-n+5):not(:has([data-menu])) { animation: sec-in .3s cubic-bezier(.2,.8,.2,1) backwards; }
+  #screen[data-enter] .app > .body > :nth-child(2) { animation-delay: 40ms; }
+  #screen[data-enter] .app > .body > :nth-child(3) { animation-delay: 80ms; }
+  #screen[data-enter] .app > .body > :nth-child(4) { animation-delay: 120ms; }
+  #screen[data-enter] .app > .body > :nth-child(5) { animation-delay: 160ms; }
+  #screen[data-enter] .app.glass > :is(.bb, .tabs) { animation: bar-in .34s cubic-bezier(.2,.8,.2,1) 60ms backwards; }
+}
+@keyframes sec-in { from { opacity: 0; transform: translateY(10px); } }
+@keyframes bar-in { from { opacity: 0; transform: translateY(18px) scale(.98); } }
+/* The success mark (2.5, 5.1) scales from its centre. */
+#screen [data-success] circle { transform-box: fill-box; transform-origin: center; }

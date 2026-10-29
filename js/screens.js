@@ -21,6 +21,10 @@ export const SCREENS = [
   { file: 'V2-0-Journey', label: 'The journey', stage: 0, num: '', sub: 'user flow, all screens' },
   { file: 'V2-0-Guide', label: 'Concept guide', stage: 0, num: '', sub: 'the full design board', board: true },
   { file: 'V2-0-DVF', label: 'DVF check', stage: 0, num: '', sub: 'desirable, viable, feasible', board: true },
+  // The home screen's other tabs.
+  { file: 'V2-0-Promotions', label: 'Promotion', stage: 0, hidden: true },
+  { file: 'V2-0-History', label: 'History', stage: 0, hidden: true },
+  { file: 'V2-0-Favourites', label: 'Favourites', stage: 0, hidden: true },
   { file: 'V2-1-1-CleaningLevel', label: '1.1 Cleaning level', num: '1.1', name: 'Cleaning level', sub: 'Standard or Deep', stage: 1 },
   { file: 'V2-1-2-YourHome', label: '1.2 Your home', num: '1.2', name: 'Your home', sub: 'm², rooms, condition', stage: 1 },
   { file: 'V2-1-3-Priorities', label: '1.3 Priority areas', num: '1.3', name: 'Priority areas', sub: 'must-dos vs 4 hours', stage: 1 },
@@ -39,6 +43,13 @@ export const SCREENS = [
   { file: 'V2-4-2-ReportNotMet', label: '4.2 Report an item not met', num: '4.2', name: 'Report not met', sub: 'within 24 h', stage: 4, side: true },
   { file: 'V2-4-3-CaseFeedback', label: '4.3 Your case', num: '4.3', name: 'Your case', sub: 'vs the agreement', stage: 4, side: true },
   { file: 'V2-5-1-RebookPlan', label: '5.1 Book again', num: '5.1', name: 'Book again', sub: 'saved plan, Nga first', stage: 5 },
+];
+
+// The main path a presenter walks (and tests/flow.js taps through): no side trips.
+export const MAIN_PATH = [
+  'V2-0-Welcome', 'V2-1-1-CleaningLevel', 'V2-1-2-YourHome', 'V2-1-3-Priorities', 'V2-1-4-RecommendedPlan',
+  'V2-1-5-QualityAgreement', 'V2-2-1-MatchedTaskers', 'V2-2-3-SendRequest', 'V2-2-4-TaskerConfirms',
+  'V2-2-5-BookingConfirmed', 'V2-3-1-FirstCleanCheck', 'V2-3-3-PhotoChecklist', 'V2-4-1-CheckResult', 'V2-5-1-RebookPlan',
 ];
 
 // Names the v1 prototype used for the same boards.

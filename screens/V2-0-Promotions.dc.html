@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<title>Promotion</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+.hd .ttl{padding-left:12px;font-size:20px;font-weight:700}
+.promo{background:#fff;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.banner{position:relative;aspect-ratio:720/342;background:#FFC905}
+.banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.banner .say{position:absolute;right:0;top:0;bottom:0;width:36%;display:flex;flex-direction:column;justify-content:center;gap:4px;padding:0 12px 0 6px}
+.banner .big{font-size:28px;font-weight:700;letter-spacing:-.03em;line-height:1}
+.banner .mid{font-size:13px;font-weight:600;line-height:1.3}
+.code{display:flex;align-items:center;gap:10px;border:1.5px dashed #E8C64A;background:#FFFCF0;border-radius:12px;padding:6px 6px 6px 12px}
+.code b{font-size:15px;letter-spacing:.06em}
+.vc{display:flex;align-items:stretch;border:1px solid #ECEDEF;border-radius:14px;overflow:hidden;background:#fff}
+.vc .side{width:76px;flex:none;background:#FFF5D1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-right:1.5px dashed #F0D77A;font-weight:700;font-size:17px;letter-spacing:-.02em;text-align:center;padding:8px 4px}
+.vc .side small{font-size:10px;font-weight:600;letter-spacing:.04em;color:#7A5B00}
+.vc .main{flex:1;min-width:0;padding:10px 6px 10px 12px;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.vc .act{display:flex;align-items:center;padding-right:8px}
+.save[aria-pressed="true"]{background:#FFF8DB;border-color:#FFC905}
+</style>
+</helmet>
+<div class="app">
+  <div class="hd">
+    <h1 class="ttl">Promotion</h1>
+    <button type="button" class="ib" data-menu="" aria-label="Menu"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button>
+  </div>
+  <div class="body">
+    <div class="sec">
+      <div class="promo" style="box-shadow:0 0 0 1px #ECEDEF">
+        <div class="banner"><img src="img/v2/promo-first.jpg" alt="A smiling Tasker gives a thumbs-up in a clean kitchen"><div class="say"><span class="big">−20%</span><span class="mid">your first TrustCycle clean</span></div></div>
+        <div style="padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px">
+          <div><div class="t1" style="font-weight:600">Try TrustCycle for less</div><div class="t2">Agree what gets done before you book, then check every item with photos. Up to 60,000đ off, until 30 Nov.</div></div>
+          <a class="cta" href="V2-1-1-CleaningLevel.dc.html" data-nav="fade">Book with 20% off</a>
+        </div>
+      </div>
+    </div>
+    <div class="sec">
+      <div class="promo" style="box-shadow:0 0 0 1px #ECEDEF">
+        <div class="banner" style="background:#FBF3E4"><img src="img/v2/promo-refer.jpg" alt="Two friends laugh over a phone on a sofa"><div class="say"><span class="big" style="font-size:22px">50,000đ</span><span class="mid">for you and a friend</span></div></div>
+        <div style="padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px">
+          <div><div class="t1" style="font-weight:600">Invite a friend to beHome</div><div class="t2">When she books her first clean with your code, you both get 50,000đ off your next one.</div></div>
+          <div class="code"><span class="grow"><span class="k" style="display:block">YOUR CODE</span><b>LAN50K</b></span><button type="button" class="sm y" sc-camel-on-click="{{copy}}" aria-live="polite">{{copyLabel}}</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="sec">
+      <div class="row"><h2 class="st grow">Vouchers for you</h2><span class="t2" style="margin:0">{{savedCount}}</span></div>
+      <sc-for list="{{vouchers}}" as="v" hint-placeholder-count="3">
+        <div class="vc">
+          <div class="side">{{v.big}}<small>{{v.small}}</small></div>
+          <div class="main"><span class="t1" style="font-weight:600">{{v.title}}</span><span class="t2">{{v.sub}}</span></div>
+          <div class="act"><button type="button" class="sm save" aria-pressed="{{v.pressed}}" aria-label="{{v.aria}}" sc-camel-on-click="{{v.toggle}}">{{v.label}}</button></div>
+        </div>
+      </sc-for>
+    </div>
+    <p class="foot">Demo offers for the class concept, not real beHome promotions.</p>
+  </div>
+  <nav class="tabs" aria-label="beHome">
+    <a class="tab" href="V2-0-Welcome.dc.html" data-nav="fade"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M12 3.2l9 7.4V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1v-9.4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path></svg>Home</a>
+    <a class="tab" href="V2-0-Promotions.dc.html" data-nav="fade" aria-current="page"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z" fill="#FFC905" stroke="#FFC905" stroke-width="1.8" stroke-linejoin="round"></path><circle cx="7.5" cy="8.5" r="1.8" fill="#1C1D21"></circle></svg>Promotion</a>
+    <a class="tab" href="V2-0-History.dc.html" data-nav="fade"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"></circle><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>History</a>
+    <a class="tab" href="V2-0-Favourites.dc.html" data-nav="fade"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path></svg>Favourites</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844}}">
+class Component extends DCLogic {
+  constructor(...args) {
+    super(...args);
+    this.state = { saved: { first: true }, copied: false };
+  }
+  renderVals() {
+    const s = this.state;
+    const list = [
+      { id: 'first', big: '−20%', small: 'UP TO 60K', title: 'First TrustCycle clean', sub: 'Any cleaning level · until 30 Nov' },
+      { id: 'deep', big: '−30K', small: 'DEEP CLEAN', title: 'Deep cleaning, 4 hours or more', sub: 'Kitchens and bathrooms · until 15 Dec' },
+      { id: 'fridge', big: 'Free', small: '+30 MIN', title: 'Fridge clean add-on', sub: 'With a saved Cleaning Plan · until 31 Dec' }
+    ];
+    const saved = s.saved || {};
+    const vouchers = list.map((v) => {
+      const on = !!saved[v.id];
+      return {
+        ...v,
+        pressed: String(on),
+        label: on ? 'Saved' : 'Save',
+        aria: (on ? 'Saved: ' : 'Save voucher: ') + v.title,
+        toggle: () => this.setState({ saved: { ...saved, [v.id]: !on } })
+      };
+    });
+    const n = list.filter((v) => saved[v.id]).length;
+    return {
+      vouchers,
+      savedCount: n + ' saved',
+      copyLabel: s.copied ? 'Copied' : 'Copy',
+      copy: () => {
+        try { navigator.clipboard?.writeText('LAN50K').catch(() => {}); } catch (e) { /* no clipboard: the label still confirms */ }
+        this.setState({ copied: true });
+        setTimeout(() => this.setState({ copied: false }), 2000);
+      }
+    };
+  }
+}
+</script>
+</body></html>

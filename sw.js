@@ -2,11 +2,14 @@
 // without a connection. Requests are answered from the cache first (fast on a busy classroom Wi-Fi) and
 // refreshed from the network in the background, so the next open has the latest version.
 // Bump CACHE whenever this list changes.
-const CACHE = 'trustcycle-v4';
+const CACHE = 'trustcycle-v5';
 const SCREENS = [
   'screens/V2-0-DVF.dc.html',
+  'screens/V2-0-Favourites.dc.html',
   'screens/V2-0-Guide.dc.html',
+  'screens/V2-0-History.dc.html',
   'screens/V2-0-Journey.dc.html',
+  'screens/V2-0-Promotions.dc.html',
   'screens/V2-0-Welcome.dc.html',
   'screens/V2-1-1-CleaningLevel.dc.html',
   'screens/V2-1-2-YourHome.dc.html',
@@ -29,10 +32,14 @@ const SCREENS = [
 ];
 const ASSETS = [
   './', 'index.html', 'manifest.webmanifest', 'css/app.css', 'css/kit.css',
-  'js/app.js', 'js/dc.js', 'js/photo.js', 'js/screens.js', 'js/store.js',
-  'img/icon-192.png', 'img/icon-512.png', 'img/apple-touch-icon.png',
+  'js/app.js', 'js/dc.js', 'js/motion.js', 'js/photo.js', 'js/screens.js', 'js/store.js',
+  'img/icon-192.png', 'img/icon-512.png', 'img/icon-maskable-512.png', 'img/apple-touch-icon.png',
+  // iPhone launch screens (tools/make-icons.py).
+  'img/splash/splash-750x1334.png', 'img/splash/splash-828x1792.png', 'img/splash/splash-1170x2532.png', 'img/splash/splash-1179x2556.png',
+  'img/splash/splash-1206x2622.png', 'img/splash/splash-1284x2778.png', 'img/splash/splash-1290x2796.png', 'img/splash/splash-1320x2868.png',
   // Pictures in the v2 screens: the home banner, the Taskers and the after-photos.
-  'img/v2/hero.jpg', 'img/v2/nga.jpg', 'img/v2/hoa.jpg', 'img/v2/mai.jpg', 'img/v2/hood.jpg', 'img/v2/stove.jpg', 'img/v2/sink.jpg', 'img/v2/bath1.jpg', 'img/v2/bath2.jpg', 'img/v2/living.jpg', 'img/v2/bed1.jpg', 'img/v2/bed2.jpg',
+  'img/v2/hero.jpg', 'img/v2/nga.jpg', 'img/v2/hoa.jpg', 'img/v2/mai.jpg', 'img/v2/hood.jpg', 'img/v2/stove.jpg', 'img/v2/sink.jpg', 'img/v2/bath1.jpg', 'img/v2/bath2.jpg', 'img/v2/living.jpg', 'img/v2/bed1.jpg', 'img/v2/bed2.jpg', 'img/v2/balcony.jpg',
+  'img/v2/promo-first.jpg', 'img/v2/promo-refer.jpg',
   'img/v2/icons/standard.png', 'img/v2/icons/deep.png', 'img/v2/icons/kitchen.png', 'img/v2/icons/sink.png', 'img/v2/icons/bath.png', 'img/v2/icons/living.png', 'img/v2/icons/bed.png', 'img/v2/icons/kids.png', 'img/v2/icons/balcony.png', 'img/v2/icons/fridge.png',
   ...SCREENS,
 ];
