@@ -8,106 +8,78 @@
 <helmet>
 <style>
 body{margin:0}
-a{color:#0052B4}a:hover{color:#003D87}
+.it{display:flex;gap:10px;font-size:13px;line-height:1.4;align-items:baseline;color:#1C1D21}
+.it .no{width:30px;white-space:nowrap;color:#6B6F76;font-variant-numeric:tabular-nums;flex:none}
+.it .m{margin-left:auto;color:#6B6F76;font-variant-numeric:tabular-nums;flex:none}
+.bb.two{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 </style>
 </helmet>
-<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F2F2F2; color: #0B1620; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; overflow: hidden">
+<div class="app">
   <sc-if value="{{showLabels}}" hint-placeholder-val="{{true}}">
-    <div style="flex-shrink: 0; height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px 0 16px; background: #1D4ED8; color: #FFFFFF; font-size: 12px; font-weight: 600">
-      <span style="font-weight: 700">Stage 2 · Booking</span><span>·</span><span style="flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">2.4 Tasker confirms</span>
-      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 999px; background: #FFFFFF; color: #0B1620">UPDATED · S8</span>
-    </div>
+    <div class="lbl"><b>Stage 2 · Booking</b><span>·</span><span>2.4 Tasker confirms</span><em>UPDATED · S8</em></div>
   </sc-if>
-  <div style="flex-shrink: 0; background: #FFD83C; color: #0B1620; padding: 14px 16px 18px 16px; display: flex; flex-direction: column; gap: 10px">
-    <div style="display: flex; align-items: center; gap: 8px">
-      <a href="V2-2-3-SendRequest.dc.html" aria-label="Back" style="width: 44px; height: 44px; margin: -12px -4px -12px -12px; display: flex; align-items: center; justify-content: center; color: #0B1620; flex-shrink: 0">
-        <svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4"></path><path d="M10 18l-6-6 6-6"></path></svg>
-      </a>
-      <div style="flex: 1; font-size: 13px; font-weight: 600; color: #3A4046">beHome Partner · Tasker app</div>
-      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; background: #0B1620; color: #FFD83C">CONCEPT</span>
+  <div class="tkhd">
+    <div class="row" style="gap:4px">
+      <a class="ib" href="V2-2-3-SendRequest.dc.html" aria-label="Back"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+      <span class="grow" style="font-size:12px;font-weight:600;letter-spacing:.04em">beHome Partner · Tasker app</span>
+      <span class="online"><i></i>Online</span>
+      <button type="button" class="ib" data-menu="" aria-label="Menu"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button>
     </div>
-    <div style="font-size: 22px; font-weight: 700">Booking request</div>
-    <div style="display: flex; gap: 16px; font-size: 14px; font-weight: 500; color: #3A4046">
-      <span>Tue 3 Nov · 08:00–12:00</span>
-      <span>District 7 · 2.1 km</span>
+    <div style="padding:0 12px">
+      <h1 style="margin:0;font-size:22px;font-weight:700;letter-spacing:-.02em">New booking request</h1>
+      <div style="font-size:13px;color:#3F4248;margin-top:4px">Tue 3 Nov · 08:00–12:00 · District 7 · 2.1 km</div>
     </div>
   </div>
-  <div style="flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px">
-    <div style="flex-shrink: 0; display: flex; gap: 10px; align-items: center; padding: 12px 14px; border-radius: 14px; background: #EEF3FE; color: #3A4046; font-size: 14px; line-height: 1.4">
-      <svg width="20" height="20" sc-camel-view-box="0 0 24 24" fill="#156CEA" aria-hidden="true" style="flex-shrink: 0"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"></path></svg>
-      <span><strong style="color: #0B1620">Chị Lan chose you</strong> from your quality profile: kitchen is her top must-do.</span>
+  <div class="body">
+    <div class="sec">
+      <div style="display:flex;gap:10px;background:#FFF8E6;border-radius:12px;padding:12px;font-size:13px;line-height:1.5;color:#3F4248"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex:none;margin-top:1px"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="#E5484D"></path></svg><span><b style="color:#1C1D21">Chị Lan chose you</b> from your quality profile: kitchen is her top must-do.</span></div>
+      <div class="row" style="align-items:flex-start"><div class="grow"><div style="font-size:16px;font-weight:600">Standard · 4 hours</div><div class="t2">Basic equipment</div><div style="margin-top:6px"><span class="tag g">Agreement attached</span></div></div><div style="text-align:right"><div class="num" style="font-size:16px;font-weight:700">256,000đ</div><div class="t2" style="margin:0">Earnings</div></div></div>
     </div>
-
-    <div style="flex-shrink: 0; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E6E6; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px">
-      <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
-        <span style="font-size: 13px; color: #555A5E">Standard · 4 hours · Basic equipment</span>
-        <span style="font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: 8px; background: #E9F8EE; color: #04862F; flex-shrink: 0">Agreement attached</span>
+    <div class="sec" style="gap:8px">
+      <h2 class="st">About this home</h2>
+      <p class="p">Apartment · 70 m² · 2 bedrooms · 2 bathrooms · lived-in</p>
+      <div class="tags"><span class="tag">Cat at home</span><span class="tag">Kids</span><span class="tag">First booking</span></div>
+    </div>
+    <div class="sec" style="gap:10px">
+      <div class="row"><h2 class="st grow">Must-dos (7)</h2><span class="t2" style="margin:0">about 3h 05m</span></div>
+      <div class="it"><span class="no">1</span><span>Kitchen · degrease stove, counters</span><span class="m">30m</span></div>
+      <div class="it"><span class="no">2</span><span>Kitchen · sink, tap, floor</span><span class="m">25m</span></div>
+      <div class="it"><span class="no">3</span><span>Bathroom 1</span><span class="m">25m</span></div>
+      <div class="it"><span class="no">4</span><span>Bathroom 2</span><span class="m">25m</span></div>
+      <div class="it"><span class="no">5</span><span>Living room · dust, mop</span><span class="m">25m</span></div>
+      <div class="it"><span class="no">6</span><span>Bedroom 1 · change sheets</span><span class="m">25m</span></div>
+      <div class="it"><span class="no">7</span><span>Bedroom 2 (kids) · toy shelves</span><span class="m">30m</span></div>
+      <div class="line"></div>
+      <div class="it" style="color:#6B6F76"><span class="no">8</span><span>If time · balcony</span><span class="m">10m</span></div>
+      <p class="sub">Not in this job: fridge inside, heavy furniture, outside of high windows.</p>
+    </div>
+    <div class="sec">
+      <div class="hl">
+        <h2 class="st">Handle with care</h2>
+        <p class="p"><strong>Ancestor altar:</strong> dust around it, don't move items</p>
+        <p class="p"><strong>Wooden floor:</strong> damp mop only, no soaking</p>
+        <p class="p"><strong>Note:</strong> blue mop is for bathrooms only; key with the building guard</p>
       </div>
-      <span style="font-size: 16px; font-weight: 700">Earnings: 256,000đ</span>
     </div>
-
-    <div style="flex-shrink: 0; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E6E6; padding: 16px; display: flex; flex-direction: column; gap: 8px">
-      <div style="font-size: 17px; font-weight: 700">About this home</div>
-      <div style="font-size: 14px; color: #3A4046">Apartment · 70 m² · 2 bedrooms · 2 bathrooms · lived-in</div>
-      <div style="display: flex; flex-wrap: wrap; gap: 6px">
-        <span style="font-size: 13px; padding: 6px 10px; border-radius: 999px; background: #F2F2F2; color: #3A4046">Cat at home</span>
-        <span style="font-size: 13px; padding: 6px 10px; border-radius: 999px; background: #F2F2F2; color: #3A4046">Kids</span>
-        <span style="font-size: 13px; padding: 6px 10px; border-radius: 999px; background: #F2F2F2; color: #3A4046">First booking</span>
-      </div>
-    </div>
-
-    <div style="flex-shrink: 0; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E6E6; padding: 16px; display: flex; flex-direction: column; gap: 8px">
-      <div style="display: flex; justify-content: space-between; align-items: baseline">
-        <div style="font-size: 17px; font-weight: 700">Must-dos (7)</div>
-        <div style="font-size: 13px; color: #555A5E">about 3h 05m</div>
-      </div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #3A4046"><span>1 · Kitchen · degrease stove, counters</span><span style="color: #868E92">30m</span></div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #3A4046"><span>2 · Kitchen · sink, tap, floor</span><span style="color: #868E92">25m</span></div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #3A4046"><span>3 · Bathroom 1</span><span style="color: #868E92">25m</span></div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #3A4046"><span>4 · Bathroom 2</span><span style="color: #868E92">25m</span></div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #3A4046"><span>5 · Living room · dust, mop</span><span style="color: #868E92">25m</span></div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #3A4046"><span>6 · Bedroom 1 · change sheets</span><span style="color: #868E92">25m</span></div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #3A4046"><span>7 · Bedroom 2 (kids) · toy shelves</span><span style="color: #868E92">30m</span></div>
-      <div style="height: 1px; background: #EFEFEF; margin: 2px 0"></div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; color: #868E92"><span>If time · balcony</span><span>10m</span></div>
-      <div style="font-size: 13px; line-height: 1.45; color: #555A5E">Not in this job: fridge inside, heavy furniture, outside of high windows.</div>
-    </div>
-
-    <div style="flex-shrink: 0; background: #FFF7D6; border: 1px solid #FFD000; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 6px">
-      <div style="font-size: 17px; font-weight: 700">Handle with care</div>
-      <div style="font-size: 14px; line-height: 1.45; color: #3A4046"><strong style="color: #0B1620">Ancestor altar:</strong> dust around it, don't move items</div>
-      <div style="font-size: 14px; line-height: 1.45; color: #3A4046"><strong style="color: #0B1620">Wooden floor:</strong> damp mop only, no soaking</div>
-      <div style="font-size: 14px; line-height: 1.45; color: #3A4046"><strong style="color: #0B1620">Note:</strong> blue mop is for bathrooms only; key with the building guard</div>
-    </div>
-
-    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px">
-      <div style="display: flex; justify-content: space-between; align-items: baseline">
-        <span style="font-size: 17px; font-weight: 700">Confirm before accepting</span>
-        <span style="font-size: 13px; font-weight: 600; color: #555A5E">{{doneCount}} of 4</span>
-      </div>
+    <div class="sec" style="gap:8px">
+      <div class="row"><h2 class="st grow">Confirm before accepting</h2><span class="t2 num" style="margin:0">{{doneCount}} of 4</span></div>
       <sc-for list="{{checks}}" as="item" hint-placeholder-count="4">
-        <button type="button" role="checkbox" aria-checked="{{item.checked}}" sc-camel-on-click="{{item.toggle}}" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; border: {{item.border}}; background: {{item.bg}}; text-align: left; font-family: inherit; color: #0B1620; min-height: 56px">
-          <span style="width: 24px; height: 24px; border-radius: 7px; border: 2px solid {{item.boxBorder}}; background: {{item.box}}; box-sizing: border-box; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
-            <svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="{{item.tick}}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg>
-          </span>
-          <span style="flex: 1; font-size: 14px; line-height: 1.4; font-weight: 600">{{item.label}}</span>
+        <button type="button" class="cl" role="checkbox" aria-checked="{{item.checked}}" sc-camel-on-click="{{item.toggle}}" style="border:{{item.border}};background:{{item.bg}}">
+          <span class="ck" style="border-color:{{item.boxBorder}};background:{{item.box}}"><svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="{{item.tick}}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>
+          <span class="grow">{{item.label}}</span>
         </button>
       </sc-for>
-    </div>
-
-    <div style="flex-shrink: 0; display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.45; color: #555A5E">
-      <svg width="18" height="18" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex-shrink: 0; margin-top: 1px"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" fill="#156CEA"></path><path d="M9 12l2 2 4-4" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-      <span>Can't do one of these? Decline, and beHome matches chị Lan with another capable Tasker. Declining a mismatch never lowers your score.</span>
+      <div class="li" style="margin-top:4px"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex:none"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" fill="#416AD4"></path><path d="M8.5 12l2.5 2.5 4.5-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Can't do one of these? Decline, and beHome matches chị Lan with another capable Tasker. Declining a mismatch never lowers your score.</span></div>
     </div>
   </div>
-  <div style="flex-shrink: 0; padding: 12px 16px 24px 16px; background: #FFFFFF; box-shadow: 0 -1px 0 #ECECEC; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
-    <button type="button" style="height: 54px; border-radius: 16px; border: 0; background: #E6E6E6; color: #0B1620; font-family: inherit; font-size: 16px; font-weight: 700">Decline</button>
-    <div style="grid-column: span 2">
+  <div class="bb two">
+    <button type="button" class="cta2">Decline</button>
+    <div style="grid-column:span 2">
       <sc-if value="{{allDone}}" hint-placeholder-val="{{false}}">
-        <a href="V2-2-5-BookingConfirmed.dc.html" style="display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 16px; background: #FFD20A; color: #0B1620; font-size: 17px; font-weight: 700; text-decoration: none">Confirm and accept</a>
+        <a class="cta" href="V2-2-5-BookingConfirmed.dc.html">Confirm and accept</a>
       </sc-if>
       <sc-if value="{{notAllDone}}" hint-placeholder-val="{{true}}">
-        <button type="button" disabled="" style="width: 100%; height: 54px; border-radius: 16px; border: 0; background: #E6E6E6; color: #555A5E; font-family: inherit; font-size: 16px; font-weight: 700">Tick all 4 to accept</button>
+        <button type="button" class="cta" disabled="">Tick all 4 to accept</button>
       </sc-if>
     </div>
   </div>
@@ -132,11 +104,11 @@ class Component extends DCLogic {
       return {
         label,
         checked: String(on),
-        border: on ? '1.5px solid #FFD000' : '1px solid #E6E6E6',
-        bg: on ? '#FFFDEE' : '#FFFFFF',
-        box: on ? '#FFD20A' : '#FFFFFF',
-        boxBorder: on ? '#FFD20A' : '#868E92',
-        tick: on ? '#0B1620' : 'transparent',
+        border: on ? '1px solid #FFC905' : '1px solid #E3E5E8',
+        bg: on ? '#FFF8DB' : '#FFFFFF',
+        box: on ? '#FFC905' : '#FFFFFF',
+        boxBorder: on ? '#FFC905' : '#A9ADB3',
+        tick: on ? '#1C1D21' : 'transparent',
         toggle: () => { const n = c.slice(); n[i] = !n[i]; this.setState({ c: n }); }
       };
     });
