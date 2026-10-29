@@ -2,7 +2,7 @@
 // without a connection. Requests are answered from the cache first (fast on a busy classroom Wi-Fi) and
 // refreshed from the network in the background, so the next open has the latest version.
 // Bump CACHE whenever this list changes.
-const CACHE = 'trustcycle-v2';
+const CACHE = 'trustcycle-v3';
 const SCREENS = [
   'screens/V2-0-DVF.dc.html',
   'screens/V2-0-Guide.dc.html',
@@ -28,9 +28,11 @@ const SCREENS = [
   'screens/V2-5-1-RebookPlan.dc.html',
 ];
 const ASSETS = [
-  './', 'index.html', 'manifest.webmanifest', 'css/app.css',
+  './', 'index.html', 'manifest.webmanifest', 'css/app.css', 'css/kit.css',
   'js/app.js', 'js/dc.js', 'js/screens.js', 'js/store.js',
   'img/icon-192.png', 'img/icon-512.png', 'img/apple-touch-icon.png',
+  // Pictures in the v2 screens: the home banner, the Taskers and the after-photos.
+  'img/v2/hero.jpg', 'img/v2/nga.jpg', 'img/v2/hoa.jpg', 'img/v2/mai.jpg', 'img/v2/hood.jpg', 'img/v2/stove.jpg', 'img/v2/sink.jpg', 'img/v2/bath1.jpg', 'img/v2/bath2.jpg', 'img/v2/living.jpg', 'img/v2/bed1.jpg', 'img/v2/bed2.jpg',
   ...SCREENS,
 ];
 // The Be Vietnam Pro font comes from Google Fonts: kept once it has been loaded.

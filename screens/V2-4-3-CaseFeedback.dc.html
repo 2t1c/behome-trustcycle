@@ -8,139 +8,60 @@
 <helmet>
 <style>
 body{margin:0}
-a{color:#0052B4}a:hover{color:#003D87}
+.tl{display:flex;gap:12px}
+.tl .dot{display:flex;flex-direction:column;align-items:center;flex:none}
+.tl .dot i{width:2px;flex:1;background:#D9DBDF;margin-top:4px}
+.tl .c{padding-bottom:14px;flex:1;min-width:0}
+.q{font-size:12px;line-height:1.5;color:#3F4248;margin-top:2px}
+.cmp{position:relative;flex:1;height:96px;border-radius:10px;overflow:hidden;background:#DCE7EE}
+.cmp img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover}
+.cmp span{position:absolute;left:0;bottom:0;font-size:9px;font-weight:700;color:#fff;background:rgba(28,29,33,.78);padding:2px 5px;border-top-right-radius:6px}
+.slot{display:flex;align-items:center;gap:12px;width:100%;padding:12px;border-radius:12px;text-align:left;color:#1C1D21;cursor:pointer;min-height:56px}
 </style>
 </helmet>
-<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F2F2F2; color: #0B1620; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; overflow: hidden">
+<div class="app">
   <sc-if value="{{showLabels}}" hint-placeholder-val="{{true}}">
-    <div style="flex-shrink: 0; height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px 0 16px; background: #B45309; color: #FFFFFF; font-size: 12px; font-weight: 600">
-      <span style="font-weight: 700">Stage 4 · Post-service</span><span>·</span><span style="flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">4.3 Your case</span>
-      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 999px; background: #FFFFFF; color: #0B1620">UPDATED · S13</span>
-    </div>
+    <div class="lbl"><b>Stage 4 · Post-service</b><span>·</span><span>4.3 Your case</span><em>UPDATED · S13</em></div>
   </sc-if>
-  <div style="height: 56px; flex-shrink: 0; display: flex; align-items: center; gap: 6px; padding: 0 14px 0 6px; background: #FFFFFF">
-    <a href="V2-4-2-ReportNotMet.dc.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #0B1620">
-      <svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4"></path><path d="M10 18l-6-6 6-6"></path></svg>
-    </a>
-    <div style="flex: 1; font-size: 19px; font-weight: 700">Your case</div>
-    <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; background: #F2F2F2; color: #555A5E">CONCEPT</span>
+  <div class="hd">
+    <a class="ib" href="V2-4-2-ReportNotMet.dc.html" aria-label="Back"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <h1 class="ttl">Your case</h1>
+    <button type="button" class="ib" data-menu="" aria-label="Menu"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button>
   </div>
-  <div style="flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px">
-    <div style="flex-shrink: 0; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E6E6; padding: 16px; display: flex; flex-direction: column; gap: 8px">
-      <div style="display: flex; justify-content: space-between; align-items: center">
-        <span style="font-size: 13px; color: #868E92">Case BH-0311-0482</span>
-        <span style="font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 8px; background: #E6EEFE; color: #0A45D0">Re-clean offered</span>
-      </div>
-      <div style="font-size: 17px; font-weight: 700">Agreement item 4 · Bathroom 2 · not done well</div>
-      <div style="font-size: 13px; color: #555A5E">Visit Tue 3 Nov with Nga · reported 13:10</div>
+  <div class="body">
+    <div class="sec" style="gap:6px">
+      <div class="row"><span class="t2 grow" style="margin:0">Case BH-0311-0482</span><span class="tag">Re-clean offered</span></div>
+      <div style="font-size:17px;font-weight:600;line-height:1.35">Agreement item 4 · Bathroom 2 · not done well</div>
+      <div class="t2" style="margin:0">Visit Tue 3 Nov with Nga · reported 13:10</div>
     </div>
-
-    <div style="flex-shrink: 0; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E6E6; padding: 16px 16px 6px 16px; display: flex; flex-direction: column">
-      <div style="display: flex; gap: 12px">
-        <div style="display: flex; flex-direction: column; align-items: center; width: 24px; flex-shrink: 0">
-          <span style="width: 24px; height: 24px; border-radius: 12px; background: #05AC3C; display: flex; align-items: center; justify-content: center"><svg width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span>
-          <span style="flex: 1; width: 2px; background: #BFE8CC; min-height: 16px"></span>
-        </div>
-        <div style="flex: 1; padding-bottom: 14px; display: flex; flex-direction: column; gap: 2px">
-          <span style="font-size: 15px; font-weight: 700">Report received</span>
-          <span style="font-size: 13px; color: #555A5E">Tue 3 Nov, 13:10 · your photo attached</span>
-        </div>
-      </div>
-      <div style="display: flex; gap: 12px">
-        <div style="display: flex; flex-direction: column; align-items: center; width: 24px; flex-shrink: 0">
-          <span style="width: 24px; height: 24px; border-radius: 12px; background: #05AC3C; display: flex; align-items: center; justify-content: center"><svg width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span>
-          <span style="flex: 1; width: 2px; background: #BFE8CC; min-height: 16px"></span>
-        </div>
-        <div style="flex: 1; padding-bottom: 14px; display: flex; flex-direction: column; gap: 2px">
-          <span style="font-size: 15px; font-weight: 700">First reply · 32 minutes</span>
-          <span style="font-size: 13px; color: #555A5E">13:42 · “We've seen your photo and Nga's report and are reviewing now.”</span>
-        </div>
-      </div>
-      <div style="display: flex; gap: 12px">
-        <div style="display: flex; flex-direction: column; align-items: center; width: 24px; flex-shrink: 0">
-          <span style="width: 24px; height: 24px; border-radius: 12px; background: #05AC3C; display: flex; align-items: center; justify-content: center"><svg width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span>
-          <span style="flex: 1; width: 2px; background: #BFE8CC; min-height: 16px"></span>
-        </div>
-        <div style="flex: 1; padding-bottom: 14px; display: flex; flex-direction: column; gap: 8px">
-          <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap"><span style="font-size: 15px; font-weight: 700">Compared with your Quality Agreement</span><span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 2px 6px; border-radius: 999px; background: #FFD20A; color: #0B1620">NEW</span></div>
-          <div style="display: flex; gap: 8px">
-            <div style="flex: 1; height: 60px; border-radius: 10px; background: #EDEDED; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px" role="img" aria-label="Your photo, 13:05, placeholder">
-              <svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="#868E92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
-              <span style="font-size: 9px; font-weight: 700; color: #555A5E">YOURS · 13:05</span>
-            </div>
-            <div style="flex: 1; height: 60px; border-radius: 10px; background: #EDEDED; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px" role="img" aria-label="Nga's after-photo, 10:16, placeholder">
-              <svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="#868E92" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
-              <span style="font-size: 9px; font-weight: 700; color: #555A5E">NGA · 10:16</span>
-            </div>
-          </div>
-          <span style="font-size: 13px; line-height: 1.45; color: #555A5E">13:55 · Item 4 says “toilet, sink, shower, floor”. Water marks on the shower glass show in both photos.</span>
-        </div>
-      </div>
-      <div style="display: flex; gap: 12px">
-        <div style="display: flex; flex-direction: column; align-items: center; width: 24px; flex-shrink: 0">
-          <span style="width: 24px; height: 24px; border-radius: 12px; background: #05AC3C; display: flex; align-items: center; justify-content: center"><svg width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span>
-          <span style="flex: 1; width: 2px; background: #BFE8CC; min-height: 16px"></span>
-        </div>
-        <div style="flex: 1; padding-bottom: 14px; display: flex; flex-direction: column; gap: 2px">
-          <span style="font-size: 15px; font-weight: 700">Nga added her side</span>
-          <span style="font-size: 13px; color: #555A5E">14:20 · “I ran out of glass cleaner for the second shower. Sorry, I'll bring extra.”</span>
-        </div>
-      </div>
-      <div style="display: flex; gap: 12px">
-        <div style="display: flex; flex-direction: column; align-items: center; width: 24px; flex-shrink: 0">
-          <span style="width: 24px; height: 24px; border-radius: 12px; background: #05AC3C; display: flex; align-items: center; justify-content: center"><svg width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span>
-          <span style="flex: 1; width: 2px; background: #BFE8CC; min-height: 16px"></span>
-        </div>
-        <div style="flex: 1; padding-bottom: 14px; display: flex; flex-direction: column; gap: 2px">
-          <span style="font-size: 15px; font-weight: 700">Decision</span>
-          <span style="font-size: 13px; line-height: 1.45; color: #555A5E">16:05 · The shower glass was below agreement item 4. A free re-clean of Bathroom 2 is offered.</span>
-        </div>
-      </div>
-      <div style="display: flex; gap: 12px">
-        <div style="display: flex; flex-direction: column; align-items: center; width: 24px; flex-shrink: 0">
-          <span style="width: 24px; height: 24px; border-radius: 12px; background: #FFFFFF; border: 6px solid #FFD20A; box-sizing: border-box"></span>
-          <span style="flex: 1; width: 2px; background: #DCDCDC; min-height: 16px"></span>
-        </div>
-        <div style="flex: 1; padding-bottom: 14px; display: flex; flex-direction: column; gap: 2px">
-          <span style="font-size: 15px; font-weight: 700">Choose a re-clean time</span>
-          <span style="font-size: 13px; color: #555A5E">About 30 minutes, within 48 hours of the visit</span>
-        </div>
-      </div>
-      <div style="display: flex; gap: 12px">
-        <div style="display: flex; flex-direction: column; align-items: center; width: 24px; flex-shrink: 0">
-          <span style="width: 24px; height: 24px; border-radius: 12px; background: #FFFFFF; border: 2px solid #DCDCDC; box-sizing: border-box"></span>
-        </div>
-        <div style="flex: 1; padding-bottom: 10px; display: flex; flex-direction: column; gap: 2px">
-          <span style="font-size: 15px; font-weight: 600; color: #868E92">Closed once you confirm the re-clean</span>
-        </div>
+    <div class="sec" style="gap:0">
+      <div class="tl"><span class="dot"><svg width="20" height="20" sc-camel-view-box="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#12A150"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg><i></i></span><div class="c"><div class="t1" style="font-weight:600">Report received</div><div class="q">Tue 3 Nov, 13:10 · your photo attached</div></div></div>
+      <div class="tl"><span class="dot"><svg width="20" height="20" sc-camel-view-box="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#12A150"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg><i></i></span><div class="c"><div class="t1" style="font-weight:600">First reply · 32 minutes</div><div class="q">13:42 · “We've seen your photo and Nga's report and are reviewing now.”</div></div></div>
+      <div class="tl"><span class="dot"><svg width="20" height="20" sc-camel-view-box="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#12A150"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg><i></i></span><div class="c"><div class="t1" style="font-weight:600">Compared with your Quality Agreement</div><div class="row" style="gap:8px;margin:8px 0 4px"><div class="cmp"><img src="img/v2/bath2.jpg" alt="Your photo of the shower glass, 13:05"><span>YOURS · 13:05</span></div><div class="cmp"><img src="img/v2/bath2.jpg" alt="Nga's after-photo of the shower glass, 10:16" style="object-position:30% 40%;transform:scale(1.25)"><span>NGA · 10:16</span></div></div><div class="q">13:55 · Item 4 says “toilet, sink, shower, floor”. Water marks on the shower glass show in both photos.</div></div></div>
+      <div class="tl"><span class="dot"><svg width="20" height="20" sc-camel-view-box="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#12A150"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg><i></i></span><div class="c"><div class="t1" style="font-weight:600">Nga added her side</div><div class="q">14:20 · “I ran out of glass cleaner for the second shower. Sorry, I'll bring extra.”</div></div></div>
+      <div class="tl"><span class="dot"><svg width="20" height="20" sc-camel-view-box="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#12A150"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg><i></i></span><div class="c"><div class="t1" style="font-weight:600">Decision</div><div class="q">16:05 · The shower glass was below agreement item 4. A free re-clean of Bathroom 2 is offered.</div></div></div>
+      <div class="tl"><span class="dot"><svg width="20" height="20" sc-camel-view-box="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFC905"></circle><circle cx="12" cy="12" r="4" fill="#fff"></circle></svg><i></i></span><div class="c"><div class="t1" style="font-weight:600">Choose a re-clean time</div><div class="q">About 30 minutes, within 48 hours of the visit</div></div></div>
+      <div class="tl"><span class="dot"><svg width="20" height="20" sc-camel-view-box="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#fff" stroke="#C9CCD1" stroke-width="2"></circle></svg></span><div class="c" style="padding-bottom:0"><div class="t1" style="font-weight:500;color:#6B6F76">Closed once you confirm the re-clean</div></div></div>
+    </div>
+    <div class="sec">
+      <h2 class="st">Choose a re-clean time</h2>
+      <div role="radiogroup" aria-label="Re-clean time" style="display:flex;flex-direction:column;gap:8px">
+        <sc-for list="{{slots}}" as="item" hint-placeholder-count="3">
+          <button type="button" class="slot" role="radio" aria-checked="{{item.checked}}" sc-camel-on-click="{{item.pick}}" style="border:{{item.border}};background:{{item.bg}}">
+            <span class="rd" style="border-color:{{item.ring}};box-shadow:inset 0 0 0 4px {{item.dot}}"></span>
+            <span class="grow"><span class="t1" style="display:block;font-weight:600">{{item.when}}</span><span class="t2" style="display:block">{{item.who}}</span></span>
+          </button>
+        </sc-for>
       </div>
     </div>
-
-    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px" role="radiogroup" aria-label="Re-clean time">
-      <sc-for list="{{slots}}" as="item" hint-placeholder-count="3">
-        <button type="button" role="radio" aria-checked="{{item.checked}}" sc-camel-on-click="{{item.pick}}" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; border: {{item.border}}; background: {{item.bg}}; text-align: left; font-family: inherit; color: #0B1620">
-          <span style="width: 20px; height: 20px; border-radius: 10px; border: 2px solid {{item.ring}}; box-sizing: border-box; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
-            <span style="width: 10px; height: 10px; border-radius: 5px; background: {{item.dot}}"></span>
-          </span>
-          <span style="flex: 1; display: flex; flex-direction: column; gap: 2px">
-            <span style="font-size: 15px; font-weight: 700">{{item.when}}</span>
-            <span style="font-size: 13px; color: #555A5E">{{item.who}}</span>
-          </span>
-        </button>
-      </sc-for>
-    </div>
-
-    <div style="flex-shrink: 0; background: #E9F8EE; border: 1px solid #BFE8CC; border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px">
-      <div style="display: flex; align-items: center; gap: 8px">
-        <svg width="20" height="20" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="10" fill="#05AC3C"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        <span style="font-size: 16px; font-weight: 700; color: #04862F">Verified feedback saved</span>
-      </div>
-      <div style="font-size: 14px; line-height: 1.45; color: #3A4046"><strong style="color: #0B1620">Your plan:</strong> Bathroom 2 shower glass becomes a check item in your Quality Agreement.</div>
-      <div style="font-size: 14px; line-height: 1.45; color: #3A4046"><strong style="color: #0B1620">Nga:</strong> her bathroom score updates after review, and the case is used for beAcademy coaching. It doesn't remove her from your saved Taskers.</div>
+    <div class="sec" style="gap:8px">
+      <div class="row" style="gap:8px"><svg width="20" height="20" sc-camel-view-box="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#12A150"></circle><path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg><h2 class="st" style="color:#0B7A3E">Verified feedback saved</h2></div>
+      <p class="p"><strong>Your plan:</strong> Bathroom 2 shower glass becomes a check item in your Quality Agreement.</p>
+      <p class="p"><strong>Nga:</strong> her bathroom score updates after review, and the case is used for beAcademy coaching. It doesn't remove her from your saved Taskers.</p>
     </div>
   </div>
-  <div style="flex-shrink: 0; padding: 12px 16px 24px 16px; background: #FFFFFF; box-shadow: 0 -1px 0 #ECECEC">
-    <a href="V2-5-1-RebookPlan.dc.html" style="display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 16px; background: #FFD20A; color: #0B1620; font-size: 17px; font-weight: 700; text-decoration: none">{{cta}}</a>
+  <div class="bb">
+    <a class="cta" href="V2-5-1-RebookPlan.dc.html">{{cta}}</a>
   </div>
 </div>
 </x-dc>
@@ -159,10 +80,10 @@ class Component extends DCLogic {
     const slots = opts.map((o) => ({
       ...o,
       checked: String(o.id === this.state.pick),
-      border: o.id === this.state.pick ? '1.5px solid #FFD000' : '1px solid #E6E6E6',
-      bg: o.id === this.state.pick ? '#FFFDEE' : '#FFFFFF',
-      ring: o.id === this.state.pick ? '#0B1620' : '#868E92',
-      dot: o.id === this.state.pick ? '#0B1620' : 'transparent',
+      border: o.id === this.state.pick ? '1px solid #FFC905' : '1px solid #E3E5E8',
+      bg: o.id === this.state.pick ? '#FFFCF0' : '#FFFFFF',
+      ring: o.id === this.state.pick ? '#FFC905' : '#A9ADB3',
+      dot: o.id === this.state.pick ? '#FFC905' : 'transparent',
       pick: () => this.setState({ pick: o.id })
     }));
     const cur = opts.find((o) => o.id === this.state.pick) || opts[0];

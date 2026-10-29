@@ -8,128 +8,83 @@
 <helmet>
 <style>
 body{margin:0}
-a{color:#0052B4}a:hover{color:#003D87}
+.tl{display:flex;gap:10px;font-size:13px;align-items:baseline;line-height:1.4}
+.tl .h{width:40px;color:#6B6F76;font-variant-numeric:tabular-nums;flex:none}
+.tl .m{margin-left:auto;color:#6B6F76;font-variant-numeric:tabular-nums;flex:none}
+.tl .dot{width:8px;height:8px;border-radius:50%;background:#FFC905;flex:none;align-self:center}
+.tl .dot.if{background:#fff;border:1.5px dashed #6B6F76}
+.days{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.d{border:1px solid #E3E5E8;background:#fff;border-radius:10px;padding:7px 0;display:flex;flex-direction:column;align-items:center;gap:1px;font-size:11px;color:#6B6F76}
+.d b{font-size:15px;color:#1C1D21;font-weight:600}
+.d.on{background:#FFF8DB;border-color:#FFC905;box-shadow:inset 0 0 0 1px #FFC905;color:#1C1D21}
+.kv{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px;color:#3F4248}
+.plan{display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:12px;color:#1C1D21;cursor:pointer}
+.plan .rd{margin-top:1px}
 </style>
 </helmet>
-<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F2F2F2; color: #0B1620; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif; overflow: hidden">
+<div class="app">
   <sc-if value="{{showLabels}}" hint-placeholder-val="{{true}}">
-    <div style="flex-shrink: 0; height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 12px 0 16px; background: #0F766E; color: #FFFFFF; font-size: 12px; font-weight: 600">
-      <span style="font-weight: 700">Stage 1 · Pre-booking</span><span>·</span><span style="flex: 1">1.4 Recommended plan</span>
-      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 999px; background: #FFFFFF; color: #0B1620">UPDATED · S3</span>
-    </div>
+    <div class="lbl"><b>Stage 1 · Pre-booking</b><span>·</span><span>1.4 Recommended plan</span><em>UPDATED · S3</em></div>
   </sc-if>
-  <div style="height: 56px; flex-shrink: 0; display: flex; align-items: center; gap: 6px; padding: 0 14px 0 6px; background: #FFFFFF">
-    <a href="V2-1-3-Priorities.dc.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #0B1620">
-      <svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4"></path><path d="M10 18l-6-6 6-6"></path></svg>
-    </a>
-    <div style="flex: 1; font-size: 19px; font-weight: 700">Recommended plan</div>
-    <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 4px 8px; border-radius: 999px; background: #F2F2F2; color: #555A5E">CONCEPT</span>
+  <div class="hd flat">
+    <a class="ib" href="V2-1-3-Priorities.dc.html" aria-label="Back"><svg width="24" height="24" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <h1 class="ttl">Recommended plan</h1>
+    <button type="button" class="ib" data-menu="" aria-label="Menu"><svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button>
   </div>
-  <div style="flex-shrink: 0; display: flex; gap: 6px; padding: 12px 16px 0 16px">
-    <div style="flex: 1; height: 4px; border-radius: 2px; background: #FFD20A"></div>
-    <div style="flex: 1; height: 4px; border-radius: 2px; background: #FFD20A"></div>
-    <div style="flex: 1; height: 4px; border-radius: 2px; background: #FFD20A"></div>
-    <div style="flex: 1; height: 4px; border-radius: 2px; background: #FFD20A"></div>
-    <div style="flex: 1; height: 4px; border-radius: 2px; background: #DCDCDC"></div>
-  </div>
-  <div style="flex: 1; overflow-y: auto; padding: 12px 16px 16px 16px; display: flex; flex-direction: column; gap: 12px">
-    <div style="flex-shrink: 0; font-size: 13px; font-weight: 500; color: #555A5E">Step 4 of 5 · Time and price, worked out for you</div>
-    <div style="flex-shrink: 0; background: linear-gradient(100deg, #F2E8BF 0%, #FBF7EA 100%); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
-      <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: #555A5E">RECOMMENDED FOR YOUR HOME</div>
-      <div style="display: flex; justify-content: space-between; align-items: baseline">
-        <div style="font-size: 24px; font-weight: 700">4 hours · 1 Tasker</div>
-        <div style="font-size: 20px; font-weight: 700">320,000đ</div>
-      </div>
-      <div style="font-size: 13px; color: #3A4046">305,000đ for 4 hours + 15,000đ home with pets</div>
-      <div style="font-size: 13px; line-height: 1.45; color: #3A4046">Based on Standard cleaning · 70 m² · lived-in · 7 must-dos (about 3h 05m) · balcony if time</div>
-    </div>
-
-    <div style="flex-shrink: 0; display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 14px; background: #FFF7D6; border: 1px solid #FFD000; color: #0B1620">
-      <svg width="20" height="20" sc-camel-view-box="0 0 24 24" fill="#8A6500" aria-hidden="true" style="flex-shrink: 0; margin-top: 1px"><path d="M10.3 3.9L2.4 18a2 2 0 001.7 3h15.8a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"></path><path d="M12 9v4M12 17h.01" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"></path></svg>
-      <div style="font-size: 14px; line-height: 1.45; font-weight: 600">Why not 3 hours? Your must-dos need about 3h 05m. In 3 hours, Bedroom 2 won't be finished and the balcony won't be reached.</div>
-    </div>
-
-    <div style="flex-shrink: 0; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E6E6; padding: 6px 0">
-      <div style="padding: 8px 16px 4px 16px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: #555A5E">YOUR 4-HOUR VISIT</div>
-      <div style="display: flex; align-items: center; gap: 12px; padding: 7px 16px">
-        <div style="width: 40px; font-size: 13px; color: #555A5E">08:00</div>
-        <div style="width: 10px; height: 10px; border-radius: 5px; background: #FFD20A; border: 1.5px solid #0B1620; flex-shrink: 0"></div>
-        <div style="flex: 1; font-size: 15px">Kitchen · stove, sink, floor</div>
-        <div style="font-size: 13px; color: #555A5E">55m</div>
-      </div>
-      <div style="display: flex; align-items: center; gap: 12px; padding: 7px 16px">
-        <div style="width: 40px; font-size: 13px; color: #555A5E">08:55</div>
-        <div style="width: 10px; height: 10px; border-radius: 5px; background: #FFD20A; border: 1.5px solid #0B1620; flex-shrink: 0"></div>
-        <div style="flex: 1; font-size: 15px">Bathrooms 1 and 2</div>
-        <div style="font-size: 13px; color: #555A5E">50m</div>
-      </div>
-      <div style="display: flex; align-items: center; gap: 12px; padding: 7px 16px">
-        <div style="width: 40px; font-size: 13px; color: #555A5E">09:45</div>
-        <div style="width: 10px; height: 10px; border-radius: 5px; background: #FFD20A; border: 1.5px solid #0B1620; flex-shrink: 0"></div>
-        <div style="flex: 1; font-size: 15px">Living room</div>
-        <div style="font-size: 13px; color: #555A5E">25m</div>
-      </div>
-      <div style="display: flex; align-items: center; gap: 12px; padding: 7px 16px">
-        <div style="width: 40px; font-size: 13px; color: #555A5E">10:10</div>
-        <div style="width: 10px; height: 10px; border-radius: 5px; background: #FFD20A; border: 1.5px solid #0B1620; flex-shrink: 0"></div>
-        <div style="flex: 1; font-size: 15px">Bedroom 1</div>
-        <div style="font-size: 13px; color: #555A5E">25m</div>
-      </div>
-      <div style="display: flex; align-items: center; gap: 12px; padding: 7px 16px">
-        <div style="width: 40px; font-size: 13px; color: #555A5E">10:35</div>
-        <div style="width: 10px; height: 10px; border-radius: 5px; background: #FFD20A; border: 1.5px solid #0B1620; flex-shrink: 0"></div>
-        <div style="flex: 1; display: flex; flex-direction: column">
-          <span style="font-size: 15px">Bedroom 2 (kids)</span>
-          <span style="font-size: 13px; color: #8A6500">Runs past 11:00, where 3 hours would end</span>
-        </div>
-        <div style="font-size: 13px; color: #555A5E">30m</div>
-      </div>
-      <div style="display: flex; align-items: center; gap: 12px; padding: 7px 16px">
-        <div style="width: 40px; font-size: 13px; color: #555A5E">11:05</div>
-        <div style="width: 10px; height: 10px; border-radius: 5px; border: 1.5px dashed #0B1620; box-sizing: border-box; flex-shrink: 0"></div>
-        <div style="flex: 1; font-size: 15px; color: #3A4046">Balcony (if time)</div>
-        <div style="font-size: 13px; color: #555A5E">10m</div>
-      </div>
-      <div style="display: flex; align-items: center; gap: 12px; padding: 7px 16px; background: #E9F8EE">
-        <div style="width: 40px; font-size: 13px; color: #04862F">11:15</div>
-        <div style="width: 10px; height: 10px; border-radius: 5px; background: #05AC3C; flex-shrink: 0"></div>
-        <div style="flex: 1; font-size: 15px; color: #04862F; font-weight: 600">About 45 min to spare</div>
-      </div>
-      <div style="display: flex; align-items: center; gap: 10px; padding: 6px 16px">
-        <div style="flex: 1; height: 0; border-top: 2px dashed #0B1620"></div>
-        <div style="font-size: 11px; font-weight: 700; color: #0B1620; letter-spacing: 0.04em">12:00 · END OF 4 HOURS</div>
-        <div style="flex: 1; height: 0; border-top: 2px dashed #0B1620"></div>
+  <div class="steps" role="img" aria-label="Step 4 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+  <div class="body">
+    <div class="sec">
+      <div class="hl">
+        <div class="k">RECOMMENDED FOR YOUR HOME</div>
+        <div class="row" style="justify-content:space-between;align-items:baseline"><span style="font-size:22px;font-weight:700;letter-spacing:-.02em">4 hours · 1 Tasker</span><span class="num" style="font-size:17px;font-weight:700">320,000đ</span></div>
+        <div class="num" style="font-size:12px;line-height:1.5;color:#3F4248">305,000đ for 4 hours + 15,000đ home with pets<br>Based on Standard cleaning · 70 m² · lived-in · 7 must-dos (about 3h 05m) · balcony if time</div>
       </div>
     </div>
-
-    <div style="flex-shrink: 0; font-size: 17px; font-weight: 700">Choose your option</div>
-    <div style="flex-shrink: 0; display: flex; flex-direction: column; gap: 8px" role="radiogroup" aria-label="Plan options">
-      <sc-for list="{{options}}" as="item" hint-placeholder-count="3">
-        <button type="button" role="radio" aria-checked="{{item.checked}}" sc-camel-on-click="{{item.pick}}" style="display: flex; align-items: flex-start; gap: 12px; text-align: left; padding: 12px 14px; border-radius: 16px; border: {{item.border}}; background: {{item.bg}}; font-family: inherit; color: #0B1620">
-          <span style="width: 20px; height: 20px; border-radius: 10px; border: 2px solid {{item.ring}}; box-sizing: border-box; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px">
-            <span style="width: 10px; height: 10px; border-radius: 5px; background: {{item.dot}}"></span>
-          </span>
-          <span style="flex: 1; display: flex; flex-direction: column; gap: 3px">
-            <span style="font-size: 15px; font-weight: 700">{{item.title}}</span>
-            <span style="font-size: 13px; color: #555A5E; line-height: 1.4">{{item.sub}}</span>
-          </span>
-          <span style="font-size: 14px; font-weight: 700; white-space: nowrap">{{item.price}}</span>
-        </button>
-      </sc-for>
+    <div class="sec">
+      <h2 class="st">Choose your option</h2>
+      <div role="radiogroup" aria-label="Plan options" style="display:flex;flex-direction:column;gap:8px">
+        <sc-for list="{{options}}" as="item" hint-placeholder-count="3">
+          <button type="button" class="plan" role="radio" aria-checked="{{item.checked}}" sc-camel-on-click="{{item.pick}}" style="border:{{item.border}};background:{{item.bg}}">
+            <span class="rd" style="border-color:{{item.ring}};box-shadow:inset 0 0 0 4px {{item.dot}}"></span>
+            <span class="grow"><span class="t1" style="display:block;font-weight:600">{{item.title}}</span><span class="t2" style="display:block">{{item.sub}}</span></span>
+            <span class="num" style="font-size:14px;font-weight:700;white-space:nowrap">{{item.price}}</span>
+          </button>
+        </sc-for>
+      </div>
+      <div class="note"><b style="color:#1C1D21">Why not 3 hours?</b> Your must-dos need about 3h 05m. In 3 hours, Bedroom 2 won't be finished and the balcony won't be reached.</div>
     </div>
-
-    <div style="flex-shrink: 0; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E6E6; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px">
-      <div style="font-size: 17px; font-weight: 700">Package limits and fees</div>
-      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px"><span>Longest visit</span><span style="font-size: 13px; font-weight: 600; padding: 3px 8px; border-radius: 8px; background: #E6EEFE; color: #0A45D0">4 hours, add-ons included</span></div>
-      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px"><span>Fridge, fan or TV</span><span style="font-size: 13px; font-weight: 600; padding: 3px 8px; border-radius: 8px; background: #E6EEFE; color: #0A45D0">+30 min · 50,000đ</span></div>
-      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px"><span>Cooking or ironing</span><span style="font-size: 13px; font-weight: 600; padding: 3px 8px; border-radius: 8px; background: #E6EEFE; color: #0A45D0">+60 min · 100,000đ</span></div>
-      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px"><span>Home with pets</span><span style="font-size: 13px; font-weight: 600; padding: 3px 8px; border-radius: 8px; background: #E6EEFE; color: #0A45D0">15,000đ</span></div>
-      <div style="height: 1px; background: #EFEFEF"></div>
-      <div style="font-size: 13px; line-height: 1.45; color: #555A5E"><strong style="color: #0B1620">Not covered by Standard cleaning:</strong> post-renovation dust, moving heavy furniture, outside of high windows.</div>
+    <div class="sec">
+      <div class="row"><h2 class="st grow">Working time</h2><span class="t2" style="margin:0">Tue 3 Nov · 08:00–12:00</span></div>
+      <div class="days" aria-hidden="true">
+        <span class="d on">Tue<b>3</b>08:00</span><span class="d">Wed<b>4</b>08:00</span><span class="d">Thu<b>5</b>08:00</span><span class="d">Fri<b>6</b>08:00</span><span class="d">Sat<b>7</b>09:00</span><span class="d">Sun<b>8</b>09:00</span>
+      </div>
+    </div>
+    <div class="sec" style="gap:10px">
+      <h2 class="st">Your 4-hour visit</h2>
+      <div class="tl"><span class="h">08:00</span><span class="dot"></span><span class="grow">Kitchen · stove, sink, floor</span><span class="m">55m</span></div>
+      <div class="tl"><span class="h">08:55</span><span class="dot"></span><span class="grow">Bathrooms 1 and 2</span><span class="m">50m</span></div>
+      <div class="tl"><span class="h">09:45</span><span class="dot"></span><span class="grow">Living room</span><span class="m">25m</span></div>
+      <div class="tl"><span class="h">10:10</span><span class="dot"></span><span class="grow">Bedroom 1</span><span class="m">25m</span></div>
+      <div class="tl"><span class="h">10:35</span><span class="dot"></span><span class="grow">Bedroom 2 (kids)<span style="display:block;font-size:12px;color:#7A5B00">Runs past 11:00, where 3 hours would end</span></span><span class="m">30m</span></div>
+      <div class="tl"><span class="h">11:05</span><span class="dot if"></span><span class="grow" style="color:#6B6F76">Balcony (if time)</span><span class="m">10m</span></div>
+      <div class="tl" style="color:#0B7A3E;font-weight:600"><span class="h" style="color:#0B7A3E">11:15</span><span class="dot" style="background:#12A150"></span><span class="grow">About 45 min to spare</span></div>
+      <div class="row" style="gap:10px"><span class="line" style="flex:1"></span><span class="k" style="color:#1C1D21">12:00 · END OF 4 HOURS</span><span class="line" style="flex:1"></span></div>
+    </div>
+    <div class="sec" style="gap:10px">
+      <h2 class="st">Package limits and fees</h2>
+      <div class="kv"><span>Longest visit</span><span class="tag">4 hours, add-ons included</span></div>
+      <div class="kv"><span>Fridge, fan or TV</span><span class="tag">+30 min · 50,000đ</span></div>
+      <div class="kv"><span>Cooking or ironing</span><span class="tag">+60 min · 100,000đ</span></div>
+      <div class="kv"><span>Home with pets</span><span class="tag">15,000đ</span></div>
+      <div class="line"></div>
+      <p class="p" style="font-size:12px"><strong>Not covered by Standard cleaning:</strong> post-renovation dust, moving heavy furniture, outside of high windows.</p>
     </div>
   </div>
-  <div style="flex-shrink: 0; padding: 12px 16px 24px 16px; background: #FFFFFF; box-shadow: 0 -1px 0 #ECECEC">
-    <a href="V2-1-5-QualityAgreement.dc.html" style="display: flex; align-items: center; justify-content: center; height: 54px; border-radius: 16px; background: #FFD20A; color: #0B1620; font-size: 17px; font-weight: 700; text-decoration: none">{{cta}}</a>
+  <div class="bb">
+    <sc-for list="{{options}}" as="item" hint-placeholder-count="3">
+      <div class="tot" data-on="{{item.checked}}"><span>Total amount</span><b>{{item.price}}</b></div>
+    </sc-for>
+    <a class="cta" href="V2-1-5-QualityAgreement.dc.html">{{cta}}</a>
   </div>
 </div>
 </x-dc>
@@ -150,10 +105,10 @@ class Component extends DCLogic {
       return {
         ...o,
         checked: String(on),
-        border: on ? '1.5px solid #FFD000' : '1px solid #E6E6E6',
-        bg: on ? '#FFFDEE' : '#FFFFFF',
-        ring: on ? '#0B1620' : '#868E92',
-        dot: on ? '#0B1620' : 'transparent',
+        border: on ? '1px solid #FFC905' : '1px solid #E3E5E8',
+        bg: on ? '#FFF8DB' : '#FFFFFF',
+        ring: on ? '#FFC905' : '#A9ADB3',
+        dot: on ? '#FFC905' : 'transparent',
         pick: () => this.setState({ pick: o.id })
       };
     });

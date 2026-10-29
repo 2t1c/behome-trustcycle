@@ -58,10 +58,10 @@ const PATH = [
       await p.goto(`${URL}#V2-0-Welcome`);
       await p.reload();
       await p.waitForSelector('#screen > *');
-      const pic = await p.locator('#screen [aria-label="A home with a signed checklist beside it"]').evaluate((svg) => svg.parentElement.getBoundingClientRect().height);
+      const pic = await p.locator('#screen img[alt^="Chị Lan opens her door"]').evaluate((img) => img.getBoundingClientRect().height);
       if (pic < 150) errors.push(`${tag}: Welcome picture squashed to ${Math.round(pic)}px`);
       const cta = await p.locator('#screen a', { hasText: /as chị Lan/ }).boundingBox();
-      for (const sel of ['#menu-btn', '.menu-pill']) {
+      for (const sel of ['#menu-btn', '#screen [data-menu]']) {
         const box = await p.locator(sel).first().boundingBox().catch(() => null);   // null when hidden
         if (overlaps(cta, box && { x: box.x - 8, y: box.y - 12, width: box.width + 16, height: box.height + 24 })) errors.push(`${tag}: ${sel} covers the Welcome button`);
       }
@@ -71,8 +71,38 @@ const PATH = [
         await p.reload();
         await p.waitForSelector('#screen > *');
         if (await p.locator('#menu-btn').isVisible()) errors.push(`${tag}: ${f} shows the floating menu button over its content`);
-        if (!(await p.locator('#screen .menu-pill').count())) errors.push(`${tag}: ${f} has no way to open the menu`);
+        if (!(await p.locator('#screen .hd [data-menu][aria-label="Menu"], #screen .tkhd [data-menu][aria-label="Menu"], #screen .top [data-menu][aria-label="Menu"]').count())) errors.push(`${tag}: ${f} has no way to open the menu`);
       }
+      await p.close();
+    }
+
+    // At 390×844 the icon button at the right of a screen's header opens the screen menu (44px, labelled
+    // "Menu"), and closing the sheet hands focus back to it.
+    {
+      const p = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      p.on('pageerror', (e) => errors.push(`menu button page error: ${e.message}`));
+      for (const f of ['V2-0-Welcome', 'V2-1-3-Priorities', 'V2-2-4-TaskerConfirms']) {
+        await p.goto(`${URL}#${f}`);
+        await p.reload();
+        await p.waitForSelector('#screen > *');
+        const btn = p.locator('#screen [data-menu]');
+        const box = await btn.boundingBox();
+        if (!box || box.width < 44 || box.height < 44) errors.push(`${f}: header menu button is smaller than 44px`);
+        if (box && (box.x + box.width < 390 - 60 || box.y > 120)) errors.push(`${f}: header menu button is not at the top right`);
+        if (await p.locator('#sheet').isVisible()) errors.push(`${f}: menu open before tapping the button`);
+        await btn.click();
+        if (!(await p.locator('#sheet').isVisible())) { errors.push(`${f}: header menu button does not open the menu`); continue; }
+        if ((await btn.getAttribute('aria-expanded')) !== 'true') errors.push(`${f}: header menu button does not report the menu as open`);
+        if (!(await p.locator('#sheet-list button', { hasText: '1.1 Cleaning level' }).isVisible())) errors.push(`${f}: menu opened without the screen list`);
+        await p.locator('#sheet-close').click();
+        if (await p.locator('#sheet').isVisible()) errors.push(`${f}: menu did not close`);
+        if (!(await btn.evaluate((b) => b === document.activeElement))) errors.push(`${f}: closing the menu did not return focus to its button`);
+      }
+      // From the menu, a screen opens and the menu closes.
+      await p.locator('#screen [data-menu]').click();
+      await p.locator('#sheet-list button', { hasText: '2.1 Matched Taskers' }).click();
+      await p.waitForFunction(() => location.hash === '#V2-2-1-MatchedTaskers', null, { timeout: 5000 }).catch(() => errors.push('menu entry did not open 2.1'));
+      if (await p.locator('#sheet').isVisible()) errors.push('menu stayed open after choosing a screen');
       await p.close();
     }
 
@@ -130,12 +160,12 @@ const PATH = [
     const seen = await page.locator('#screen').textContent();
     if (!/\d+ of 18 seen/.test(seen) || /^0 of/.test(seen.match(/(\d+) of 18 seen/)?.[0] || '0 of')) errors.push(`journey progress not shown: ${seen.match(/\d+ of 18 seen/)?.[0]}`);
     // Start over asks first: cancelling keeps everything, accepting clears it.
-    await page.locator('#screen .menu-pill, #menu-btn:visible').first().click();
+    await page.locator('#screen [data-menu], #menu-btn:visible').first().click();
     page.once('dialog', (d) => d.dismiss());
     await page.locator('#sheet .reset').click();
     await page.waitForTimeout(200);
     if ((await page.evaluate(() => location.hash)) !== '#V2-0-Journey') errors.push('Start over ran without asking');
-    if (!(await page.locator('#sheet').isVisible())) await page.locator('#screen .menu-pill, #menu-btn:visible').first().click();
+    if (!(await page.locator('#sheet').isVisible())) await page.locator('#screen [data-menu], #menu-btn:visible').first().click();
     let asked = '';
     page.once('dialog', (d) => { asked = d.message(); d.accept(); });
     await page.locator('#sheet .reset').click();
@@ -158,5 +188,5 @@ const PATH = [
     server.stop();
   }
   if (errors.length) { console.error(errors.join('\n')); process.exit(1); }
-  console.log(`OK: main path of ${PATH.length} screens, 5.1 ending and journey next steps, reload keeps choices, Start over asks then clears, unknown address opens Welcome, Welcome picture and menu fine at 390×844 and 375×667, load errors shown, all links resolve`);
+  console.log(`OK: main path of ${PATH.length} screens, 5.1 ending and journey next steps, reload keeps choices, Start over asks then clears, unknown address opens Welcome, Welcome picture and menu fine at 390×844 and 375×667, header menu button opens the menu, load errors shown, all links resolve`);
 })();

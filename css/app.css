@@ -1,5 +1,5 @@
 /* App shell only. Each screen brings its own inline styles from screens/*.dc.html. */
-:root { --ink: #0B1620; --muted: #555A5E; --yellow: #FFD20A; --ground: #EDEDE8; --font: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; --phone-scale: 1; }
+:root { --ink: #1C1D21; --muted: #5C6067; --yellow: #FFC905; --ground: #EDEDE8; --font: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; --phone-scale: 1; }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; background: var(--ground); color: var(--ink); font-family: var(--font); -webkit-font-smoothing: antialiased; }
 button { font: inherit; color: inherit; cursor: pointer; }
@@ -25,7 +25,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .group button.on { background: #FFF6CC; font-weight: 600; }
 .tick { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid #C9CDD0; flex: none; }
 .seen .tick { background: #05AC3C; border-color: #05AC3C; }
-.tag { margin-left: auto; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 999px; background: var(--ink); color: var(--yellow); }
+.group .tag { margin-left: auto; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 999px; background: var(--ink); color: var(--yellow); }
 .toggle { display: flex; gap: 8px; align-items: center; font-size: 13px; }
 .reset { padding: 10px 12px; border-radius: 10px; border: 1px solid #D6D6D0; background: #fff; font-size: 13px; text-align: left; }
 
@@ -51,12 +51,8 @@ body.board-mode #stage { align-items: flex-start; }
 /* Phone menu: a small button and a bottom sheet, only when the panel is hidden */
 #menu-btn { display: none; position: absolute; right: 14px; bottom: calc(96px + env(safe-area-inset-bottom)); width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(11,22,32,.82); color: #fff; place-items: center; box-shadow: 0 3px 10px rgba(0,0,0,.22); z-index: 20; }
 body.board-mode #menu-btn { bottom: auto; top: calc(12px + env(safe-area-inset-top)); }
-/* On a screen with a CONCEPT pill the pill opens the menu (see wireMenuPill), so the round button goes. */
-body.pill-menu #menu-btn { display: none !important; }
-.menu-pill { position: relative; display: inline-flex; align-items: center; gap: 5px; cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
-.menu-pill::after { content: ''; width: 10px; height: 8px; flex: none;
-  background: linear-gradient(currentColor, currentColor) 0 0 / 100% 1.6px no-repeat, linear-gradient(currentColor, currentColor) 0 50% / 100% 1.6px no-repeat, linear-gradient(currentColor, currentColor) 0 100% / 70% 1.6px no-repeat; }
-.menu-pill::before { content: ''; position: absolute; inset: -12px -8px; }   /* a 44px tap area around the small pill */
+/* On a phone screen the icon button at the right of its header opens the menu (see wireMenuButton), so the round button goes. */
+body.screen-menu #menu-btn { display: none !important; }
 #toast { position: absolute; z-index: 40; top: calc(16px + env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100% - 32px); padding: 10px 14px; border-radius: 12px; background: #0B1620; color: #fff; font-size: 14px; line-height: 1.35; box-shadow: 0 6px 18px rgba(0,0,0,.25); }
 #toast[hidden] { display: none; }
 #sheet { position: absolute; inset: 0; background: rgba(11,22,32,.45); z-index: 30; display: flex; align-items: flex-end; }
@@ -65,6 +61,8 @@ body.pill-menu #menu-btn { display: none !important; }
 .sheet-head { display: flex; align-items: center; justify-content: space-between; }
 #sheet-close { width: 40px; height: 40px; border-radius: 50%; border: 0; background: #F2F2F2; display: grid; place-items: center; }
 @media (max-width: 1000px) { #panel { display: none; } #menu-btn { display: grid; } }
+/* Laptop: the menu opened from a screen's header is a sheet the width of the phone. */
+@media (min-width: 1001px) { .sheet-card { width: 420px; margin: 0 auto; } }
 
 /* Phones: the screen is the whole page */
 @media (max-width: 600px) {
