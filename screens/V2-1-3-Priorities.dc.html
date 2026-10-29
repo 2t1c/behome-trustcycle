@@ -41,6 +41,7 @@ body{margin:0}
       <div style="display:flex;flex-direction:column">
         <sc-for list="{{tasks}}" as="item" hint-placeholder-count="9">
           <div class="row" style="padding:8px 0;border-top:{{item.divider}}">
+            <img src="{{item.icon}}" alt="" width="40" height="40" style="flex:none;opacity:{{item.iconOpacity}}">
             <div class="grow"><div class="t1" style="color:{{item.titleColor}}">{{item.room}}</div><div class="t2">{{item.detail}} · {{item.mins}} min</div></div>
             <button type="button" class="pb" sc-camel-on-click="{{item.cycle}}" aria-label="{{item.aria}}" style="border:1.5px {{item.borderStyle}} {{item.borderColor}};background:{{item.bg}};color:{{item.fg}}">{{item.label}}</button>
           </div>
@@ -106,9 +107,15 @@ class Component extends DCLogic {
       if: { label: 'If time', bg: '#FFFFFF', fg: '#1C1D21', borderStyle: 'dashed', borderColor: '#6B6F76', titleColor: '#1C1D21' },
       skip: { label: 'Skip', bg: '#F2F3F5', fg: '#5C6067', borderStyle: 'solid', borderColor: '#F2F3F5', titleColor: '#6B6F76' }
     };
+    // Picture for each task, from its room (kept out of the saved state so older saves still work).
+    const iconFor = (t) => (/^Kitchen/.test(t.room) ? (/Sink/.test(t.detail) ? 'sink' : 'kitchen')
+      : /^Bathroom/.test(t.room) ? 'bath' : /^Living/.test(t.room) ? 'living' : /kids/.test(t.room) ? 'kids'
+      : /^Bedroom/.test(t.room) ? 'bed' : /^Balcony/.test(t.room) ? 'balcony' : /^Fridge/.test(t.room) ? 'fridge' : 'standard');
     const tasks = this.state.tasks.map((t, i) => ({
       ...t,
       ...looks[t.p],
+      icon: 'img/v2/icons/' + iconFor(t) + '.png',
+      iconOpacity: t.p === 'skip' ? '0.45' : '1',
       divider: i === 0 ? '0' : '1px solid #ECEDEF',
       aria: t.room + ', ' + t.detail + ': ' + looks[t.p].label + '. Tap to change',
       cycle: () => this.setState({
